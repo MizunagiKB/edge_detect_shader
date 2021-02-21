@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/model_M14EBR.obj-17e44a24b54cb3b9688a6b32e1f0278f.mesh"
+
+[deps]
+
+files=[ "res://.import/model_M14EBR.obj-17e44a24b54cb3b9688a6b32e1f0278f.mesh" ]
+
+source_file="res://model/model_M14EBR.obj"
+dest_files=[ "res://.import/model_M14EBR.obj-17e44a24b54cb3b9688a6b32e1f0278f.mesh", "res://.import/model_M14EBR.obj-17e44a24b54cb3b9688a6b32e1f0278f.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

@@ -2,7 +2,13 @@ extends Spatial
 
 
 # https://3dwarehouse.sketchup.com/model/1bd2fba303e04ce1283ffcfc40c29975/Weapon-FN-P90
+# https://3dwarehouse.sketchup.com/model/ca46c75c-df9e-4542-9e23-ce348c5de05f/M14-EBR
+# https://3dwarehouse.sketchup.com/model/e815bffc1dee0414f4aa69a000077765/Milkor-MGL-140-rocket-launcher3D
+# https://3dwarehouse.sketchup.com/model/b3460dcd945cb4598cb138e49a70d8bc/G36
 
+const DEFAULT_FOV = 45
+const DEFAULT_EDGE_DEPTH = 1024
+const DEFAULT_EDGE_SIZE = 1
 
 var cam_z = 10
 var btn_l = false
@@ -13,8 +19,6 @@ var rot_l = Vector2(0, 0)
 var rot_r = Vector2(0, 0)
 
 var ctl_focus = false
-
-var o_mesh_instance: MeshInstance = null
 
 var shader_0 = load("res://shader/edge_detect.shader")
 var shader_1 = load("res://shader/depth.shader")
@@ -28,8 +32,6 @@ func _ready():
 
     o_popup.connect("id_pressed", self, "evt_mnu_shader_pressed")
 
-    $ui/chk_edge_render.pressed = $render_screen.visible
-
     var dir = Directory.new()
     
     if dir.open(DIR_PATH) == OK:
@@ -39,8 +41,11 @@ func _ready():
             if dir.current_is_dir():
                 print("Found directory: " + file_name)
             else:
-                if file_name.ends_with(".obj") == true:
-                    print("Found file: " + file_name)
+                var b_ready = false
+                if file_name.ends_with(".obj"):
+                    b_ready = true
+
+                if b_ready == true:
                     $ui/models.add_item(file_name)
                     
             file_name = dir.get_next()
@@ -76,9 +81,9 @@ func _input(event):
             
         if event.pressed == true:
             if event.button_index == BUTTON_WHEEL_UP:
-                o_mesh_instance.scale += Vector3.ONE
+                $base_control/mesh.scale += Vector3.ONE
             if event.button_index == BUTTON_WHEEL_DOWN:
-                o_mesh_instance.scale -= Vector3.ONE
+                $base_control/mesh.scale -= Vector3.ONE
 
     if event is InputEventMouseMotion:
         if btn_c == true:
@@ -113,11 +118,13 @@ func _process(delta):
 
 
 func reset():
-    for node in $base_control.get_children():
-        node.queue_free()
+    $cam.h_offset = 0
+    $cam.v_offset = 0
+    $base_control/mesh.scale = Vector3.ONE
 
-    if o_mesh_instance != null:
-        o_mesh_instance = null
+    $ui/panel/cam_fov.value = DEFAULT_FOV
+    $ui/panel/edge_depth.value = DEFAULT_EDGE_DEPTH
+    $ui/panel/edge_size.value = DEFAULT_EDGE_SIZE
 
     $base_control.transform = Transform.IDENTITY
 
@@ -135,10 +142,6 @@ func evt_mnu_shader_pressed(id):
 
 func _on_edge_range_value_changed(value):
     $render_screen.material.set_shader_param("edge_range", float(value))
-
-
-func _on_chk_edge_render_pressed():
-    $render_screen.visible = $ui/chk_edge_render.pressed
 
 
 func _on_edge_range_mouse_entered():
@@ -170,9 +173,7 @@ func _on_models_item_selected(index):
     self.reset()
 
     var res = ResourceLoader.load(DIR_PATH + "/" + $ui/models.get_item_text(index))
-    o_mesh_instance = MeshInstance.new()
-    o_mesh_instance.mesh = res
-    $base_control.add_child(o_mesh_instance)
+    $base_control/mesh.mesh = res
 
 
 func _on_cam_fov_value_changed(value):
