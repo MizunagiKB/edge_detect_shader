@@ -1,19 +1,17 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
-[ext_resource path="res://shader/shd_edge_render.shader" type="Shader" id=2]
+[ext_resource path="res://shader/edge_detect.shader" type="Shader" id=2]
+[ext_resource path="res://theme_gray.tres" type="Theme" id=3]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0, 0, 0.376471 )
-
-[sub_resource type="Environment" id=2]
+[sub_resource type="Environment" id=1]
 background_mode = 1
 background_color = Color( 0.752941, 0.752941, 0.752941, 1 )
 
-[sub_resource type="QuadMesh" id=3]
+[sub_resource type="QuadMesh" id=2]
 size = Vector2( 2, 2 )
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 2 )
 shader_param/edge_range = 1000.0
 shader_param/edge_size = 1.0
@@ -33,13 +31,13 @@ margin_left = 736.0
 margin_top = -16.0
 margin_right = 976.0
 margin_bottom = 560.0
-custom_styles/panel = SubResource( 1 )
+theme = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="cam_fov" type="HSlider" parent="ui/panel"]
-margin_left = 16.0
+margin_left = 64.0
 margin_top = 464.0
 margin_right = 208.0
 margin_bottom = 480.0
@@ -47,6 +45,64 @@ min_value = 15.0
 max_value = 120.0
 step = 5.0
 value = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_fov" type="Label" parent="ui/panel"]
+margin_left = 16.0
+margin_top = 464.0
+margin_right = 64.0
+margin_bottom = 485.0
+theme = ExtResource( 3 )
+text = "FOV"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_edge_depth" type="Label" parent="ui/panel"]
+margin_left = 16.0
+margin_top = 496.0
+margin_right = 64.0
+margin_bottom = 517.0
+text = "Depth"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_edge_size" type="Label" parent="ui/panel"]
+margin_left = 16.0
+margin_top = 528.0
+margin_right = 64.0
+margin_bottom = 549.0
+text = "Size"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="edge_size" type="HSlider" parent="ui/panel"]
+margin_left = 64.0
+margin_top = 528.0
+margin_right = 208.0
+margin_bottom = 544.0
+min_value = 1.0
+max_value = 3.0
+value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mnu_shader" type="MenuButton" parent="ui/panel"]
+margin_left = 16.0
+margin_top = 416.0
+margin_right = 208.0
+margin_bottom = 448.0
+text = "RenderMode"
+flat = false
+items = [ "None", null, 0, false, false, 0, 0, null, "", false, "EdgeDetect", null, 0, false, false, 1, 0, null, "", false, "Depth", null, 0, false, false, 2, 0, null, "", false ]
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -65,27 +121,14 @@ __meta__ = {
 }
 
 [node name="edge_range" type="HScrollBar" parent="ui"]
-margin_left = 752.0
+margin_left = 800.0
 margin_top = 480.0
 margin_right = 944.0
 margin_bottom = 496.0
-min_value = 1000.0
-max_value = 60000.0
-step = 1000.0
-value = 1000.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="edge_size" type="HScrollBar" parent="ui"]
-margin_left = 752.0
-margin_top = 512.0
-margin_right = 944.0
-margin_bottom = 528.0
-min_value = 1.0
-max_value = 3.0
-step = 1.0
-value = 1.0
+min_value = 1024.0
+max_value = 65536.0
+step = 1024.0
+value = 1024.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -95,6 +138,7 @@ margin_left = 752.0
 margin_top = 64.0
 margin_right = 944.0
 margin_bottom = 336.0
+theme = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -104,6 +148,8 @@ margin_left = 752.0
 margin_top = 16.0
 margin_right = 944.0
 margin_bottom = 48.0
+focus_mode = 0
+theme = ExtResource( 3 )
 text = "Reset"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -111,7 +157,7 @@ __meta__ = {
 
 [node name="cam" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
-environment = SubResource( 2 )
+environment = SubResource( 1 )
 h_offset = 2.0
 current = true
 fov = 45.0
@@ -119,19 +165,19 @@ far = 1024.0
 
 [node name="render_screen" type="CSGMesh" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7912, 0 )
-mesh = SubResource( 3 )
-material = SubResource( 4 )
+mesh = SubResource( 2 )
+material = SubResource( 3 )
 
 [node name="base_control" type="Spatial" parent="."]
 [connection signal="mouse_entered" from="ui/panel/cam_fov" to="." method="_on_cam_fov_mouse_entered"]
 [connection signal="mouse_exited" from="ui/panel/cam_fov" to="." method="_on_cam_fov_mouse_exited"]
 [connection signal="value_changed" from="ui/panel/cam_fov" to="." method="_on_cam_fov_value_changed"]
+[connection signal="mouse_entered" from="ui/panel/edge_size" to="." method="_on_edge_size_mouse_entered"]
+[connection signal="mouse_exited" from="ui/panel/edge_size" to="." method="_on_edge_size_mouse_exited"]
+[connection signal="value_changed" from="ui/panel/edge_size" to="." method="_on_edge_size_value_changed"]
 [connection signal="pressed" from="ui/chk_edge_render" to="." method="_on_chk_edge_render_pressed"]
 [connection signal="mouse_entered" from="ui/edge_range" to="." method="_on_edge_range_mouse_entered"]
 [connection signal="mouse_exited" from="ui/edge_range" to="." method="_on_edge_range_mouse_exited"]
 [connection signal="value_changed" from="ui/edge_range" to="." method="_on_edge_range_value_changed"]
-[connection signal="mouse_entered" from="ui/edge_size" to="." method="_on_edge_size_mouse_entered"]
-[connection signal="mouse_exited" from="ui/edge_size" to="." method="_on_edge_size_mouse_exited"]
-[connection signal="value_changed" from="ui/edge_size" to="." method="_on_edge_size_value_changed"]
 [connection signal="item_selected" from="ui/models" to="." method="_on_models_item_selected"]
 [connection signal="pressed" from="ui/btn_reset" to="." method="_on_btn_reset_pressed"]

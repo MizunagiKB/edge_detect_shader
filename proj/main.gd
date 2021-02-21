@@ -16,9 +16,17 @@ var ctl_focus = false
 
 var o_mesh_instance: MeshInstance = null
 
+var shader_0 = load("res://shader/edge_detect.shader")
+var shader_1 = load("res://shader/depth.shader")
+
 var DIR_PATH = "res://model"
 
+
 func _ready():
+
+    var o_popup = $ui/panel/mnu_shader.get_popup()
+
+    o_popup.connect("id_pressed", self, "evt_mnu_shader_pressed")
 
     $ui/chk_edge_render.pressed = $render_screen.visible
 
@@ -114,6 +122,17 @@ func reset():
     $base_control.transform = Transform.IDENTITY
 
 
+func evt_mnu_shader_pressed(id):
+    if id == 0:
+        $render_screen.visible = false
+    elif id == 1:
+        $render_screen.visible = true
+        $render_screen.material.shader = shader_0
+    elif id == 2:
+        $render_screen.visible = true
+        $render_screen.material.shader = shader_1
+
+
 func _on_edge_range_value_changed(value):
     $render_screen.material.set_shader_param("edge_range", float(value))
 
@@ -167,3 +186,6 @@ func _on_cam_fov_mouse_entered():
 
 func _on_cam_fov_mouse_exited():
     ctl_focus = false
+
+
+
