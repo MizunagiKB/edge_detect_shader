@@ -9,6 +9,7 @@ export_presets.cfg
 data_*/
 .DS_Store
 
+model_src
 dist/mac/*.dmg
 dist/win32/*.exe
 dist/win64/*.exe
