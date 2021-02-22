@@ -35,5 +35,8 @@ void fragment()
     lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(screen_unit.x, -screen_unit.y)).r;
 
     //ALPHA = 0.5;
-    EMISSION = vec3(1.0 - (lin_depth * edge_range));
+    //EMISSION = vec3(1.0 - (lin_depth * edge_range));
+
+    ALPHA = abs(lin_depth * edge_range);
+    // EMISSION = vec3(0.0);
 }

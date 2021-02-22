@@ -20,6 +20,10 @@ var rot_r = Vector2(0, 0)
 
 var ctl_focus = false
 
+var move_window = false
+var window_base_pos = Vector2(0, 0)
+var rot_axis = Vector2(0, 0)
+
 var shader_0 = load("res://shader/edge_detect.shader")
 var shader_1 = load("res://shader/depth.shader")
 
@@ -27,10 +31,6 @@ var DIR_PATH = "res://model"
 
 
 func _ready():
-
-    var o_popup = $ui/panel/mnu_shader.get_popup()
-
-    o_popup.connect("id_pressed", self, "evt_mnu_shader_pressed")
 
     var dir = Directory.new()
     
@@ -46,44 +46,32 @@ func _ready():
                     b_ready = true
 
                 if b_ready == true:
-                    $ui/models.add_item(file_name)
+                    $ui/panel/models.add_item(file_name)
                     
             file_name = dir.get_next()
     else:
         print("An error occurred when trying to access the path.")
 
 
+func _input(event):    
 
-
-func _input(event):
     if ctl_focus == true:
         return
 
     if event is InputEventKey:
         if event.pressed == true:
             if event.scancode == KEY_TAB:
-                if $ui.visible == true:
-                    $ui.visible = false
+                if $ui/window_knob.visible == true:
+                    $ui/window_knob.visible = false
                 else:
-                    $ui.visible = true
+                    $ui/window_knob.visible = true
 
-    if event is InputEventMouseButton:
-        if event.button_index == BUTTON_LEFT:
-            btn_l = event.pressed
-            rot_l = event.position
-        if event.button_index == BUTTON_MIDDLE:
-            btn_c = event.pressed
-            pos = event.position
-            
-        if event.button_index == BUTTON_RIGHT:
-            btn_r = event.pressed
-            rot_r = event.position
-            
-        if event.pressed == true:
-            if event.button_index == BUTTON_WHEEL_UP:
-                $base_control/mesh.scale += Vector3.ONE
-            if event.button_index == BUTTON_WHEEL_DOWN:
-                $base_control/mesh.scale -= Vector3.ONE
+                if $ui/panel.visible == true:
+                    $ui/panel.visible = false
+                else:
+                    $ui/panel.visible = true
+
+
 
     if event is InputEventMouseMotion:
         if btn_c == true:
@@ -94,6 +82,8 @@ func _input(event):
         if btn_l == true:
             var m = event.position - rot_l
             var tf
+
+
 
             tf = $base_control.transform.rotated(Vector3.UP, deg2rad(m.x))
             $base_control.transform = tf
@@ -116,6 +106,8 @@ func _input(event):
 func _process(delta):
     pass
 
+    if move_window == true:
+        OS.window_position = window_base_pos
 
 func reset():
     $cam.h_offset = 0
@@ -129,15 +121,7 @@ func reset():
     $base_control.transform = Transform.IDENTITY
 
 
-func evt_mnu_shader_pressed(id):
-    if id == 0:
-        $render_screen.visible = false
-    elif id == 1:
-        $render_screen.visible = true
-        $render_screen.material.shader = shader_0
-    elif id == 2:
-        $render_screen.visible = true
-        $render_screen.material.shader = shader_1
+
 
 
 func _on_edge_range_value_changed(value):
@@ -172,7 +156,15 @@ func _on_btn_reset_pressed():
 func _on_models_item_selected(index):
     self.reset()
 
-    var res = ResourceLoader.load(DIR_PATH + "/" + $ui/models.get_item_text(index))
+    var res = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/models.get_item_text(index))
+    var mat = SpatialMaterial.new()
+    
+    mat.flags_unshaded = true
+    mat.albedo_color = Color(1, 1, 1, 1)
+
+    for n in range(res.get_surface_count()):
+        res.surface_set_material(n, mat)
+
     $base_control/mesh.mesh = res
 
 
@@ -190,3 +182,76 @@ func _on_cam_fov_mouse_exited():
 
 
 
+
+
+func _on_btn_shader_item_selected(id):
+    if id == 0:
+        $render_screen.visible = false
+    elif id == 1:
+        $render_screen.visible = true
+        $render_screen.material.shader = shader_0
+    elif id == 2:
+        $render_screen.visible = true
+        $render_screen.material.shader = shader_1
+
+
+func _on_btn_transparent_toggled(button_pressed):
+    get_tree().get_root().set_transparent_background(button_pressed)
+
+
+func _on_window_knob_gui_input(event):
+    
+    if event is InputEventMouseButton:
+        if event.button_index == BUTTON_LEFT:
+            if event.pressed == true:
+                Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+            else:
+                Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+                get_viewport().warp_mouse(rot_axis)
+
+            window_base_pos = OS.window_position
+            rot_axis = get_viewport().get_mouse_position()
+            move_window = event.pressed
+
+    if event is InputEventMouseMotion:
+        if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+            window_base_pos += event.relative
+
+        pass
+        # print(event.position)
+        # if move_window == true:
+        #    window_base_pos += event.position - rot_axis
+        #    rot_axis = event.position
+
+
+
+
+
+func _on_ui_gui_input(event):
+
+    if event is InputEventMouseButton:
+        if event.button_index == BUTTON_LEFT:
+            btn_l = event.pressed
+            rot_l = event.position
+        if event.button_index == BUTTON_MIDDLE:
+            btn_c = event.pressed
+            pos = event.position
+            
+        if event.button_index == BUTTON_RIGHT:
+            btn_r = event.pressed
+            rot_r = event.position
+            
+        if event.pressed == true:
+            if event.button_index == BUTTON_WHEEL_UP:
+                $base_control/mesh.scale += Vector3.ONE
+            if event.button_index == BUTTON_WHEEL_DOWN:
+                $base_control/mesh.scale -= Vector3.ONE
+
+
+func _on_btn_exit_pressed():
+    get_tree().quit(0)
+
+
+
+func _on_btn_fullscreen_toggled(button_pressed):
+    OS.window_maximized = button_pressed
