@@ -40,7 +40,7 @@ It's probably easier to understand if you think in 1D rather than 2D, so I'll sh
 
 ![Sobel filter](res/sobel_filter.png)
 
-[1]:https://docs.godotengine.org/en/stable/tutorials/viewports/custom_postprocessing.html]
+[1]:https://docs.godotengine.org/en/stable/tutorials/viewports/custom_postprocessing.html
 [2]:https://en.wikipedia.org/wiki/Sobel_operator
 
 ## model data
