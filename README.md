@@ -1,5 +1,21 @@
 # Edge Detect Shader
 
+## What's is this?
+
+This application is used as a reference for layout when drawing manga and illustrations.
+
+You can overlay the 3D model on the illustration you are drawing.
+
+**Normal**
+![normal render](res/godot_fig_1.jpg)
+
+**Transparent Type1**
+![transparent 1](res/godot_fig_2.jpg)
+
+**Transparent Type2**
+![transparent 2](res/godot_fig_3.jpg)
+
+
 ## Overview
 This shader is implemented by referring to the following. 
 
