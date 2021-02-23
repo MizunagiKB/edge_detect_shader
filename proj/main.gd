@@ -37,11 +37,7 @@ var model_mesh: ModelMesh = null
 func _ready():
 
     model_mesh = $base_control/model_mesh
-
-    $ui/panel/cam_fov.value = DEFAULT_FOV
-    $ui/panel/edge_depth.value = DEFAULT_EDGE_DEPTH
-    $ui/panel/edge_size.value = DEFAULT_EDGE_SIZE
-
+    reset()
 
 
     var dir = Directory.new()
@@ -132,9 +128,10 @@ func reset():
     $cam.v_offset = 0
 
     model_mesh.reset()
+
     $base_control.transform = Transform.IDENTITY
 
-    $ui/panel/cam_fov.value = DEFAULT_FOV
+    _on_btn_cam_item_selected(0)
     $ui/panel/edge_depth.value = DEFAULT_EDGE_DEPTH
     $ui/panel/edge_size.value = DEFAULT_EDGE_SIZE
 
@@ -173,18 +170,6 @@ func _on_models_item_selected(index):
 
     if new_mesh != null:
         model_mesh.attach_mesh(new_mesh)
-
-
-func _on_cam_fov_value_changed(value):
-    $cam.fov = value
-
-    $ui/panel/cam_fov/value.text = str(value)
-    $ui/tween.interpolate_property(
-        $ui/panel/cam_fov/value,
-        "visible",
-        true, false, 3,
-        Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-    $ui/tween.start()
 
 
 func _on_btn_shader_item_selected(id):
@@ -278,3 +263,31 @@ func _on_spin_y_value_changed(value):
 
 func _on_spin_z_value_changed(value):
     $base_control.rotation_degrees.z = value
+
+
+func _on_btn_cam_item_selected(id):
+    match id:
+        0:
+            $cam.projection = Camera.PROJECTION_PERSPECTIVE
+            $ui/panel/btn_cam/spin_fov.min_value = 30
+            $ui/panel/btn_cam/spin_fov.max_value = 120
+            $ui/panel/btn_cam/spin_fov.step = 5
+            $ui/panel/btn_cam/spin_fov.value = DEFAULT_FOV
+        1:
+            $cam.projection = Camera.PROJECTION_ORTHOGONAL
+        2:
+            $cam.projection = Camera.PROJECTION_FRUSTUM
+            $ui/panel/btn_cam/spin_fov.min_value = 0.1
+            $ui/panel/btn_cam/spin_fov.max_value = 2
+            $ui/panel/btn_cam/spin_fov.step = 0.1
+            $ui/panel/btn_cam/spin_fov.value = DEFAULT_SIZE
+
+
+func _on_spin_fov_value_changed(value):
+    match $cam.projection:
+        Camera.PROJECTION_PERSPECTIVE:
+            $cam.fov = value
+        Camera.PROJECTION_ORTHOGONAL:
+            pass
+        Camera.PROJECTION_FRUSTUM:
+            $cam.size = value
