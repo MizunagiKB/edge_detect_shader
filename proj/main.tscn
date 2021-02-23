@@ -1,9 +1,24 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
-[ext_resource path="res://shader/edge_detect.shader" type="Shader" id=2]
+[ext_resource path="res://shader/edge.shader" type="Shader" id=2]
 [ext_resource path="res://theme_gray.tres" type="Theme" id=3]
 [ext_resource path="res://font/Voltaire-Regular.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=4]
 outline_size = 3
@@ -15,17 +30,19 @@ outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
-[sub_resource type="Environment" id=1]
+[sub_resource type="Environment" id=6]
 background_mode = 1
 background_color = Color( 0.752941, 0.752941, 0.752941, 1 )
 
-[sub_resource type="QuadMesh" id=2]
+[sub_resource type="QuadMesh" id=7]
 size = Vector2( 2, 2 )
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 2 )
 shader_param/edge_range = 1000.0
 shader_param/edge_size = 1.0
+shader_param/screen_w = 960.0
+shader_param/screen_h = 540.0
 
 [node name="main" type="Spatial"]
 script = ExtResource( 1 )
@@ -37,6 +54,8 @@ theme = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="tween" type="Tween" parent="ui"]
 
 [node name="window_knob" type="Panel" parent="ui"]
 margin_left = -16.0
@@ -73,15 +92,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="btn_alpha" type="Button" parent="ui/window_knob"]
+visible = false
+margin_left = 16.0
+margin_top = 128.0
+margin_right = 32.0
+margin_bottom = 160.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+text = "A"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="btn_exit" type="Button" parent="ui/window_knob"]
 margin_left = 16.0
 margin_top = 512.0
 margin_right = 32.0
 margin_bottom = 544.0
 focus_mode = 0
-shortcut_in_tooltip = false
 enabled_focus_mode = 0
-text = "X"
+text = "Q"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -122,9 +154,24 @@ margin_left = 16.0
 margin_top = 416.0
 margin_right = 208.0
 margin_bottom = 448.0
-text = "Edge Detect"
-items = [ "Off", null, false, 0, null, "Edge Detect", null, false, 1, null, "Depth", null, false, 2, null ]
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Edge"
+align = 1
+items = [ "Off", null, false, 0, null, "Edge", null, false, 1, null, "Normal", null, false, 2, null, "Depth", null, false, 3, null ]
 selected = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_fov" type="Label" parent="ui/panel"]
+margin_left = 16.0
+margin_top = 464.0
+margin_right = 64.0
+margin_bottom = 485.0
+theme = ExtResource( 3 )
+text = "FOV"
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -142,13 +189,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_fov" type="Label" parent="ui/panel"]
-margin_left = 16.0
-margin_top = 464.0
-margin_right = 64.0
-margin_bottom = 485.0
-theme = ExtResource( 3 )
-text = "FOV"
+[node name="value" type="Label" parent="ui/panel/cam_fov"]
+margin_left = -144.0
+margin_right = -80.0
+margin_bottom = 21.0
+custom_fonts/font = SubResource( 1 )
+align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -173,7 +219,19 @@ margin_bottom = 512.0
 min_value = 1024.0
 max_value = 65536.0
 step = 1024.0
+page = 1024.0
 value = 1024.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="ui/panel/edge_depth"]
+margin_left = -144.0
+margin_right = -80.0
+margin_bottom = 21.0
+custom_fonts/font = SubResource( 2 )
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -201,6 +259,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="value" type="Label" parent="ui/panel/edge_size"]
+margin_left = -144.0
+margin_right = -80.0
+margin_bottom = 21.0
+custom_fonts/font = SubResource( 3 )
+align = 1
+valign = 1
+
 [node name="lbl_desc" type="Label" parent="ui/panel"]
 margin_left = -688.0
 margin_top = 448.0
@@ -225,16 +291,15 @@ Hide/Show UI"
 
 [node name="cam" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
-environment = SubResource( 1 )
-h_offset = 2.0
+environment = SubResource( 6 )
 current = true
 fov = 45.0
 far = 1024.0
 
 [node name="render_screen" type="CSGMesh" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7912, 0 )
-mesh = SubResource( 2 )
-material = SubResource( 3 )
+mesh = SubResource( 7 )
+material = SubResource( 8 )
 
 [node name="base_control" type="Spatial" parent="."]
 
@@ -247,12 +312,6 @@ material = SubResource( 3 )
 [connection signal="pressed" from="ui/panel/btn_reset" to="." method="_on_btn_reset_pressed"]
 [connection signal="item_selected" from="ui/panel/models" to="." method="_on_models_item_selected"]
 [connection signal="item_selected" from="ui/panel/btn_shader" to="." method="_on_btn_shader_item_selected"]
-[connection signal="mouse_entered" from="ui/panel/cam_fov" to="." method="_on_cam_fov_mouse_entered"]
-[connection signal="mouse_exited" from="ui/panel/cam_fov" to="." method="_on_cam_fov_mouse_exited"]
 [connection signal="value_changed" from="ui/panel/cam_fov" to="." method="_on_cam_fov_value_changed"]
-[connection signal="mouse_entered" from="ui/panel/edge_depth" to="." method="_on_edge_range_mouse_entered"]
-[connection signal="mouse_exited" from="ui/panel/edge_depth" to="." method="_on_edge_range_mouse_exited"]
 [connection signal="value_changed" from="ui/panel/edge_depth" to="." method="_on_edge_range_value_changed"]
-[connection signal="mouse_entered" from="ui/panel/edge_size" to="." method="_on_edge_size_mouse_entered"]
-[connection signal="mouse_exited" from="ui/panel/edge_size" to="." method="_on_edge_size_mouse_exited"]
 [connection signal="value_changed" from="ui/panel/edge_size" to="." method="_on_edge_size_value_changed"]

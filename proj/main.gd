@@ -7,7 +7,7 @@ extends Spatial
 # https://3dwarehouse.sketchup.com/model/b3460dcd945cb4598cb138e49a70d8bc/G36
 
 const DEFAULT_FOV = 45
-const DEFAULT_EDGE_DEPTH = 1024
+const DEFAULT_EDGE_DEPTH = 25600
 const DEFAULT_EDGE_SIZE = 1
 
 var cam_z = 10
@@ -24,13 +24,26 @@ var move_window = false
 var window_base_pos = Vector2(0, 0)
 var rot_axis = Vector2(0, 0)
 
-var shader_0 = load("res://shader/edge_detect.shader")
-var shader_1 = load("res://shader/depth.shader")
+var shader_edge = load("res://shader/edge.shader")
+var shader_depth = load("res://shader/depth.shader")
 
 var DIR_PATH = "res://model"
 
 
+# -------------------------------------------------------------- mesh:shader(s)
+var mesh_shader: VisualShader = load("res://shader/visual_shader.tres")
+var mesh_material: ShaderMaterial
+
+
 func _ready():
+
+    $ui/panel/cam_fov.value = DEFAULT_FOV
+    $ui/panel/edge_depth.value = DEFAULT_EDGE_DEPTH
+    $ui/panel/edge_size.value = DEFAULT_EDGE_SIZE
+
+    mesh_material = ShaderMaterial.new()
+    mesh_material.shader = mesh_shader
+    mesh_material.set_shader_param("color_mode", 0)
 
     var dir = Directory.new()
     
@@ -104,10 +117,13 @@ func _input(event):
 
 
 func _process(delta):
-    pass
+
+    $render_screen.material.set_shader_param("screen_w", OS.window_size.x)
+    $render_screen.material.set_shader_param("screen_h", OS.window_size.y)
 
     if move_window == true:
         OS.window_position = window_base_pos
+
 
 func reset():
     $cam.h_offset = 0
@@ -121,32 +137,28 @@ func reset():
     $base_control.transform = Transform.IDENTITY
 
 
-
-
-
 func _on_edge_range_value_changed(value):
     $render_screen.material.set_shader_param("edge_range", float(value))
 
-
-func _on_edge_range_mouse_entered():
-    ctl_focus = true
-
-
-func _on_edge_range_mouse_exited():
-    ctl_focus = false
+    $ui/panel/edge_depth/value.text = str(value)
+    $ui/tween.interpolate_property(
+        $ui/panel/edge_depth/value,
+        "visible",
+        true, false, 3,
+        Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+    $ui/tween.start()
 
 
 func _on_edge_size_value_changed(value):
     $render_screen.material.set_shader_param("edge_size", float(value))
 
-
-
-func _on_edge_size_mouse_entered():
-    ctl_focus = true
-
-
-func _on_edge_size_mouse_exited():
-    ctl_focus = false
+    $ui/panel/edge_size/value.text = str(value)
+    $ui/tween.interpolate_property(
+        $ui/panel/edge_size/value,
+        "visible",
+        true, false, 3,
+        Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+    $ui/tween.start()
 
 
 func _on_btn_reset_pressed():
@@ -154,16 +166,18 @@ func _on_btn_reset_pressed():
 
 
 func _on_models_item_selected(index):
-    self.reset()
 
-    var res = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/models.get_item_text(index))
-    var mat = SpatialMaterial.new()
+    var res: Mesh = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/models.get_item_text(index))
     
-    mat.flags_unshaded = true
-    mat.albedo_color = Color(1, 1, 1, 1)
-
+    var box = res.get_aabb()
+    
+    var vct = box.end - box.position
+    
+    $base_control/mesh.translation = Vector3.ZERO - box.position
+    $base_control/mesh.translation -= (box.size / 2)
+    
     for n in range(res.get_surface_count()):
-        res.surface_set_material(n, mat)
+        res.surface_set_material(n, mesh_material)
 
     $base_control/mesh.mesh = res
 
@@ -171,28 +185,31 @@ func _on_models_item_selected(index):
 func _on_cam_fov_value_changed(value):
     $cam.fov = value
 
-
-
-func _on_cam_fov_mouse_entered():
-    ctl_focus = true
-
-
-func _on_cam_fov_mouse_exited():
-    ctl_focus = false
-
-
-
-
+    $ui/panel/cam_fov/value.text = str(value)
+    $ui/tween.interpolate_property(
+        $ui/panel/cam_fov/value,
+        "visible",
+        true, false, 3,
+        Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+    $ui/tween.start()
+    
 
 func _on_btn_shader_item_selected(id):
     if id == 0:
+        mesh_material.set_shader_param("color_mode", 0)
         $render_screen.visible = false
     elif id == 1:
+        mesh_material.set_shader_param("color_mode", 0)
         $render_screen.visible = true
-        $render_screen.material.shader = shader_0
+        $render_screen.material.shader = shader_edge
     elif id == 2:
+        mesh_material.set_shader_param("color_mode", 1)
+        $render_screen.visible = false
+        $render_screen.material.shader = shader_edge
+    elif id == 3:
+        mesh_material.set_shader_param("color_mode", 0)
         $render_screen.visible = true
-        $render_screen.material.shader = shader_1
+        $render_screen.material.shader = shader_depth
 
 
 func _on_btn_transparent_toggled(button_pressed):
@@ -217,15 +234,6 @@ func _on_window_knob_gui_input(event):
         if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
             window_base_pos += event.relative
 
-        pass
-        # print(event.position)
-        # if move_window == true:
-        #    window_base_pos += event.position - rot_axis
-        #    rot_axis = event.position
-
-
-
-
 
 func _on_ui_gui_input(event):
 
@@ -243,9 +251,17 @@ func _on_ui_gui_input(event):
             
         if event.pressed == true:
             if event.button_index == BUTTON_WHEEL_UP:
-                $base_control/mesh.scale += Vector3.ONE
+                if $base_control/mesh.scale.x < 1:
+                        $base_control/mesh.scale += Vector3(0.1, 0.1, 0.1)
+                else:
+                    if $base_control/mesh.scale.x < 10:
+                        $base_control/mesh.scale += Vector3.ONE
             if event.button_index == BUTTON_WHEEL_DOWN:
-                $base_control/mesh.scale -= Vector3.ONE
+                if $base_control/mesh.scale.x < 1:
+                    if $base_control/mesh.scale.x > 0.1:
+                        $base_control/mesh.scale -= Vector3(0.1, 0.1, 0.1)
+                else:
+                    $base_control/mesh.scale -= Vector3.ONE
 
 
 func _on_btn_exit_pressed():
