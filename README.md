@@ -1,5 +1,47 @@
 # Edge Detect Shader
 
+## Overview
+This shader is implemented by referring to the following. 
+
+* [Custom post-precessing(Godot Engine Document)][1]
+* [Sobel operator(WIkipedia)][2]
+
+The Sobel filter samples the surrounding information to determine its own information.
+A two-dimensional image is used for sampling.
+> For Godot Engine, you can use SCREEN_TEXTURE or DEPTH_TEXTURE.
+> My implementation uses only DEPTH_TEXTURE.
+
+### Technique
+
+My implementation has been crafted to work with the depth buffer.
+
+The depth buffer is expressed as 1.0 for the distance and 0.0 for the near.
+Therefore, create an expression that makes the transparency of a flat place 0.0 when the Sobel filter is applied.
+
+Specifically, it is the following part.
+```
+vec2 screen_unit = vec2(edge_size / screen_w, edge_size / screen_h);
+
+float lin_depth = -8.0 * texture(DEPTH_TEXTURE, SCREEN_UV).r;
+
+lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(0.0, screen_unit.y)).r;
+lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(0.0, -screen_unit.y)).r;
+lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(screen_unit.x, 0.0)).r;
+lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(-screen_unit.x, 0.0)).r;
+lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + screen_unit.xy).r;
+lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV - screen_unit.xy).r;
+lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(-screen_unit.x, screen_unit.y)).r;
+lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(screen_unit.x, -screen_unit.y)).r;
+```
+
+The reason for multiplying by -0.8 is that the Sobel filter samples the surrounding area eight times.
+
+It's probably easier to understand if you think in 1D rather than 2D, so I'll show the figure below. In 2D, the number of surrounding samples is 8, but in 1D it is 2. 
+
+![Sobel filter](res/sobel_filter.png)
+
+[1]:https://docs.godotengine.org/en/stable/tutorials/viewports/custom_postprocessing.html]
+[2]:https://en.wikipedia.org/wiki/Sobel_operator
 
 ## model data
 
