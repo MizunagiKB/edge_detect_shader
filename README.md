@@ -50,7 +50,7 @@ lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(-screen_unit.x, screen_unit
 lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(screen_unit.x, -screen_unit.y)).r;
 ```
 
-The reason for multiplying by -0.8 is that the Sobel filter samples the surrounding area eight times.
+The reason for multiplying by -8.0 is that the Sobel filter samples the surrounding area eight times.
 
 It's probably easier to understand if you think in 1D rather than 2D, so I'll show the figure below. In 2D, the number of surrounding samples is 8, but in 1D it is 2. 
 
