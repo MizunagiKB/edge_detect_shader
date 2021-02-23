@@ -10,7 +10,12 @@ data_*/
 .DS_Store
 
 model_src
+
+dist/*.zip
+
 dist/mac/*.dmg
-dist/win32/*.exe
-dist/win64/*.exe
-dist/win64/*.pck
+dist/win/*.exe
+dist/win/*.pck
+dist/x11/*.x86_64
+dist/x11/*.pck
+

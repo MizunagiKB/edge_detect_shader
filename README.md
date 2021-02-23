@@ -1,6 +1,10 @@
 # Edge Detect Shader
 
+
 ## model data
+
+The attached data is downloaded from 3D Warehouse.
+These data are not outside the scope of this software license.
 
 * model_G36 / G36
   * https://3dwarehouse.sketchup.com/model/b3460dcd945cb4598cb138e49a70d8bc/G36
