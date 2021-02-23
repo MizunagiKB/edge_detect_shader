@@ -7,6 +7,7 @@ extends Spatial
 # https://3dwarehouse.sketchup.com/model/b3460dcd945cb4598cb138e49a70d8bc/G36
 
 const DEFAULT_FOV = 45
+const DEFAULT_SIZE = 1
 const DEFAULT_EDGE_DEPTH = 25600
 const DEFAULT_EDGE_SIZE = 1
 
