@@ -31,19 +31,18 @@ var DIR_PATH = "res://model"
 
 
 # -------------------------------------------------------------- mesh:shader(s)
-var mesh_shader: VisualShader = load("res://shader/visual_shader.tres")
-var mesh_material: ShaderMaterial
+var model_mesh: ModelMesh = null
 
 
 func _ready():
+
+    model_mesh = $base_control/model_mesh
 
     $ui/panel/cam_fov.value = DEFAULT_FOV
     $ui/panel/edge_depth.value = DEFAULT_EDGE_DEPTH
     $ui/panel/edge_size.value = DEFAULT_EDGE_SIZE
 
-    mesh_material = ShaderMaterial.new()
-    mesh_material.shader = mesh_shader
-    mesh_material.set_shader_param("color_mode", 0)
+
 
     var dir = Directory.new()
     
@@ -74,15 +73,17 @@ func _input(event):
     if event is InputEventKey:
         if event.pressed == true:
             if event.scancode == KEY_TAB:
-                if $ui/window_knob.visible == true:
-                    $ui/window_knob.visible = false
-                else:
-                    $ui/window_knob.visible = true
-
-                if $ui/panel.visible == true:
+                if $ui/knob_L.visible == true:
+                    $ui/knob_U.visible = false
+                    $ui/knob_D.visible = false
+                    $ui/knob_L.visible = false
                     $ui/panel.visible = false
                 else:
+                    $ui/knob_U.visible = true
+                    $ui/knob_D.visible = true
+                    $ui/knob_L.visible = true
                     $ui/panel.visible = true
+
 
 
 
@@ -95,8 +96,6 @@ func _input(event):
         if btn_l == true:
             var m = event.position - rot_l
             var tf
-
-
 
             tf = $base_control.transform.rotated(Vector3.UP, deg2rad(m.x))
             $base_control.transform = tf
@@ -113,6 +112,9 @@ func _input(event):
             
             rot_r = event.position
 
+    $ui/knob_D/spin_x.value = $base_control.rotation_degrees.x
+    $ui/knob_D/spin_y.value = $base_control.rotation_degrees.y
+    $ui/knob_D/spin_z.value = $base_control.rotation_degrees.z
     $cam.translation.z = cam_z
 
 
@@ -128,13 +130,13 @@ func _process(delta):
 func reset():
     $cam.h_offset = 0
     $cam.v_offset = 0
-    $base_control/mesh.scale = Vector3.ONE
+
+    model_mesh.reset()
+    $base_control.transform = Transform.IDENTITY
 
     $ui/panel/cam_fov.value = DEFAULT_FOV
     $ui/panel/edge_depth.value = DEFAULT_EDGE_DEPTH
     $ui/panel/edge_size.value = DEFAULT_EDGE_SIZE
-
-    $base_control.transform = Transform.IDENTITY
 
 
 func _on_edge_range_value_changed(value):
@@ -167,19 +169,10 @@ func _on_btn_reset_pressed():
 
 func _on_models_item_selected(index):
 
-    var res: Mesh = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/models.get_item_text(index))
-    
-    var box = res.get_aabb()
-    
-    var vct = box.end - box.position
-    
-    $base_control/mesh.translation = Vector3.ZERO - box.position
-    $base_control/mesh.translation -= (box.size / 2)
-    
-    for n in range(res.get_surface_count()):
-        res.surface_set_material(n, mesh_material)
+    var new_mesh: Mesh = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/models.get_item_text(index))
 
-    $base_control/mesh.mesh = res
+    if new_mesh != null:
+        model_mesh.attach_mesh(new_mesh)
 
 
 func _on_cam_fov_value_changed(value):
@@ -192,47 +185,24 @@ func _on_cam_fov_value_changed(value):
         true, false, 3,
         Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
     $ui/tween.start()
-    
+
 
 func _on_btn_shader_item_selected(id):
     if id == 0:
-        mesh_material.set_shader_param("color_mode", 0)
+        model_mesh.set_shader_off()
         $render_screen.visible = false
     elif id == 1:
-        mesh_material.set_shader_param("color_mode", 0)
+        model_mesh.set_shader_edge()
         $render_screen.visible = true
         $render_screen.material.shader = shader_edge
     elif id == 2:
-        mesh_material.set_shader_param("color_mode", 1)
+        model_mesh.set_shader_normal()
         $render_screen.visible = false
         $render_screen.material.shader = shader_edge
     elif id == 3:
-        mesh_material.set_shader_param("color_mode", 0)
+        model_mesh.set_shader_depth()
         $render_screen.visible = true
         $render_screen.material.shader = shader_depth
-
-
-func _on_btn_transparent_toggled(button_pressed):
-    get_tree().get_root().set_transparent_background(button_pressed)
-
-
-func _on_window_knob_gui_input(event):
-    
-    if event is InputEventMouseButton:
-        if event.button_index == BUTTON_LEFT:
-            if event.pressed == true:
-                Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-            else:
-                Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-                get_viewport().warp_mouse(rot_axis)
-
-            window_base_pos = OS.window_position
-            rot_axis = get_viewport().get_mouse_position()
-            move_window = event.pressed
-
-    if event is InputEventMouseMotion:
-        if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-            window_base_pos += event.relative
 
 
 func _on_ui_gui_input(event):
@@ -251,23 +221,60 @@ func _on_ui_gui_input(event):
             
         if event.pressed == true:
             if event.button_index == BUTTON_WHEEL_UP:
-                if $base_control/mesh.scale.x < 1:
-                        $base_control/mesh.scale += Vector3(0.1, 0.1, 0.1)
-                else:
-                    if $base_control/mesh.scale.x < 10:
-                        $base_control/mesh.scale += Vector3.ONE
+                model_mesh.scale_inc()
             if event.button_index == BUTTON_WHEEL_DOWN:
-                if $base_control/mesh.scale.x < 1:
-                    if $base_control/mesh.scale.x > 0.1:
-                        $base_control/mesh.scale -= Vector3(0.1, 0.1, 0.1)
-                else:
-                    $base_control/mesh.scale -= Vector3.ONE
+                model_mesh.scale_dec()
+
+
+func _on_btn_transparent_toggled(button_pressed):
+    get_tree().get_root().set_transparent_background(button_pressed)
+
+
+func _on_btn_fullscreen_toggled(button_pressed):
+    OS.window_maximized = button_pressed
 
 
 func _on_btn_exit_pressed():
     get_tree().quit(0)
 
 
+func knob_control(event):
+    
+    if event is InputEventMouseButton:
+        if event.button_index == BUTTON_LEFT:
+            if event.pressed == true:
+                Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+            else:
+                Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+                get_viewport().warp_mouse(rot_axis)
 
-func _on_btn_fullscreen_toggled(button_pressed):
-    OS.window_maximized = button_pressed
+            window_base_pos = OS.window_position
+            rot_axis = get_viewport().get_mouse_position()
+            move_window = event.pressed
+
+    if event is InputEventMouseMotion:
+        if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+            window_base_pos += event.relative
+
+func _on_knob_U_gui_input(event):
+    knob_control(event)
+
+func _on_knob_D_gui_input(event):
+    knob_control(event)
+
+func _on_knob_L_gui_input(event):
+    knob_control(event)
+
+func _on_panel_gui_input(event):
+    knob_control(event)
+
+
+
+func _on_spin_x_value_changed(value):
+    $base_control.rotation_degrees.x = value
+
+func _on_spin_y_value_changed(value):
+    $base_control.rotation_degrees.y = value
+
+func _on_spin_z_value_changed(value):
+    $base_control.rotation_degrees.z = value

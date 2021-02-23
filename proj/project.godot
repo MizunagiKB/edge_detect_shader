@@ -8,9 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "MeshInstance",
+"class": "ModelMesh",
+"language": "GDScript",
+"path": "res://node/model_mesh.gd"
+} ]
 _global_script_class_icons={
-
+"ModelMesh": ""
 }
 
 [application]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://node/model_mesh.gd" type="Script" id=1]
+
+[node name="model_mesh" type="MeshInstance"]
+script = ExtResource( 1 )
