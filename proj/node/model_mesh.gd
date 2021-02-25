@@ -6,8 +6,14 @@ var base_scale = Vector3.ONE
 var calc_scale = 1.0
 var base_material: ShaderMaterial
 
+var prev_mesh: Mesh = null
+var curr_mesh: Mesh = null
+
+var color_value = Color.white
+
 
 func reset():
+    self.calc_scale = 1.0
     self.scale = base_scale
 
 
@@ -21,19 +27,28 @@ func set_scale_value(new_scale: float):
 
 
 func scale_inc():
-    set_scale_value(calc_scale + 0.1)
+    set_scale_value(self.calc_scale + 0.1)
 func scale_dec():
-    set_scale_value(calc_scale - 0.1)
+    set_scale_value(self.calc_scale - 0.1)
 
 
 func attach_mesh(new_mesh: Mesh):
 
     var bbox = new_mesh.get_aabb()
 
+    if new_mesh is ArrayMesh:
+        if new_mesh.custom_aabb.has_no_area() != true:
+            bbox = new_mesh.custom_aabb
+    
+    #  new_mesh.get_aabb()
+
     self.translation = Vector3.ZERO - bbox.position
     self.translation -= (bbox.size / 2)
 
-    var scale = 10.0 / bbox.size.x
+    var l = bbox.size.length()
+    var scale = 5
+    if l > 0:
+        scale /= l
 
     for n in range(new_mesh.get_surface_count()):
         new_mesh.surface_set_material(n, base_material)
@@ -41,8 +56,13 @@ func attach_mesh(new_mesh: Mesh):
 
     self.base_scale = Vector3(scale, scale, scale)
     self.set_scale_value(1)
+    
     self.mesh = new_mesh
 
+
+func set_color_value(new_color: Color):
+    self.color_value = new_color
+    base_material.set_shader_param("color", self.color_value)
 
 func set_shader_off():
     base_material.set_shader_param("color_mode", 0)
@@ -65,3 +85,4 @@ func _ready():
     base_material = ShaderMaterial.new()
     base_material.shader = load("res://shader/visual_shader.tres")
     base_material.set_shader_param("color_mode", 0)
+    base_material.set_shader_param("color", self.color_value)

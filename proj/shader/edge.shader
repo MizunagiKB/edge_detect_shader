@@ -1,7 +1,10 @@
 shader_type spatial;
+render_mode unshaded, specular_disabled, shadows_disabled, ambient_light_disabled;
+
 
 uniform float edge_range = 1.0;
 uniform float edge_size = 1.0;
+uniform vec3 color_value = vec3(0.0, 0.0, 0.0);
 
 uniform float screen_w = 960;
 uniform float screen_h = 540;
@@ -38,6 +41,10 @@ void fragment()
     lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(-screen_unit.x, screen_unit.y)).r;
     lin_depth += texture(DEPTH_TEXTURE, SCREEN_UV + vec2(screen_unit.x, -screen_unit.y)).r;
 
-    ALPHA = abs(lin_depth * edge_range);
+    float v = abs(lin_depth * edge_range);
+    if(v < 0.01) v = 0.0;
+
+    ALPHA = v;
+    ALBEDO = color_value;
     EMISSION = vec3(0.0);
 }

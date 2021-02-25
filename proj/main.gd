@@ -6,12 +6,12 @@ extends Spatial
 # https://3dwarehouse.sketchup.com/model/e815bffc1dee0414f4aa69a000077765/Milkor-MGL-140-rocket-launcher3D
 # https://3dwarehouse.sketchup.com/model/b3460dcd945cb4598cb138e49a70d8bc/G36
 
-const DEFAULT_FOV = 45
-const DEFAULT_SIZE = 1
+const DEFAULT_PERSPECTIVE_FOV = 45
+const DEFAULT_CAM_DISTANCE = 10
+const DEFAULT_FRUSTUM_SIZE = 1
 const DEFAULT_EDGE_DEPTH = 25600
 const DEFAULT_EDGE_SIZE = 1
 
-var cam_z = 10
 var btn_l = false
 var btn_r = false
 var btn_c = false
@@ -33,13 +33,40 @@ var DIR_PATH = "res://model"
 
 # -------------------------------------------------------------- mesh:shader(s)
 var model_mesh: ModelMesh = null
+var active_win: WindowDialog = null
+
+
+# ------------------------------------------------------------------- method(s)
+func ui_visible(show: bool):
+    $ui/knob_U.visible = show
+    $ui/knob_D.visible = show
+    $ui/knob_L.visible = show
+    $ui/panel.visible = show
 
 
 func _ready():
 
+    CONF.parameter_load()
+
     model_mesh = $base_control/model_mesh
     reset()
 
+    $ui/panel/lbl_version.text = "Version " + ProjectSettings.get_setting("application/config/version")
+
+    # Models
+    $ui/panel/tab_container/models.add_item("[Blank]")
+    $ui/panel/tab_container/models.set_item_metadata(0, $ui/dlg_mesh_blank)
+    $ui/panel/tab_container/models.add_item("[Mesh]")
+    $ui/panel/tab_container/models.set_item_metadata(1, $ui/dlg_create_mesh)
+
+    #
+    var o_instance = null
+    o_instance = load("res://node/screen_sky/dlg_screen_sky.tscn").instance()
+    $ui/panel/tab_container/extentions.add_item(o_instance.ext_name())
+    $ui/panel/tab_container/extentions.set_item_metadata(0, o_instance)
+
+    $ui/panel/btn_color_body.color = Color.white
+    $ui/panel/btn_color_edge.color = Color.black
 
     var dir = Directory.new()
     
@@ -55,7 +82,11 @@ func _ready():
                     b_ready = true
 
                 if b_ready == true:
-                    $ui/panel/models.add_item(file_name)
+                    $ui/panel/tab_container/models.add_item(file_name)
+                    var item_count = $ui/panel/tab_container/models.get_item_count()
+                    if item_count > 0:
+                        $ui/panel/tab_container/models.set_item_metadata(item_count - 1, null)
+
                     
             file_name = dir.get_next()
     else:
@@ -70,16 +101,7 @@ func _input(event):
     if event is InputEventKey:
         if event.pressed == true:
             if event.scancode == KEY_TAB:
-                if $ui/knob_L.visible == true:
-                    $ui/knob_U.visible = false
-                    $ui/knob_D.visible = false
-                    $ui/knob_L.visible = false
-                    $ui/panel.visible = false
-                else:
-                    $ui/knob_U.visible = true
-                    $ui/knob_D.visible = true
-                    $ui/knob_L.visible = true
-                    $ui/panel.visible = true
+                ui_visible(not $ui/panel.visible)
 
 
 
@@ -112,7 +134,6 @@ func _input(event):
     $ui/knob_D/spin_x.value = $base_control.rotation_degrees.x
     $ui/knob_D/spin_y.value = $base_control.rotation_degrees.y
     $ui/knob_D/spin_z.value = $base_control.rotation_degrees.z
-    $cam.translation.z = cam_z
 
 
 func _process(delta):
@@ -123,6 +144,12 @@ func _process(delta):
     if move_window == true:
         OS.window_position = window_base_pos
 
+    if $screen.get_child_count() == 0:
+        if $cam.environment == null:
+            $cam.environment = Environment.new()
+            $cam.environment.background_mode = Environment.BG_COLOR
+            $cam.environment.background_color = Color.gray
+
 
 func reset():
     $cam.h_offset = 0
@@ -130,9 +157,12 @@ func reset():
 
     model_mesh.reset()
 
+    $cam.rotation = Vector3.ZERO
     $base_control.transform = Transform.IDENTITY
 
-    _on_btn_cam_item_selected(0)
+    $ui/knob_L/cam_distance.value = DEFAULT_CAM_DISTANCE
+    $ui/panel/btn_cam.selected = 0
+    _on_btn_cam_item_selected($ui/panel/btn_cam.selected)
     $ui/panel/edge_depth.value = DEFAULT_EDGE_DEPTH
     $ui/panel/edge_size.value = DEFAULT_EDGE_SIZE
 
@@ -167,10 +197,21 @@ func _on_btn_reset_pressed():
 
 func _on_models_item_selected(index):
 
-    var new_mesh: Mesh = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/models.get_item_text(index))
+    active_win = $ui/panel/tab_container/models.get_item_metadata(index)
+    if active_win != null:
+        active_win.plugin_open()
+    else:
+        var new_mesh: Mesh = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/tab_container/models.get_item_text(index))
 
-    if new_mesh != null:
-        model_mesh.attach_mesh(new_mesh)
+        if new_mesh != null:
+            model_mesh.attach_mesh(new_mesh)
+
+
+func _on_extentions_item_selected(index):
+
+    active_win = $ui/panel/tab_container/extentions.get_item_metadata(index)
+    if active_win != null:
+        active_win.ext_init(self)
 
 
 func _on_btn_shader_item_selected(id):
@@ -221,6 +262,7 @@ func _on_btn_fullscreen_toggled(button_pressed):
 
 
 func _on_btn_exit_pressed():
+    CONF.parameter_save()
     get_tree().quit(0)
 
 
@@ -273,7 +315,7 @@ func _on_btn_cam_item_selected(id):
             $ui/panel/btn_cam/spin_fov.min_value = 30
             $ui/panel/btn_cam/spin_fov.max_value = 120
             $ui/panel/btn_cam/spin_fov.step = 5
-            $ui/panel/btn_cam/spin_fov.value = DEFAULT_FOV
+            $ui/panel/btn_cam/spin_fov.value = DEFAULT_PERSPECTIVE_FOV
         1:
             $cam.projection = Camera.PROJECTION_ORTHOGONAL
         2:
@@ -281,7 +323,7 @@ func _on_btn_cam_item_selected(id):
             $ui/panel/btn_cam/spin_fov.min_value = 0.1
             $ui/panel/btn_cam/spin_fov.max_value = 2
             $ui/panel/btn_cam/spin_fov.step = 0.1
-            $ui/panel/btn_cam/spin_fov.value = DEFAULT_SIZE
+            $ui/panel/btn_cam/spin_fov.value = DEFAULT_FRUSTUM_SIZE
 
 
 func _on_spin_fov_value_changed(value):
@@ -292,3 +334,67 @@ func _on_spin_fov_value_changed(value):
             pass
         Camera.PROJECTION_FRUSTUM:
             $cam.size = value
+
+
+func _on_dlg_create_mesh_popup_hide():
+    if $ui/dlg_create_mesh.exit == true:
+        var new_mesh = $ui/dlg_create_mesh.get_mesh()
+
+        if new_mesh != null:
+            model_mesh.attach_mesh(new_mesh)
+
+
+func _on_btn_color_edge_color_changed(color):
+    $render_screen.material.set_shader_param("color_value", Vector3(color.r, color.g, color.b))
+
+
+func _on_btn_color_body_color_changed(color):
+    $base_control/model_mesh.set_color_value(color)
+
+
+func _on_btn_capture_pressed():
+
+    var save_viewport_size = get_viewport().size
+    get_viewport().size = save_viewport_size * CONF.capture_scale
+    
+    self.ui_visible(false)
+    get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
+
+    yield(VisualServer, "frame_post_draw")
+
+    var img = get_viewport().get_texture().get_data()
+
+    img.convert(Image.FORMAT_RGBA8)
+    img.flip_y()
+
+    var o_dir = Directory.new()
+    
+    if o_dir.dir_exists(CONF.capture_image_dir) == true:
+
+        var dict_datetime = OS.get_datetime()
+        # year, month, day, weekday, dst (Daylight Savings Time), hour, minute, second.
+
+        var pathname = "%s/eds_%04d%02d%02d_%02d%02d%02d.png" % [
+            CONF.capture_image_dir,
+            dict_datetime["year"],
+            dict_datetime["month"],
+            dict_datetime["day"],
+            dict_datetime["hour"],
+            dict_datetime["minute"],
+            dict_datetime["second"]
+        ]
+        
+        img.save_png(pathname)
+
+    self.ui_visible(true)
+
+    get_viewport().size = save_viewport_size
+
+
+func _on_btn_conf_pressed():
+    $dlg_conf.popup_centered()
+
+
+func _on_cam_distance_value_changed(value):
+    $cam.translation.z = value
+

@@ -1,0 +1,99 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://node/screen_sky/dlg_screen_sky.gd" type="Script" id=1]
+
+[node name="dlg_screen_sky" type="WindowDialog"]
+margin_right = 256.0
+margin_bottom = 336.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_screen" type="OptionButton" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 96.0
+margin_bottom = 48.0
+text = "Disable"
+align = 1
+items = [ "Disable", null, false, 0, null, "Sky", null, false, 1, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 112.0
+margin_top = 16.0
+margin_right = 240.0
+margin_bottom = 144.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider_time" type="HSlider" parent="."]
+margin_left = 16.0
+margin_top = 160.0
+margin_right = 240.0
+margin_bottom = 192.0
+focus_mode = 0
+max_value = 1440.0
+value = 720.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider_cloud_coverage" type="HSlider" parent="."]
+margin_left = 16.0
+margin_top = 192.0
+margin_right = 240.0
+margin_bottom = 224.0
+focus_mode = 0
+max_value = 1.0
+step = 0.01
+value = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider_cloud_size" type="HSlider" parent="."]
+margin_left = 16.0
+margin_top = 224.0
+margin_right = 240.0
+margin_bottom = 256.0
+focus_mode = 0
+max_value = 10.0
+step = 0.01
+value = 2.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="wind_strength" type="HSlider" parent="."]
+margin_left = 16.0
+margin_top = 256.0
+margin_right = 240.0
+margin_bottom = 288.0
+focus_mode = 0
+max_value = 1.0
+step = 0.01
+
+[node name="btn_ok" type="Button" parent="."]
+margin_left = 176.0
+margin_top = 288.0
+margin_right = 240.0
+margin_bottom = 324.0
+focus_mode = 0
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="popup_hide" from="." to="." method="_on_dlg_screen_sky_popup_hide"]
+[connection signal="item_selected" from="btn_screen" to="." method="_on_btn_screen_item_selected"]
+[connection signal="gui_input" from="Panel" to="." method="_on_Panel_gui_input"]
+[connection signal="value_changed" from="slider_time" to="." method="_on_slider_time_value_changed"]
+[connection signal="value_changed" from="slider_cloud_coverage" to="." method="_on_slider_cloud_coverage_value_changed"]
+[connection signal="value_changed" from="slider_cloud_size" to="." method="_on_slider_cloud_size_value_changed"]
+[connection signal="value_changed" from="wind_strength" to="." method="_on_wind_strength_value_changed"]
+[connection signal="pressed" from="btn_ok" to="." method="_on_btn_ok_pressed"]

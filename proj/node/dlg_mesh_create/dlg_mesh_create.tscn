@@ -1,0 +1,124 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://node/dlg_mesh_create/dlg_mesh_create.gd" type="Script" id=1]
+
+[node name="dlg_create_mesh" type="WindowDialog"]
+margin_right = 288.0
+margin_bottom = 288.0
+window_title = "CreateMesh"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_primitive" type="OptionButton" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 272.0
+margin_bottom = 48.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Cube"
+align = 1
+items = [ "Cube", null, false, 0, null, "Cylinder", null, false, 1, null, "Sphere", null, false, 2, null, "Cube(Lines)", null, false, 3, null, "Linework", null, false, 4, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_ok" type="Button" parent="."]
+margin_left = 208.0
+margin_top = 240.0
+margin_right = 272.0
+margin_bottom = 272.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_inner" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 64.0
+margin_right = 80.0
+margin_bottom = 96.0
+text = "Inner Pos"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spin_min" type="SpinBox" parent="lbl_inner"]
+margin_left = 80.0
+margin_right = 160.0
+margin_bottom = 32.0
+min_value = 1.0
+value = 30.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spin_max" type="SpinBox" parent="lbl_inner"]
+margin_left = 176.0
+margin_right = 256.0
+margin_bottom = 32.0
+min_value = 1.0
+value = 40.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_width" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 112.0
+margin_right = 80.0
+margin_bottom = 144.0
+text = "Width"
+valign = 1
+
+[node name="spin_width" type="SpinBox" parent="lbl_width"]
+margin_left = 80.0
+margin_right = 160.0
+margin_bottom = 32.0
+min_value = 0.1
+step = 0.1
+value = 2.0
+align = 1
+
+[node name="lbl_space" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 160.0
+margin_right = 80.0
+margin_bottom = 192.0
+text = "Space"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spin_space" type="SpinBox" parent="lbl_space"]
+margin_left = 80.0
+margin_right = 160.0
+margin_bottom = 32.0
+min_value = 1.0
+value = 10.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_left = 16.0
+margin_top = 208.0
+margin_right = 272.0
+margin_bottom = 224.0
+[connection signal="about_to_show" from="." to="." method="_on_dlg_create_mesh_about_to_show"]
+[connection signal="item_selected" from="btn_primitive" to="." method="_on_btn_primitive_item_selected"]
+[connection signal="pressed" from="btn_ok" to="." method="_on_btn_ok_pressed"]
+[connection signal="value_changed" from="lbl_inner/spin_min" to="." method="_on_value_changed"]
+[connection signal="value_changed" from="lbl_inner/spin_max" to="." method="_on_value_changed"]
+[connection signal="value_changed" from="lbl_width/spin_width" to="." method="_on_value_changed"]
+[connection signal="value_changed" from="lbl_space/spin_space" to="." method="_on_value_changed"]

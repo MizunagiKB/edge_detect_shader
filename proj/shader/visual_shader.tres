@@ -9,14 +9,15 @@ default_input_values = [ 0, 0.0, 1, 1.0, 2, 1e-05, 3, Vector3( 0, 0, 0 ), 4, Vec
 [sub_resource type="VisualShaderNodeScalarUniform" id=3]
 uniform_name = "color_mode"
 
-[sub_resource type="VisualShaderNodeVec3Constant" id=4]
-constant = Vector3( 1, 1, 1 )
+[sub_resource type="VisualShaderNodeColorUniform" id=4]
+uniform_name = "color"
 
 [resource]
 code = "shader_type spatial;
 render_mode specular_disabled, unshaded, shadows_disabled, ambient_light_disabled;
 
 uniform float color_mode;
+uniform vec4 color : hint_color;
 
 
 
@@ -32,8 +33,9 @@ void fragment() {
 // Input:2
 	vec3 n_out2p0 = NORMAL;
 
-// Vector:6
-	vec3 n_out6p0 = vec3(1.000000, 1.000000, 1.000000);
+// ColorUniform:7
+	vec3 n_out7p0 = color.rgb;
+	float n_out7p1 = color.a;
 
 // If:3
 	float n_in3p1 = 1.00000;
@@ -45,7 +47,7 @@ void fragment() {
 	}
 	else if(n_out5p0 < n_in3p1)
 	{
-		n_out3p0 = n_out6p0;
+		n_out3p0 = n_out7p0;
 	}
 	else
 	{
@@ -63,18 +65,18 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -16, -17.2583 )
+graph_offset = Vector2( 0, 55.7243 )
 modes/specular = 4
 flags/ambient_light_disabled = true
 flags/shadows_disabled = true
 flags/unshaded = true
 nodes/fragment/0/position = Vector2( 1400, 200 )
 nodes/fragment/2/node = SubResource( 1 )
-nodes/fragment/2/position = Vector2( 200, 500 )
+nodes/fragment/2/position = Vector2( 200, 760 )
 nodes/fragment/3/node = SubResource( 2 )
 nodes/fragment/3/position = Vector2( 1000, 200 )
 nodes/fragment/5/node = SubResource( 3 )
 nodes/fragment/5/position = Vector2( 200, 200 )
-nodes/fragment/6/node = SubResource( 4 )
-nodes/fragment/6/position = Vector2( 200, 320 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 0, 7, 5, 0, 3, 0, 3, 0, 0, 0, 6, 0, 3, 5, 2, 0, 3, 3, 2, 0, 3, 4 )
+nodes/fragment/7/node = SubResource( 4 )
+nodes/fragment/7/position = Vector2( 200, 320 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 7, 5, 0, 3, 0, 3, 0, 0, 0, 2, 0, 3, 3, 2, 0, 3, 4, 7, 0, 3, 5 )

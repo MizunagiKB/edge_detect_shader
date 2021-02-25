@@ -1,50 +1,50 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://shader/edge.shader" type="Shader" id=2]
 [ext_resource path="res://theme_gray.tres" type="Theme" id=3]
 [ext_resource path="res://font/Voltaire-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://node/model_mesh.tscn" type="PackedScene" id=5]
+[ext_resource path="res://node/dlg_mesh_create/dlg_mesh_create.tscn" type="PackedScene" id=6]
+[ext_resource path="res://node/dlg_conf/dlg_conf.tscn" type="PackedScene" id=7]
+[ext_resource path="res://node/dlg_mesh_blank/dlg_mesh_blank.tscn" type="PackedScene" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 12
 font_data = ExtResource( 4 )
 
+[sub_resource type="DynamicFont" id=2]
+size = 14
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 4 )
+
 [sub_resource type="DynamicFont" id=3]
-size = 12
-outline_size = 3
+size = 14
+outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 12
-outline_size = 3
+outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=5]
 size = 12
-outline_size = 3
+outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=6]
-size = 12
-outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
-
-[sub_resource type="Environment" id=7]
-background_mode = 1
-background_color = Color( 0.752941, 0.752941, 0.752941, 1 )
-
-[sub_resource type="QuadMesh" id=8]
+[sub_resource type="QuadMesh" id=7]
 size = Vector2( 2, 2 )
 
-[sub_resource type="ShaderMaterial" id=9]
+[sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 2 )
 shader_param/edge_range = 1000.0
 shader_param/edge_size = 1.0
+shader_param/color_value = Vector3( 0, 0, 0 )
 shader_param/screen_w = 960.0
 shader_param/screen_h = 540.0
 
@@ -83,7 +83,7 @@ __meta__ = {
 margin_left = 480.0
 margin_top = -496.0
 margin_right = 544.0
-margin_bottom = -480.0
+margin_bottom = -464.0
 min_value = -1000.0
 max_value = 1000.0
 align = 1
@@ -96,7 +96,7 @@ __meta__ = {
 margin_left = 560.0
 margin_top = -496.0
 margin_right = 624.0
-margin_bottom = -480.0
+margin_bottom = -464.0
 min_value = -1000.0
 max_value = 1000.0
 align = 1
@@ -109,7 +109,7 @@ __meta__ = {
 margin_left = 640.0
 margin_top = -496.0
 margin_right = 704.0
-margin_bottom = -480.0
+margin_bottom = -464.0
 min_value = -1000.0
 max_value = 1000.0
 align = 1
@@ -135,7 +135,7 @@ margin_bottom = 80.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
-text = "M"
+text = "Max"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -148,7 +148,29 @@ margin_bottom = 128.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
-text = "T"
+text = "Tr"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_capture" type="Button" parent="ui/knob_L"]
+margin_left = 24.0
+margin_top = 144.0
+margin_right = 56.0
+margin_bottom = 176.0
+text = "Cap"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_conf" type="Button" parent="ui/knob_L"]
+margin_left = 24.0
+margin_top = 448.0
+margin_right = 56.0
+margin_bottom = 480.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Conf"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -160,7 +182,20 @@ margin_right = 56.0
 margin_bottom = 528.0
 focus_mode = 0
 enabled_focus_mode = 0
-text = "Q"
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cam_distance" type="VSlider" parent="ui/knob_L"]
+margin_left = 32.0
+margin_top = 208.0
+margin_right = 64.0
+margin_bottom = 416.0
+focus_mode = 0
+min_value = 1.0
+max_value = 10.0
+value = 10.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -180,7 +215,6 @@ margin_top = 528.0
 margin_right = 208.0
 margin_bottom = 544.0
 custom_fonts/font = SubResource( 1 )
-text = "Version 0.0.4"
 align = 2
 valign = 1
 __meta__ = {
@@ -199,20 +233,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="models" type="ItemList" parent="ui/panel"]
+[node name="tab_container" type="TabContainer" parent="ui/panel"]
 margin_left = 16.0
 margin_top = 80.0
 margin_right = 208.0
 margin_bottom = 352.0
-theme = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="models" type="ItemList" parent="ui/panel/tab_container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 28.0
+allow_reselect = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="extentions" type="ItemList" parent="ui/panel/tab_container"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 28.0
+allow_reselect = true
+
 [node name="btn_shader" type="OptionButton" parent="ui/panel"]
 margin_left = 16.0
 margin_top = 368.0
-margin_right = 208.0
+margin_right = 96.0
 margin_bottom = 400.0
 focus_mode = 0
 enabled_focus_mode = 0
@@ -226,9 +275,9 @@ __meta__ = {
 
 [node name="lbl_edge_depth" type="Label" parent="ui/panel"]
 margin_left = 16.0
-margin_top = 464.0
+margin_top = 448.0
 margin_right = 64.0
-margin_bottom = 485.0
+margin_bottom = 496.0
 text = "Depth"
 valign = 1
 __meta__ = {
@@ -251,9 +300,10 @@ __meta__ = {
 
 [node name="value" type="Label" parent="ui/panel/edge_depth"]
 margin_left = -112.0
+margin_top = -16.0
 margin_right = -64.0
-margin_bottom = 16.0
-custom_fonts/font = SubResource( 3 )
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 2 )
 align = 1
 valign = 1
 __meta__ = {
@@ -262,9 +312,9 @@ __meta__ = {
 
 [node name="lbl_edge_size" type="Label" parent="ui/panel"]
 margin_left = 16.0
-margin_top = 496.0
+margin_top = 480.0
 margin_right = 64.0
-margin_bottom = 517.0
+margin_bottom = 528.0
 text = "Size"
 valign = 1
 __meta__ = {
@@ -276,6 +326,7 @@ margin_left = 64.0
 margin_top = 496.0
 margin_right = 208.0
 margin_bottom = 512.0
+focus_mode = 0
 min_value = 1.0
 max_value = 3.0
 value = 1.0
@@ -285,18 +336,22 @@ __meta__ = {
 
 [node name="value" type="Label" parent="ui/panel/edge_size"]
 margin_left = -112.0
+margin_top = -16.0
 margin_right = -64.0
-margin_bottom = 16.0
-custom_fonts/font = SubResource( 4 )
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 3 )
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="lbl_desc" type="Label" parent="ui/panel"]
 margin_left = -704.0
 margin_top = 464.0
 margin_right = -640.0
 margin_bottom = 560.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 text = "Mouse L:
 Mouse R:
 Mouse M:
@@ -310,7 +365,7 @@ __meta__ = {
 margin_left = 80.0
 margin_right = 175.0
 margin_bottom = 96.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 5 )
 text = "X and Y Rotation
 Z Rotation
 Camera Move
@@ -338,29 +393,84 @@ margin_bottom = 32.0
 min_value = 30.0
 max_value = 120.0
 step = 5.0
-value = 60.0
+value = 45.0
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="btn_color_body" type="ColorPickerButton" parent="ui/panel"]
+margin_left = 176.0
+margin_top = 368.0
+margin_right = 208.0
+margin_bottom = 400.0
+focus_mode = 0
+enabled_focus_mode = 0
+color = Color( 1, 1, 1, 1 )
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_color_edge" type="ColorPickerButton" parent="ui/panel"]
+margin_left = 128.0
+margin_top = 368.0
+margin_right = 160.0
+margin_bottom = 400.0
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_color_edge" type="Label" parent="ui/panel"]
+margin_left = 112.0
+margin_top = 368.0
+margin_right = 128.0
+margin_bottom = 400.0
+text = "E"
+align = 1
+valign = 1
+
+[node name="Label" type="Label" parent="ui/panel"]
+margin_left = 160.0
+margin_top = 368.0
+margin_right = 176.0
+margin_bottom = 400.0
+text = "B"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dlg_create_mesh" parent="ui" instance=ExtResource( 6 )]
+margin_left = 256.0
+margin_top = 128.0
+margin_right = 544.0
+margin_bottom = 416.0
+
+[node name="dlg_mesh_blank" parent="ui" instance=ExtResource( 8 )]
+
+[node name="dlg_conf" parent="." instance=ExtResource( 7 )]
+
 [node name="cam" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
-environment = SubResource( 7 )
-projection = 2
 current = true
-fov = 60.0
+fov = 45.0
 size = 0.1
-far = 2048.0
+near = 0.01
+far = 1024.0
 
 [node name="render_screen" type="CSGMesh" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7912, 0 )
-mesh = SubResource( 8 )
-material = SubResource( 9 )
+mesh = SubResource( 7 )
+material = SubResource( 8 )
 
 [node name="base_control" type="Spatial" parent="."]
 
 [node name="model_mesh" parent="base_control" instance=ExtResource( 5 )]
+
+[node name="screen" type="Spatial" parent="."]
 [connection signal="gui_input" from="ui" to="." method="_on_ui_gui_input"]
 [connection signal="gui_input" from="ui/knob_U" to="." method="_on_knob_U_gui_input"]
 [connection signal="gui_input" from="ui/knob_D" to="." method="_on_knob_D_gui_input"]
@@ -370,12 +480,19 @@ material = SubResource( 9 )
 [connection signal="gui_input" from="ui/knob_L" to="." method="_on_knob_L_gui_input"]
 [connection signal="toggled" from="ui/knob_L/btn_fullscreen" to="." method="_on_btn_fullscreen_toggled"]
 [connection signal="toggled" from="ui/knob_L/btn_transparent" to="." method="_on_btn_transparent_toggled"]
+[connection signal="pressed" from="ui/knob_L/btn_capture" to="." method="_on_btn_capture_pressed"]
+[connection signal="pressed" from="ui/knob_L/btn_conf" to="." method="_on_btn_conf_pressed"]
 [connection signal="pressed" from="ui/knob_L/btn_exit" to="." method="_on_btn_exit_pressed"]
+[connection signal="value_changed" from="ui/knob_L/cam_distance" to="." method="_on_cam_distance_value_changed"]
 [connection signal="gui_input" from="ui/panel" to="." method="_on_panel_gui_input"]
 [connection signal="pressed" from="ui/panel/btn_reset" to="." method="_on_btn_reset_pressed"]
-[connection signal="item_selected" from="ui/panel/models" to="." method="_on_models_item_selected"]
+[connection signal="item_selected" from="ui/panel/tab_container/models" to="." method="_on_models_item_selected"]
+[connection signal="item_selected" from="ui/panel/tab_container/extentions" to="." method="_on_extentions_item_selected"]
 [connection signal="item_selected" from="ui/panel/btn_shader" to="." method="_on_btn_shader_item_selected"]
 [connection signal="value_changed" from="ui/panel/edge_depth" to="." method="_on_edge_range_value_changed"]
 [connection signal="value_changed" from="ui/panel/edge_size" to="." method="_on_edge_size_value_changed"]
 [connection signal="item_selected" from="ui/panel/btn_cam" to="." method="_on_btn_cam_item_selected"]
 [connection signal="value_changed" from="ui/panel/btn_cam/spin_fov" to="." method="_on_spin_fov_value_changed"]
+[connection signal="color_changed" from="ui/panel/btn_color_body" to="." method="_on_btn_color_body_color_changed"]
+[connection signal="color_changed" from="ui/panel/btn_color_edge" to="." method="_on_btn_color_edge_color_changed"]
+[connection signal="popup_hide" from="ui/dlg_create_mesh" to="." method="_on_dlg_create_mesh_popup_hide"]
