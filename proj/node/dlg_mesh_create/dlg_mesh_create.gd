@@ -1,10 +1,6 @@
 extends WindowDialog
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
+var o_base_node = null
 var need_update = false
 var exit = false
 
@@ -31,8 +27,17 @@ var fixed_aabb = AABB(
 )
 
 
-func plugin_open():
+func ext_name() -> String:
+    return "[Mesh Create]"
+
+
+func ext_init(o_node: Spatial) -> bool:
+
+    self.o_base_node = o_node
+    self.o_base_node.get_node("ui").add_child(self)
     self.popup_centered()
+
+    return true
 
 
 func get_mesh() -> Mesh:
@@ -100,17 +105,15 @@ func get_mesh() -> Mesh:
     return null
 
 
-func request_preview(node: ModelMesh):
-    if self.need_update == true:
-        var new_mesh = self.get_mesh()
-        
-        node.attach_mesh(new_mesh)
-        self.need_update = false
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
     pass # Replace with function body.
+
+
+func _process(delta):
+    if self.need_update == true:
+        var new_mesh = self.get_mesh()
+        self.o_base_node.get_node("base_control/model_mesh").attach_mesh(new_mesh)
+        self.need_update = false
 
 
 func _on_btn_ok_pressed():

@@ -37,10 +37,10 @@ outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
-[sub_resource type="QuadMesh" id=7]
+[sub_resource type="QuadMesh" id=6]
 size = Vector2( 2, 2 )
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 2 )
 shader_param/edge_range = 1000.0
 shader_param/edge_size = 1.0
@@ -444,6 +444,7 @@ __meta__ = {
 }
 
 [node name="dlg_create_mesh" parent="ui" instance=ExtResource( 6 )]
+visible = false
 margin_left = 256.0
 margin_top = 128.0
 margin_right = 544.0
@@ -463,8 +464,8 @@ far = 1024.0
 
 [node name="render_screen" type="CSGMesh" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7912, 0 )
-mesh = SubResource( 7 )
-material = SubResource( 8 )
+mesh = SubResource( 6 )
+material = SubResource( 7 )
 
 [node name="base_control" type="Spatial" parent="."]
 

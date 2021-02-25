@@ -92,4 +92,5 @@ func _on_wind_strength_value_changed(value):
 
 
 func _on_btn_ok_pressed():
-    pass # Replace with function body.
+    self.hide()
+

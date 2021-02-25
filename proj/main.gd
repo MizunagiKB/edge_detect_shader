@@ -54,9 +54,9 @@ func _ready():
     $ui/panel/lbl_version.text = "Version " + ProjectSettings.get_setting("application/config/version")
 
     # Models
-    $ui/panel/tab_container/models.add_item("[Blank]")
+    $ui/panel/tab_container/models.add_item($ui/dlg_mesh_blank.ext_name())
     $ui/panel/tab_container/models.set_item_metadata(0, $ui/dlg_mesh_blank)
-    $ui/panel/tab_container/models.add_item("[Mesh]")
+    $ui/panel/tab_container/models.add_item($ui/dlg_create_mesh.ext_name())
     $ui/panel/tab_container/models.set_item_metadata(1, $ui/dlg_create_mesh)
 
     #
@@ -78,7 +78,7 @@ func _ready():
                 print("Found directory: " + file_name)
             else:
                 var b_ready = false
-                if file_name.ends_with(".obj"):
+                if file_name.ends_with(".mesh"):
                     b_ready = true
 
                 if b_ready == true:
@@ -199,11 +199,12 @@ func _on_models_item_selected(index):
 
     active_win = $ui/panel/tab_container/models.get_item_metadata(index)
     if active_win != null:
-        active_win.plugin_open()
+        active_win.ext_init(self)
     else:
         var new_mesh: Mesh = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/tab_container/models.get_item_text(index))
 
         if new_mesh != null:
+            # ResourceSaver.save(DIR_PATH + "/" + $ui/panel/tab_container/models.get_item_text(index) + ".mesh", new_mesh)
             model_mesh.attach_mesh(new_mesh)
 
 
