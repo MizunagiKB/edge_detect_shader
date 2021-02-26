@@ -76,19 +76,23 @@ func get_mesh() -> Mesh:
             seed(0)
 
             while r < 360:
-                var cv = v.rotated(Vector3.FORWARD, deg2rad(r)) * rand_range(
+                var cv0 = v.rotated(Vector3.FORWARD, deg2rad(r)) * rand_range(
                     $lbl_inner/spin_min.value,
                     $lbl_inner/spin_max.value
                 )
-                ary_vtx.push_back(cv)
 
                 var calc_r = (randf() * $lbl_width/spin_width.value) / 2
 
-                cv = v.rotated(Vector3.FORWARD, deg2rad(r - calc_r)) * 100
-                ary_vtx.push_back(cv)
+                var cv1 = v.rotated(Vector3.FORWARD, deg2rad(r - calc_r)) * 100
+                var cv2 = v.rotated(Vector3.FORWARD, deg2rad(r + calc_r)) * 100
 
-                cv = v.rotated(Vector3.FORWARD, deg2rad(r + calc_r)) * 100
-                ary_vtx.push_back(cv)
+                ary_vtx.push_back(cv0)
+                ary_vtx.push_back(cv1)
+                ary_vtx.push_back(cv2)
+
+                ary_vtx.push_back(cv0)
+                ary_vtx.push_back(cv2)
+                ary_vtx.push_back(cv1)
 
                 r += randf() * $lbl_space/spin_space.value
 
@@ -100,6 +104,45 @@ func get_mesh() -> Mesh:
             o_array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
             o_array_mesh.custom_aabb = fixed_aabb
                         
+            return o_array_mesh
+
+        5:
+            var r = 0
+            var v = Vector3.RIGHT
+
+            var ary_vtx = PoolVector3Array()
+
+            seed(0)
+
+            while r < 100:
+                var cv0 = Vector3.LEFT * rand_range(
+                    $lbl_inner/spin_min.value,
+                    $lbl_inner/spin_max.value
+                )
+
+                var calc_v = Vector3(0, (randf() * $lbl_width/spin_width.value) / 2, 0)
+
+                var cv1 = (Vector3.LEFT * 200) - calc_v
+                var cv2 = (Vector3.LEFT * 200) + calc_v
+
+                ary_vtx.push_back(cv0 + Vector3(100, r - 50, 0))
+                ary_vtx.push_back(cv1 + Vector3(100, r - 50, 0))
+                ary_vtx.push_back(cv2 + Vector3(100, r - 50, 0))
+
+                ary_vtx.push_back(cv0 + Vector3(100, r - 50, 0))
+                ary_vtx.push_back(cv2 + Vector3(100, r - 50, 0))
+                ary_vtx.push_back(cv1 + Vector3(100, r - 50, 0))
+
+                r += randf() * $lbl_space/spin_space.value
+
+            var arrays = []
+            arrays.resize(ArrayMesh.ARRAY_MAX)
+            arrays[ArrayMesh.ARRAY_VERTEX] = ary_vtx
+
+            var o_array_mesh = ArrayMesh.new()
+            o_array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+            o_array_mesh.custom_aabb = fixed_aabb
+
             return o_array_mesh
 
     return null
@@ -131,3 +174,7 @@ func _on_btn_primitive_item_selected(id):
 
 func _on_value_changed(value):
     self.need_update = true
+
+
+func _on_dlg_create_mesh_popup_hide():
+    self.o_base_node.get_node("ui").remove_child(self)

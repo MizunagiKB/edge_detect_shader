@@ -10,6 +10,7 @@ var prev_mesh: Mesh = null
 var curr_mesh: Mesh = null
 
 var color_value = Color.white
+var o_mesh = MeshInstance
 
 
 func reset():
@@ -34,16 +35,18 @@ func scale_dec():
 
 func attach_mesh(new_mesh: Mesh):
 
+    if new_mesh == null:
+        o_mesh.mesh = null
+        return
+
     var bbox = new_mesh.get_aabb()
 
     if new_mesh is ArrayMesh:
         if new_mesh.custom_aabb.has_no_area() != true:
             bbox = new_mesh.custom_aabb
-    
-    #  new_mesh.get_aabb()
 
-    self.translation = Vector3.ZERO - bbox.position
-    self.translation -= (bbox.size / 2)
+    o_mesh.translation = Vector3.ZERO - bbox.position
+    o_mesh.translation -= (bbox.size / 2)
 
     var l = bbox.size.length()
     var scale = 5
@@ -56,8 +59,7 @@ func attach_mesh(new_mesh: Mesh):
 
     self.base_scale = Vector3(scale, scale, scale)
     self.set_scale_value(1)
-    
-    self.mesh = new_mesh
+    o_mesh.mesh = new_mesh
 
 
 func set_color_value(new_color: Color):
@@ -81,6 +83,9 @@ func set_shader_depth():
 
 
 func _ready():
+
+    o_mesh = MeshInstance.new()
+    self.add_child(o_mesh)
 
     base_material = ShaderMaterial.new()
     base_material.shader = load("res://shader/visual_shader.tres")

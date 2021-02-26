@@ -7,7 +7,6 @@ func ext_name() -> String:
 
 func ext_init(o_node: Spatial) -> bool:
 
-    o_node.get_node("ui").add_child(self)
-    o_node.get_node("base_control/model_mesh").mesh = null
+    o_node.get_node("base_control/model_mesh").attach_mesh(null)
 
     return true

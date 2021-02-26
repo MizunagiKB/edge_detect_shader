@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, specular_disabled, shadows_disabled, ambient_light_disabled;
+render_mode unshaded, specular_disabled, shadows_disabled, ambient_light_disabled, cull_back;
 
 
 uniform float edge_range = 1.0;

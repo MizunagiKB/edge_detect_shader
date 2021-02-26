@@ -7,7 +7,7 @@ var o_extention_node = null
 
 
 func ext_name() -> String:
-    return "screen_sky"
+    return "[Sceen SkyShader]"
 
 
 func ext_init(o_node: Spatial) -> bool:

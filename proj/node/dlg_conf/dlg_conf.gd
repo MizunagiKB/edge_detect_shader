@@ -16,26 +16,46 @@ func _ready():
 #    pass
 
 func _on_dlg_conf_about_to_show():
-    $lbl_capture_image_dir/capture_image_dir.text = CONF.capture_image_dir
+
+    $lbl_mesh_dir/line_edit.text = CONF.mesh_dir
+    $lbl_capture_image_dir/line_edit.text = CONF.capture_image_dir
     $lbl_capture_scale/spin_capture_scale.value = CONF.capture_scale
+    $lbl_capture_screen_ratio/btn_capture_screen_ratio.selected = CONF.capture_screen_ratio
+
+
+func _on_btn_mesh_dir_pressed():
+
+    $dlg_choose_dir.current_dir = $lbl_mesh_dir/line_edit.text
+    $dlg_choose_dir.connect("confirmed", self, "_evt_mesh_dir_confirmed")
+    $dlg_choose_dir.popup_centered()
 
 
 func _on_btn_capture_image_dir_pressed():
 
-    $dlg_capture_image_dir.current_dir = $lbl_capture_image_dir/capture_image_dir.text
-    $dlg_capture_image_dir.popup_centered()
+    $dlg_choose_dir.current_dir = $lbl_capture_image_dir/line_edit.text
+    $dlg_choose_dir.connect("confirmed", self, "_on_dlg_choose_dir_confirmed")
+    $dlg_choose_dir.popup_centered()
 
 
-func _on_dlg_capture_image_dir_confirmed():
+func _evt_mesh_dir_confirmed():
+    $lbl_mesh_dir/line_edit.text = $dlg_choose_dir.current_dir
 
-    $lbl_capture_image_dir/capture_image_dir.text = $dlg_capture_image_dir.current_dir
+
+func _evt_capture_image_dir_confirmed():
+    $lbl_capture_image_dir/line_edit.text = $dlg_choose_dir.current_dir
 
 
 func _on_btn_ok_pressed():
 
-    CONF.capture_image_dir = $lbl_capture_image_dir/capture_image_dir.text
+    CONF.mesh_dir = $lbl_mesh_dir/line_edit.text
+    CONF.capture_image_dir = $lbl_capture_image_dir/line_edit.text
     CONF.capture_scale = $lbl_capture_scale/spin_capture_scale.value
+    CONF.capture_screen_ratio = $lbl_capture_screen_ratio/btn_capture_screen_ratio.selected
 
     self.hide()
+
+
+
+
 
 

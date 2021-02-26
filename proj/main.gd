@@ -1,25 +1,22 @@
 extends Spatial
 
 
-# https://3dwarehouse.sketchup.com/model/1bd2fba303e04ce1283ffcfc40c29975/Weapon-FN-P90
-# https://3dwarehouse.sketchup.com/model/ca46c75c-df9e-4542-9e23-ce348c5de05f/M14-EBR
-# https://3dwarehouse.sketchup.com/model/e815bffc1dee0414f4aa69a000077765/Milkor-MGL-140-rocket-launcher3D
-# https://3dwarehouse.sketchup.com/model/b3460dcd945cb4598cb138e49a70d8bc/G36
-
 const DEFAULT_PERSPECTIVE_FOV = 45
 const DEFAULT_CAM_DISTANCE = 10
 const DEFAULT_FRUSTUM_SIZE = 1
 const DEFAULT_EDGE_DEPTH = 25600
 const DEFAULT_EDGE_SIZE = 1
 
+enum MOUSEMODE {
+    MOUSE,
+    SCROLL    
+}
 var btn_l = false
 var btn_r = false
-var btn_c = false
-var pos = Vector2(0, 0)
-var rot_l = Vector2(0, 0)
-var rot_r = Vector2(0, 0)
-
-var ctl_focus = false
+var e_mouse_mode = MOUSEMODE.MOUSE
+var mouse_pos_save = Vector2.ZERO
+var mouse_btn_l = false
+var event_frame: Rect2 = Rect2(16, 16, 740 - 16, 544 - 16)
 
 var move_window = false
 var window_base_pos = Vector2(0, 0)
@@ -27,8 +24,6 @@ var rot_axis = Vector2(0, 0)
 
 var shader_edge = load("res://shader/edge.shader")
 var shader_depth = load("res://shader/depth.shader")
-
-var DIR_PATH = "res://model"
 
 
 # -------------------------------------------------------------- mesh:shader(s)
@@ -54,13 +49,16 @@ func _ready():
     $ui/panel/lbl_version.text = "Version " + ProjectSettings.get_setting("application/config/version")
 
     # Models
-    $ui/panel/tab_container/models.add_item($ui/dlg_mesh_blank.ext_name())
-    $ui/panel/tab_container/models.set_item_metadata(0, $ui/dlg_mesh_blank)
-    $ui/panel/tab_container/models.add_item($ui/dlg_create_mesh.ext_name())
-    $ui/panel/tab_container/models.set_item_metadata(1, $ui/dlg_create_mesh)
+    var o_instance = null
+
+    o_instance = load("res://node/dlg_mesh_blank/dlg_mesh_blank.tscn").instance()
+    $ui/panel/tab_container/models.add_item(o_instance.ext_name())
+    $ui/panel/tab_container/models.set_item_metadata(0, o_instance)
+    o_instance = load("res://node/dlg_mesh_create/dlg_mesh_create.tscn").instance()
+    $ui/panel/tab_container/models.add_item(o_instance.ext_name())
+    $ui/panel/tab_container/models.set_item_metadata(1, o_instance)
 
     #
-    var o_instance = null
     o_instance = load("res://node/screen_sky/dlg_screen_sky.tscn").instance()
     $ui/panel/tab_container/extentions.add_item(o_instance.ext_name())
     $ui/panel/tab_container/extentions.set_item_metadata(0, o_instance)
@@ -70,12 +68,13 @@ func _ready():
 
     var dir = Directory.new()
     
-    if dir.open(DIR_PATH) == OK:
+    if dir.open(CONF.mesh_dir) == OK:
         dir.list_dir_begin()
         var file_name = dir.get_next()
         while file_name != "":
             if dir.current_is_dir():
-                print("Found directory: " + file_name)
+                pass
+                # print("Found directory: " + file_name)
             else:
                 var b_ready = false
                 if file_name.ends_with(".mesh"):
@@ -90,46 +89,66 @@ func _ready():
                     
             file_name = dir.get_next()
     else:
-        print("An error occurred when trying to access the path.")
+        pass
+        # print("An error occurred when trying to access the path.")
 
 
-func _input(event):    
-
-    if ctl_focus == true:
-        return
+func _input(event):
 
     if event is InputEventKey:
-        if event.pressed == true:
-            if event.scancode == KEY_TAB:
+        if event.scancode == KEY_SPACE:
+            if event.pressed == true:
+                e_mouse_mode = MOUSEMODE.SCROLL
+            else:
+                e_mouse_mode = MOUSEMODE.MOUSE
+
+        if event.scancode == KEY_TAB:
+            if event.pressed == true:
                 ui_visible(not $ui/panel.visible)
 
 
-
+func _on_ui_gui_input(event):
 
     if event is InputEventMouseMotion:
-        if btn_c == true:
-            var vct_camera = ((event.position - pos) / 50)
-            $cam.h_offset = -vct_camera.x
-            $cam.v_offset = vct_camera.y
+        if self.event_frame.has_point(event.position) != true:
+            return
 
-        if btn_l == true:
-            var m = event.position - rot_l
-            var tf
+        if Input.is_mouse_button_pressed(BUTTON_LEFT) == true:
+            match self.e_mouse_mode:
+                MOUSEMODE.SCROLL:
+                    var vct = ((event.position - mouse_pos_save) / 50)
+                    $cam.h_offset -= vct.x
+                    $cam.v_offset += vct.y
+                    mouse_pos_save = event.position
+                MOUSEMODE.MOUSE:
+                    var vct = event.position - mouse_pos_save
+                    var tform
+                    tform = $base_control.transform.rotated(Vector3.UP, deg2rad(vct.x))
+                    $base_control.transform = tform
+                    tform = $base_control.transform.rotated(Vector3.RIGHT, deg2rad(vct.y))
+                    $base_control.transform = tform
+                    mouse_pos_save = event.position
 
-            tf = $base_control.transform.rotated(Vector3.UP, deg2rad(m.x))
-            $base_control.transform = tf
+        if Input.is_mouse_button_pressed(BUTTON_RIGHT) == true:
+            match self.e_mouse_mode:
+                MOUSEMODE.MOUSE:
+                    var vct = event.position - mouse_pos_save
+                    var tform
+                    tform = $base_control.transform.rotated(Vector3.FORWARD, deg2rad(vct.y))
+                    $base_control.transform = tform
+                    mouse_pos_save = event.position
 
-            tf = $base_control.transform.rotated(Vector3.RIGHT, deg2rad(m.y))
-            $base_control.transform = tf
-            
-            rot_l = event.position
+    if event is InputEventMouseButton:
+        if self.event_frame.has_point(event.position) != true:
+            return
 
-        if btn_r == true:
-            var m = event.position - rot_r
-            var tf = $base_control.transform.rotated(Vector3.FORWARD, deg2rad(m.y))
-            $base_control.transform = tf
-            
-            rot_r = event.position
+        match event.button_index:
+            BUTTON_WHEEL_UP:
+                self.model_mesh.scale_inc()
+            BUTTON_WHEEL_DOWN:
+                self.model_mesh.scale_dec()
+            _:
+                mouse_pos_save = event.position
 
     $ui/knob_D/spin_x.value = $base_control.rotation_degrees.x
     $ui/knob_D/spin_y.value = $base_control.rotation_degrees.y
@@ -137,9 +156,6 @@ func _input(event):
 
 
 func _process(delta):
-
-    $render_screen.material.set_shader_param("screen_w", OS.window_size.x)
-    $render_screen.material.set_shader_param("screen_h", OS.window_size.y)
 
     if move_window == true:
         OS.window_position = window_base_pos
@@ -201,7 +217,7 @@ func _on_models_item_selected(index):
     if active_win != null:
         active_win.ext_init(self)
     else:
-        var new_mesh: Mesh = ResourceLoader.load(DIR_PATH + "/" + $ui/panel/tab_container/models.get_item_text(index))
+        var new_mesh: Mesh = ResourceLoader.load(CONF.mesh_dir + "/" + $ui/panel/tab_container/models.get_item_text(index))
 
         if new_mesh != null:
             # ResourceSaver.save(DIR_PATH + "/" + $ui/panel/tab_container/models.get_item_text(index) + ".mesh", new_mesh)
@@ -231,27 +247,6 @@ func _on_btn_shader_item_selected(id):
         model_mesh.set_shader_depth()
         $render_screen.visible = true
         $render_screen.material.shader = shader_depth
-
-
-func _on_ui_gui_input(event):
-
-    if event is InputEventMouseButton:
-        if event.button_index == BUTTON_LEFT:
-            btn_l = event.pressed
-            rot_l = event.position
-        if event.button_index == BUTTON_MIDDLE:
-            btn_c = event.pressed
-            pos = event.position
-            
-        if event.button_index == BUTTON_RIGHT:
-            btn_r = event.pressed
-            rot_r = event.position
-            
-        if event.pressed == true:
-            if event.button_index == BUTTON_WHEEL_UP:
-                model_mesh.scale_inc()
-            if event.button_index == BUTTON_WHEEL_DOWN:
-                model_mesh.scale_dec()
 
 
 func _on_btn_transparent_toggled(button_pressed):
@@ -357,6 +352,10 @@ func _on_btn_capture_pressed():
 
     var save_viewport_size = get_viewport().size
     get_viewport().size = save_viewport_size * CONF.capture_scale
+
+    if CONF.capture_screen_ratio == 1:
+        $render_screen.material.set_shader_param("screen_w", OS.window_size.x * CONF.capture_scale)
+        $render_screen.material.set_shader_param("screen_h", OS.window_size.y * CONF.capture_scale)
     
     self.ui_visible(false)
     get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
@@ -389,11 +388,14 @@ func _on_btn_capture_pressed():
 
     self.ui_visible(true)
 
+    $render_screen.material.set_shader_param("screen_w", OS.window_size.x)
+    $render_screen.material.set_shader_param("screen_h", OS.window_size.y)
+    
     get_viewport().size = save_viewport_size
 
 
 func _on_btn_conf_pressed():
-    $dlg_conf.popup_centered()
+    $ui/dlg_conf.popup_centered()
 
 
 func _on_cam_distance_value_changed(value):

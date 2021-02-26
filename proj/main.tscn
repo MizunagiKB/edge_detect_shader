@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://shader/edge.shader" type="Shader" id=2]
 [ext_resource path="res://theme_gray.tres" type="Theme" id=3]
 [ext_resource path="res://font/Voltaire-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://node/model_mesh.tscn" type="PackedScene" id=5]
-[ext_resource path="res://node/dlg_mesh_create/dlg_mesh_create.tscn" type="PackedScene" id=6]
 [ext_resource path="res://node/dlg_conf/dlg_conf.tscn" type="PackedScene" id=7]
 [ext_resource path="res://node/dlg_mesh_blank/dlg_mesh_blank.tscn" type="PackedScene" id=8]
 
@@ -158,6 +157,8 @@ margin_left = 24.0
 margin_top = 144.0
 margin_right = 56.0
 margin_bottom = 176.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Cap"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -245,7 +246,11 @@ __meta__ = {
 [node name="models" type="ItemList" parent="ui/panel/tab_container"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 28.0
+margin_left = 1.0
+margin_top = 29.0
+margin_right = -1.0
+margin_bottom = -1.0
+focus_mode = 0
 allow_reselect = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -255,7 +260,10 @@ __meta__ = {
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 28.0
+margin_left = 1.0
+margin_top = 29.0
+margin_right = -1.0
+margin_bottom = -1.0
 allow_reselect = true
 
 [node name="btn_shader" type="OptionButton" parent="ui/panel"]
@@ -327,8 +335,9 @@ margin_top = 496.0
 margin_right = 208.0
 margin_bottom = 512.0
 focus_mode = 0
-min_value = 1.0
+min_value = 0.1
 max_value = 3.0
+step = 0.1
 value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -417,6 +426,8 @@ margin_left = 128.0
 margin_top = 368.0
 margin_right = 160.0
 margin_bottom = 400.0
+focus_mode = 0
+enabled_focus_mode = 0
 edit_alpha = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -443,16 +454,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="dlg_create_mesh" parent="ui" instance=ExtResource( 6 )]
-visible = false
-margin_left = 256.0
-margin_top = 128.0
-margin_right = 544.0
-margin_bottom = 416.0
-
 [node name="dlg_mesh_blank" parent="ui" instance=ExtResource( 8 )]
+margin_left = 128.0
+margin_top = 128.0
+margin_right = 256.0
+margin_bottom = 256.0
 
-[node name="dlg_conf" parent="." instance=ExtResource( 7 )]
+[node name="dlg_conf" parent="ui" instance=ExtResource( 7 )]
+visible = false
+margin_left = 128.0
+margin_top = 128.0
+margin_right = 640.0
+margin_bottom = 416.0
 
 [node name="cam" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
@@ -496,4 +509,3 @@ material = SubResource( 7 )
 [connection signal="value_changed" from="ui/panel/btn_cam/spin_fov" to="." method="_on_spin_fov_value_changed"]
 [connection signal="color_changed" from="ui/panel/btn_color_body" to="." method="_on_btn_color_body_color_changed"]
 [connection signal="color_changed" from="ui/panel/btn_color_edge" to="." method="_on_btn_color_edge_color_changed"]
-[connection signal="popup_hide" from="ui/dlg_create_mesh" to="." method="_on_dlg_create_mesh_popup_hide"]

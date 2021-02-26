@@ -20,7 +20,7 @@ focus_mode = 0
 enabled_focus_mode = 0
 text = "Cube"
 align = 1
-items = [ "Cube", null, false, 0, null, "Cylinder", null, false, 1, null, "Sphere", null, false, 2, null, "Cube(Lines)", null, false, 3, null, "Linework", null, false, 4, null ]
+items = [ "Cube", null, false, 0, null, "Cylinder", null, false, 1, null, "Sphere", null, false, 2, null, "Cube(Lines)", null, false, 3, null, "Line Effect Circle", null, false, 4, null, "Line Effect Speed", null, false, 5, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -116,6 +116,7 @@ margin_top = 208.0
 margin_right = 272.0
 margin_bottom = 224.0
 [connection signal="about_to_show" from="." to="." method="_on_dlg_create_mesh_about_to_show"]
+[connection signal="popup_hide" from="." to="." method="_on_dlg_create_mesh_popup_hide"]
 [connection signal="item_selected" from="btn_primitive" to="." method="_on_btn_primitive_item_selected"]
 [connection signal="pressed" from="btn_ok" to="." method="_on_btn_ok_pressed"]
 [connection signal="value_changed" from="lbl_inner/spin_min" to="." method="_on_value_changed"]
