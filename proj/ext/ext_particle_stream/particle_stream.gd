@@ -1,15 +1,38 @@
 extends Particles
 
 
-#var mat_particle: ParticlesMaterial = null
+var color_value = Color.white
 
 
-# Called when the node enters the scene tree for the first time.
-# func _ready():
-#    pass
+func set_color_value(new_color: Color):
+    self.color_value = new_color
+    self.material_override.set_shader_param("color", self.color_value)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func set_shader_off():
+    self.material_override.set_shader_param("color_mode", 0)
+
+
+func set_shader_edge():
+    self.material_override.set_shader_param("color_mode", 0)
+
+
+func set_shader_normal():
+    self.material_override.set_shader_param("color_mode", 1)
+
+
+func set_shader_depth():
+    self.material_override.set_shader_param("color_mode", 0)
+
+
+func _ready():
+
+    self.material_override = ShaderMaterial.new()
+    self.material_override.shader = load("res://shader/visual_shader.tres")
+    self.material_override.set_shader_param("color_mode", 0)
+    self.material_override.set_shader_param("color", self.color_value)
+
+
 func _process(delta):
 
     var rot = self.get_parent().rotation

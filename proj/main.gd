@@ -18,6 +18,7 @@ var mouse_pos_save = Vector2.ZERO
 var mouse_btn_l = false
 var event_frame: Rect2 = Rect2(16, 16, 740 - 16, 544 - 16)
 
+var ui_visible = true
 var move_window = false
 var window_base_pos = Vector2(0, 0)
 var rot_axis = Vector2(0, 0)
@@ -32,10 +33,50 @@ var active_win: WindowDialog = null
 
 # ------------------------------------------------------------------- method(s)
 func ui_visible(show: bool):
-    $ui/knob_U.visible = show
-    $ui/knob_D.visible = show
-    $ui/knob_L.visible = show
-    $ui/panel.visible = show
+    
+    var knob_L_pos = [Vector2(-16, -16), Vector2(-16 - 128, -16)]
+    var panel_pos = [Vector2(736, -16), Vector2(736 + 256, -16)]
+
+    var knob_U_pos = [Vector2( 16, -16), Vector2( 16, -16 - 128)]
+    var knob_D_pos = [Vector2( 16, 528), Vector2( 16, 528 + 128)]
+
+    var order = [0, 1]
+
+    if show == true:
+        order = [1, 0]
+
+    $ui/tween.interpolate_property(
+        $ui/panel,
+        "rect_position",
+        panel_pos[order[0]], panel_pos[order[1]], 0.3,
+        Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+
+    $ui/tween.interpolate_property(
+        $ui/knob_L,
+        "rect_position",
+        knob_L_pos[order[0]], knob_L_pos[order[1]], 0.3,
+        Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+
+    $ui/tween.interpolate_property(
+        $ui/knob_U,
+        "rect_position",
+        knob_U_pos[order[0]], knob_U_pos[order[1]], 0.3,
+        Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+
+    $ui/tween.interpolate_property(
+        $ui/knob_D,
+        "rect_position",
+        knob_D_pos[order[0]], knob_D_pos[order[1]], 0.3,
+        Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+
+
+    $ui/tween.start()
+
+    self.ui_visible = show
+    #$ui/knob_U.visible = show
+    #$ui/knob_D.visible = show
+    # $ui/knob_L.visible = show
+    # $ui/panel.visible = show
 
 
 func load_extension(base_dir: String, o_itemlist: ItemList):
@@ -127,7 +168,7 @@ func _input(event):
 
         if event.scancode == KEY_TAB:
             if event.pressed == true:
-                ui_visible(not $ui/panel.visible)
+                ui_visible(not self.ui_visible)
 
 
 func _on_ui_gui_input(event):
@@ -179,9 +220,9 @@ func _on_ui_gui_input(event):
             _:
                 mouse_pos_save = event.position
 
-    $ui/knob_D/spin_x.value = $base_ctl.rotation_degrees.x
-    $ui/knob_D/spin_y.value = $base_ctl.rotation_degrees.y
-    $ui/knob_D/spin_z.value = $base_ctl.rotation_degrees.z
+    $ui/knob_U/spin_x.value = $base_ctl.rotation_degrees.x
+    $ui/knob_U/spin_y.value = $base_ctl.rotation_degrees.y
+    $ui/knob_U/spin_z.value = $base_ctl.rotation_degrees.z
 
 
 func _process(delta):
@@ -292,11 +333,10 @@ func evt_extenttions_popup_hide():
 func _on_btn_shader_item_selected(id):
 
     for o in $base_ctl.get_children():
-        if o is MeshInstance:
-            if id == 2:
-                o.set_shader_normal()
-            else:
-                o.set_shader_edge()
+        if id == 2:
+            o.set_shader_normal()
+        else:
+            o.set_shader_edge()
 
     if id == 0:
         $render_screen.visible = false
@@ -400,10 +440,9 @@ func _on_btn_color_edge_color_changed(color):
 
 
 func _on_btn_color_body_color_changed(color):
-    """
-    self.eds_mesh_instance.set_color_value(color)
-    """
-    assert(false)
+
+    for o in $base_ctl.get_children():
+        o.set_color_value(color)
 
 
 func _on_btn_capture_pressed():
@@ -415,7 +454,7 @@ func _on_btn_capture_pressed():
         $render_screen.material.set_shader_param("screen_w", OS.window_size.x * CONF.capture_scale)
         $render_screen.material.set_shader_param("screen_h", OS.window_size.y * CONF.capture_scale)
     
-    self.ui_visible(false)
+    $ui.visible = false
     get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
 
     yield(VisualServer, "frame_post_draw")
@@ -444,7 +483,7 @@ func _on_btn_capture_pressed():
         
         img.save_png(pathname)
 
-    self.ui_visible(true)
+    $ui.visible = true
 
     $render_screen.material.set_shader_param("screen_w", OS.window_size.x)
     $render_screen.material.set_shader_param("screen_h", OS.window_size.y)

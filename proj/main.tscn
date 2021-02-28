@@ -68,6 +68,45 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="spin_x" type="SpinBox" parent="ui/knob_U"]
+margin_left = 480.0
+margin_top = 48.0
+margin_right = 544.0
+margin_bottom = 80.0
+min_value = -1000.0
+max_value = 1000.0
+align = 1
+prefix = "X:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spin_y" type="SpinBox" parent="ui/knob_U"]
+margin_left = 560.0
+margin_top = 48.0
+margin_right = 624.0
+margin_bottom = 80.0
+min_value = -1000.0
+max_value = 1000.0
+align = 1
+prefix = "Y:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spin_z" type="SpinBox" parent="ui/knob_U"]
+margin_left = 640.0
+margin_top = 48.0
+margin_right = 704.0
+margin_bottom = 80.0
+min_value = -1000.0
+max_value = 1000.0
+align = 1
+prefix = "Z:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="knob_D" type="Panel" parent="ui"]
 margin_left = 16.0
 margin_top = 528.0
@@ -77,41 +116,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="spin_x" type="SpinBox" parent="ui/knob_D"]
-margin_left = 480.0
-margin_top = -496.0
-margin_right = 544.0
-margin_bottom = -464.0
-min_value = -1000.0
-max_value = 1000.0
-align = 1
-prefix = "X:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="spin_y" type="SpinBox" parent="ui/knob_D"]
-margin_left = 560.0
-margin_top = -496.0
-margin_right = 624.0
-margin_bottom = -464.0
-min_value = -1000.0
-max_value = 1000.0
-align = 1
-prefix = "Y:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="spin_z" type="SpinBox" parent="ui/knob_D"]
-margin_left = 640.0
-margin_top = -496.0
+[node name="btn_camera" type="Button" parent="ui/knob_D"]
+margin_left = 672.0
+margin_top = -48.0
 margin_right = 704.0
-margin_bottom = -464.0
-min_value = -1000.0
-max_value = 1000.0
-align = 1
-prefix = "Z:"
+margin_bottom = -16.0
+hint_tooltip = "Camera rotation"
+focus_mode = 0
+enabled_focus_mode = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -369,6 +381,7 @@ __meta__ = {
 }
 
 [node name="lbl_desc" type="Label" parent="ui/panel"]
+visible = false
 margin_left = -704.0
 margin_top = 464.0
 margin_right = -640.0
@@ -422,18 +435,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_color_body" type="ColorPickerButton" parent="ui/panel"]
-margin_left = 176.0
+[node name="lbl_color_edge" type="Label" parent="ui/panel"]
+margin_left = 112.0
 margin_top = 368.0
-margin_right = 208.0
+margin_right = 128.0
 margin_bottom = 400.0
-focus_mode = 0
-enabled_focus_mode = 0
-color = Color( 1, 1, 1, 1 )
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "E"
+align = 1
+valign = 1
 
 [node name="btn_color_edge" type="ColorPickerButton" parent="ui/panel"]
 margin_left = 128.0
@@ -447,16 +456,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_color_edge" type="Label" parent="ui/panel"]
-margin_left = 112.0
-margin_top = 368.0
-margin_right = 128.0
-margin_bottom = 400.0
-text = "E"
-align = 1
-valign = 1
-
-[node name="Label" type="Label" parent="ui/panel"]
+[node name="lbl_color_body" type="Label" parent="ui/panel"]
 margin_left = 160.0
 margin_top = 368.0
 margin_right = 176.0
@@ -468,14 +468,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_camera" type="Button" parent="ui/panel"]
-margin_left = -48.0
-margin_top = 496.0
-margin_right = -16.0
-margin_bottom = 528.0
-hint_tooltip = "Camera rotation"
+[node name="btn_color_body" type="ColorPickerButton" parent="ui/panel"]
+margin_left = 176.0
+margin_top = 368.0
+margin_right = 208.0
+margin_bottom = 400.0
 focus_mode = 0
 enabled_focus_mode = 0
+color = Color( 1, 1, 1, 1 )
+edit_alpha = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -511,10 +512,11 @@ material = SubResource( 7 )
 [node name="base_ext" type="Spatial" parent="."]
 [connection signal="gui_input" from="ui" to="." method="_on_ui_gui_input"]
 [connection signal="gui_input" from="ui/knob_U" to="." method="_on_knob_U_gui_input"]
+[connection signal="value_changed" from="ui/knob_U/spin_x" to="." method="_on_spin_x_value_changed"]
+[connection signal="value_changed" from="ui/knob_U/spin_y" to="." method="_on_spin_y_value_changed"]
+[connection signal="value_changed" from="ui/knob_U/spin_z" to="." method="_on_spin_z_value_changed"]
 [connection signal="gui_input" from="ui/knob_D" to="." method="_on_knob_D_gui_input"]
-[connection signal="value_changed" from="ui/knob_D/spin_x" to="." method="_on_spin_x_value_changed"]
-[connection signal="value_changed" from="ui/knob_D/spin_y" to="." method="_on_spin_y_value_changed"]
-[connection signal="value_changed" from="ui/knob_D/spin_z" to="." method="_on_spin_z_value_changed"]
+[connection signal="gui_input" from="ui/knob_D/btn_camera" to="." method="_on_btn_camera_gui_input"]
 [connection signal="gui_input" from="ui/knob_L" to="." method="_on_knob_L_gui_input"]
 [connection signal="toggled" from="ui/knob_L/btn_fullscreen" to="." method="_on_btn_fullscreen_toggled"]
 [connection signal="toggled" from="ui/knob_L/btn_transparent" to="." method="_on_btn_transparent_toggled"]
@@ -531,6 +533,5 @@ material = SubResource( 7 )
 [connection signal="value_changed" from="ui/panel/edge_size" to="." method="_on_edge_size_value_changed"]
 [connection signal="item_selected" from="ui/panel/btn_cam" to="." method="_on_btn_cam_item_selected"]
 [connection signal="value_changed" from="ui/panel/btn_cam/spin_fov" to="." method="_on_spin_fov_value_changed"]
-[connection signal="color_changed" from="ui/panel/btn_color_body" to="." method="_on_btn_color_body_color_changed"]
 [connection signal="color_changed" from="ui/panel/btn_color_edge" to="." method="_on_btn_color_edge_color_changed"]
-[connection signal="gui_input" from="ui/panel/btn_camera" to="." method="_on_btn_camera_gui_input"]
+[connection signal="color_changed" from="ui/panel/btn_color_body" to="." method="_on_btn_color_body_color_changed"]
