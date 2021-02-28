@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ext/ext_particle_stream/particle_stream.gd" type="Script" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+flags_disable_ambient_light = true
+vertex_color_use_as_albedo = true
+params_cull_mode = 2
+
+[sub_resource type="ParticlesMaterial" id=2]
+lifetime_randomness = 1.0
+emission_shape = 2
+emission_box_extents = Vector3( 20, 0, 20 )
+direction = Vector3( 0, -1, 0 )
+spread = 0.0
+initial_velocity = 100.0
+
+[sub_resource type="QuadMesh" id=3]
+size = Vector2( 0.02, 8 )
+
+[node name="particle_lain" type="Particles"]
+material_override = SubResource( 1 )
+cast_shadow = 0
+amount = 4096
+lifetime = 8.0
+process_material = SubResource( 2 )
+draw_pass_1 = SubResource( 3 )
+script = ExtResource( 1 )

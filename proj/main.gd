@@ -27,18 +27,18 @@ var shader_edge = load("res://shader/edge.shader")
 var shader_depth = load("res://shader/depth.shader")
 
 
+onready var knob_L_pos = [$ui/knob_L.rect_position, $ui/knob_L.rect_position + Vector2(-128, 0)]
+onready var panel_pos = [$ui/panel.rect_position, $ui/panel.rect_position + Vector2(256, 0)]
+
+onready var knob_U_pos = [$ui/knob_U.rect_position, $ui/knob_U.rect_position + Vector2(0, -128)]
+onready var knob_D_pos = [$ui/knob_D.rect_position, $ui/knob_D.rect_position + Vector2(0, 128)]
+
 # -------------------------------------------------------------- mesh:shader(s)
 var active_win: WindowDialog = null
 
 
 # ------------------------------------------------------------------- method(s)
 func ui_visible(show: bool):
-    
-    var knob_L_pos = [Vector2(-16, -16), Vector2(-16 - 128, -16)]
-    var panel_pos = [Vector2(736, -16), Vector2(736 + 256, -16)]
-
-    var knob_U_pos = [Vector2( 16, -16), Vector2( 16, -16 - 128)]
-    var knob_D_pos = [Vector2( 16, 528), Vector2( 16, 528 + 128)]
 
     var order = [0, 1]
 

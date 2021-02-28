@@ -14,7 +14,7 @@ uniform_name = "color"
 
 [resource]
 code = "shader_type spatial;
-render_mode specular_disabled, unshaded, shadows_disabled, ambient_light_disabled;
+render_mode cull_disabled, specular_disabled, unshaded, shadows_disabled, ambient_light_disabled;
 
 uniform float color_mode;
 uniform vec4 color : hint_color;
@@ -65,6 +65,8 @@ void light() {
 
 }
 "
+graph_offset = Vector2( 0, -73.707 )
+modes/cull = 2
 modes/specular = 4
 flags/ambient_light_disabled = true
 flags/shadows_disabled = true

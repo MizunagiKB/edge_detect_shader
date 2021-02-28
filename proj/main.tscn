@@ -60,18 +60,18 @@ __meta__ = {
 [node name="tween" type="Tween" parent="ui"]
 
 [node name="knob_U" type="Panel" parent="ui"]
-margin_left = 16.0
+margin_left = -16.0
 margin_top = -16.0
-margin_right = 736.0
+margin_right = 976.0
 margin_bottom = 16.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="spin_x" type="SpinBox" parent="ui/knob_U"]
-margin_left = 480.0
+margin_left = 512.0
 margin_top = 48.0
-margin_right = 544.0
+margin_right = 576.0
 margin_bottom = 80.0
 min_value = -1000.0
 max_value = 1000.0
@@ -82,9 +82,9 @@ __meta__ = {
 }
 
 [node name="spin_y" type="SpinBox" parent="ui/knob_U"]
-margin_left = 560.0
+margin_left = 592.0
 margin_top = 48.0
-margin_right = 624.0
+margin_right = 656.0
 margin_bottom = 80.0
 min_value = -1000.0
 max_value = 1000.0
@@ -95,9 +95,9 @@ __meta__ = {
 }
 
 [node name="spin_z" type="SpinBox" parent="ui/knob_U"]
-margin_left = 640.0
+margin_left = 672.0
 margin_top = 48.0
-margin_right = 704.0
+margin_right = 736.0
 margin_bottom = 80.0
 min_value = -1000.0
 max_value = 1000.0
@@ -108,18 +108,18 @@ __meta__ = {
 }
 
 [node name="knob_D" type="Panel" parent="ui"]
-margin_left = 16.0
+margin_left = -16.0
 margin_top = 528.0
-margin_right = 736.0
+margin_right = 976.0
 margin_bottom = 560.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="btn_camera" type="Button" parent="ui/knob_D"]
-margin_left = 672.0
+margin_left = 704.0
 margin_top = -48.0
-margin_right = 704.0
+margin_right = 736.0
 margin_bottom = -16.0
 hint_tooltip = "Camera rotation"
 focus_mode = 0
@@ -130,18 +130,18 @@ __meta__ = {
 
 [node name="knob_L" type="Panel" parent="ui"]
 margin_left = -16.0
-margin_top = -16.0
+margin_top = 16.0
 margin_right = 16.0
-margin_bottom = 560.0
+margin_bottom = 528.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="btn_fullscreen" type="Button" parent="ui/knob_L"]
 margin_left = 24.0
-margin_top = 48.0
+margin_top = 16.0
 margin_right = 56.0
-margin_bottom = 80.0
+margin_bottom = 48.0
 hint_tooltip = "Window Maximize"
 focus_mode = 0
 toggle_mode = true
@@ -153,9 +153,9 @@ __meta__ = {
 
 [node name="btn_transparent" type="Button" parent="ui/knob_L"]
 margin_left = 24.0
-margin_top = 96.0
+margin_top = 64.0
 margin_right = 56.0
-margin_bottom = 128.0
+margin_bottom = 96.0
 hint_tooltip = "Window Transparent"
 focus_mode = 0
 toggle_mode = true
@@ -167,9 +167,9 @@ __meta__ = {
 
 [node name="btn_capture" type="Button" parent="ui/knob_L"]
 margin_left = 24.0
-margin_top = 144.0
+margin_top = 112.0
 margin_right = 56.0
-margin_bottom = 176.0
+margin_bottom = 144.0
 hint_tooltip = "Capture
 (Export to PNG File)"
 focus_mode = 0
@@ -181,9 +181,9 @@ __meta__ = {
 
 [node name="btn_conf" type="Button" parent="ui/knob_L"]
 margin_left = 24.0
-margin_top = 448.0
+margin_top = 416.0
 margin_right = 56.0
-margin_bottom = 480.0
+margin_bottom = 448.0
 hint_tooltip = "Open Configuration Dialog"
 focus_mode = 0
 enabled_focus_mode = 0
@@ -194,9 +194,9 @@ __meta__ = {
 
 [node name="btn_exit" type="Button" parent="ui/knob_L"]
 margin_left = 24.0
-margin_top = 496.0
+margin_top = 464.0
 margin_right = 56.0
-margin_bottom = 528.0
+margin_bottom = 496.0
 hint_tooltip = "Quit Application"
 focus_mode = 0
 enabled_focus_mode = 0
@@ -207,9 +207,10 @@ __meta__ = {
 
 [node name="cam_distance" type="VSlider" parent="ui/knob_L"]
 margin_left = 32.0
-margin_top = 208.0
+margin_top = 176.0
 margin_right = 64.0
-margin_bottom = 416.0
+margin_bottom = 384.0
+hint_tooltip = "Camera distance"
 focus_mode = 0
 min_value = 1.0
 max_value = 10.0
@@ -220,18 +221,18 @@ __meta__ = {
 
 [node name="panel" type="Panel" parent="ui"]
 margin_left = 736.0
-margin_top = -16.0
+margin_top = 16.0
 margin_right = 976.0
-margin_bottom = 560.0
+margin_bottom = 528.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="lbl_version" type="Label" parent="ui/panel"]
 margin_left = 64.0
-margin_top = 528.0
+margin_top = 496.0
 margin_right = 208.0
-margin_bottom = 544.0
+margin_bottom = 512.0
 custom_fonts/font = SubResource( 1 )
 align = 2
 valign = 1
@@ -241,9 +242,8 @@ __meta__ = {
 
 [node name="btn_reset" type="Button" parent="ui/panel"]
 margin_left = 16.0
-margin_top = 32.0
 margin_right = 208.0
-margin_bottom = 64.0
+margin_bottom = 32.0
 focus_mode = 0
 theme = ExtResource( 3 )
 text = "Reset"
@@ -253,9 +253,9 @@ __meta__ = {
 
 [node name="tab_container" type="TabContainer" parent="ui/panel"]
 margin_left = 16.0
-margin_top = 80.0
+margin_top = 48.0
 margin_right = 208.0
-margin_bottom = 352.0
+margin_bottom = 320.0
 tab_align = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -286,9 +286,9 @@ allow_reselect = true
 
 [node name="btn_shader" type="OptionButton" parent="ui/panel"]
 margin_left = 16.0
-margin_top = 368.0
+margin_top = 336.0
 margin_right = 96.0
-margin_bottom = 400.0
+margin_bottom = 368.0
 hint_tooltip = "Render mode
 
 - None
@@ -308,9 +308,9 @@ __meta__ = {
 
 [node name="lbl_edge_depth" type="Label" parent="ui/panel"]
 margin_left = 16.0
-margin_top = 448.0
+margin_top = 416.0
 margin_right = 64.0
-margin_bottom = 496.0
+margin_bottom = 464.0
 text = "Depth"
 valign = 1
 __meta__ = {
@@ -319,9 +319,9 @@ __meta__ = {
 
 [node name="edge_depth" type="HScrollBar" parent="ui/panel"]
 margin_left = 64.0
-margin_top = 464.0
+margin_top = 432.0
 margin_right = 208.0
-margin_bottom = 480.0
+margin_bottom = 448.0
 min_value = 1024.0
 max_value = 66560.0
 step = 1024.0
@@ -345,9 +345,9 @@ __meta__ = {
 
 [node name="lbl_edge_size" type="Label" parent="ui/panel"]
 margin_left = 16.0
-margin_top = 480.0
+margin_top = 448.0
 margin_right = 64.0
-margin_bottom = 528.0
+margin_bottom = 496.0
 text = "Size"
 valign = 1
 __meta__ = {
@@ -356,9 +356,9 @@ __meta__ = {
 
 [node name="edge_size" type="HSlider" parent="ui/panel"]
 margin_left = 64.0
-margin_top = 496.0
+margin_top = 464.0
 margin_right = 208.0
-margin_bottom = 512.0
+margin_bottom = 480.0
 focus_mode = 0
 min_value = 0.1
 max_value = 3.0
@@ -408,9 +408,9 @@ Hide/Show UI"
 
 [node name="btn_cam" type="OptionButton" parent="ui/panel"]
 margin_left = 16.0
-margin_top = 416.0
+margin_top = 384.0
 margin_right = 128.0
-margin_bottom = 448.0
+margin_bottom = 416.0
 hint_tooltip = "Projection"
 focus_mode = 0
 enabled_focus_mode = 0
@@ -437,18 +437,18 @@ __meta__ = {
 
 [node name="lbl_color_edge" type="Label" parent="ui/panel"]
 margin_left = 112.0
-margin_top = 368.0
+margin_top = 336.0
 margin_right = 128.0
-margin_bottom = 400.0
+margin_bottom = 368.0
 text = "E"
 align = 1
 valign = 1
 
 [node name="btn_color_edge" type="ColorPickerButton" parent="ui/panel"]
 margin_left = 128.0
-margin_top = 368.0
+margin_top = 336.0
 margin_right = 160.0
-margin_bottom = 400.0
+margin_bottom = 368.0
 focus_mode = 0
 enabled_focus_mode = 0
 edit_alpha = false
@@ -458,9 +458,9 @@ __meta__ = {
 
 [node name="lbl_color_body" type="Label" parent="ui/panel"]
 margin_left = 160.0
-margin_top = 368.0
+margin_top = 336.0
 margin_right = 176.0
-margin_bottom = 400.0
+margin_bottom = 368.0
 text = "B"
 align = 1
 valign = 1
@@ -470,9 +470,9 @@ __meta__ = {
 
 [node name="btn_color_body" type="ColorPickerButton" parent="ui/panel"]
 margin_left = 176.0
-margin_top = 368.0
+margin_top = 336.0
 margin_right = 208.0
-margin_bottom = 400.0
+margin_bottom = 368.0
 focus_mode = 0
 enabled_focus_mode = 0
 color = Color( 1, 1, 1, 1 )
@@ -504,6 +504,7 @@ far = 1024.0
 
 [node name="render_screen" type="CSGMesh" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7912, 0 )
+cast_shadow = 0
 mesh = SubResource( 6 )
 material = SubResource( 7 )
 

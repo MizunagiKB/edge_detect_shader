@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://ext/ext_particle_stream/ext_main.gd" type="Script" id=1]
+[ext_resource path="res://ext/ext_lain/ext_main.gd" type="Script" id=1]
 
 [node name="ext_main" type="WindowDialog"]
 anchor_right = 1.0
@@ -8,12 +8,32 @@ anchor_bottom = 1.0
 margin_left = 128.0
 margin_top = 128.0
 margin_right = -576.0
-margin_bottom = -188.0
-window_title = "Particle Stream"
+margin_bottom = -220.0
+window_title = "Lain"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="lbl_size" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 80.0
+margin_bottom = 48.0
+text = "Size"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size" type="HSlider" parent="lbl_size"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 32.0
+focus_mode = 0
+min_value = 1.0
+max_value = 100.0
+value = 8.0
 
 [node name="lbl_amount" type="Label" parent="."]
 margin_left = 16.0
@@ -32,27 +52,11 @@ margin_right = 224.0
 margin_bottom = 32.0
 focus_mode = 0
 min_value = 8.0
-max_value = 4096.0
+max_value = 32768.0
 value = 2048.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="lbl_spread" type="Label" parent="."]
-margin_left = 16.0
-margin_top = 16.0
-margin_right = 80.0
-margin_bottom = 48.0
-text = "Spread"
-valign = 1
-
-[node name="spread" type="HSlider" parent="lbl_spread"]
-margin_left = 64.0
-margin_right = 224.0
-margin_bottom = 32.0
-focus_mode = 0
-max_value = 180.0
-value = 1.0
 
 [node name="lbl_initial_velocity" type="Label" parent="."]
 margin_left = 16.0
@@ -70,34 +74,22 @@ margin_left = 64.0
 margin_right = 224.0
 margin_bottom = 32.0
 focus_mode = 0
-max_value = 10.0
-value = 5.0
-
-[node name="recalc_gravity" type="CheckBox" parent="."]
-margin_left = 80.0
-margin_top = 112.0
-margin_right = 240.0
-margin_bottom = 144.0
-focus_mode = 0
-enabled_focus_mode = 0
-text = "Recalc Gravity"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+max_value = 200.0
+value = 100.0
 
 [node name="HSeparator" type="HSeparator" parent="."]
 margin_left = 16.0
-margin_top = 144.0
+margin_top = 112.0
 margin_right = 240.0
-margin_bottom = 160.0
+margin_bottom = 128.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="btn_ok" type="Button" parent="."]
 margin_left = 176.0
-margin_top = 176.0
+margin_top = 144.0
 margin_right = 240.0
-margin_bottom = 208.0
+margin_bottom = 176.0
 text = "OK"
 [connection signal="pressed" from="btn_ok" to="." method="_on_btn_ok_pressed"]

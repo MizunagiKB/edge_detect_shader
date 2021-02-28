@@ -10,15 +10,14 @@ var list_node = []
 
 var need_update = false
 onready var list_update_event = [
+    {"control": $lbl_size/size, "signal_name": "value_changed"},
     {"control": $lbl_amount/amount, "signal_name": "value_changed"},
-    {"control": $lbl_spread/spread, "signal_name": "value_changed"},
-    {"control": $lbl_initial_velocity/initial_velocity, "signal_name": "value_changed"},
-    {"control": $recalc_gravity, "signal_name": "toggled"}
+    {"control": $lbl_initial_velocity/initial_velocity, "signal_name": "value_changed"}
 ]
 
 
 func ext_name() -> String:
-    return "[Particle Stream]"
+    return "[Particle Lain]"
 
 
 func ext_init(ext_dir: String) -> bool:
@@ -37,7 +36,7 @@ func ext_show(o_cam: Camera, o_control: Spatial, o_ext: Spatial) -> bool:
         self.list_node.append(o)
 
     assert(self.node_instance == null)
-    self.node_instance = load(self.extention_dir + "/particle_stream.tscn").instance()
+    self.node_instance = load(self.extention_dir + "/particle_lain.tscn").instance()
     self.o_base_ctl.add_child(self.node_instance)
 
     for o_ui in list_update_event:
@@ -68,12 +67,13 @@ func _ready():
 
 
 func _process(delta):
+
     if self.need_update == true:
-        self.node_instance.recalc_gravity = $recalc_gravity.pressed
+        self.node_instance.draw_pass_1.size.y = $lbl_size/size.value
         self.node_instance.amount = $lbl_amount/amount.value
-        self.node_instance.process_material.spread = $lbl_spread/spread.value
         self.node_instance.process_material.initial_velocity = float($lbl_initial_velocity/initial_velocity.value)
         self.need_update = false
+
 
 
 func evt_value_changed(value):
