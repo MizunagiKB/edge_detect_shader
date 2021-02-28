@@ -468,6 +468,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="btn_camera" type="Button" parent="ui/panel"]
+margin_left = -48.0
+margin_top = 496.0
+margin_right = -16.0
+margin_bottom = 528.0
+hint_tooltip = "Camera rotation"
+focus_mode = 0
+enabled_focus_mode = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="dlg_mesh_blank" parent="ui" instance=ExtResource( 8 )]
 margin_left = 128.0
 margin_top = 128.0
@@ -480,18 +492,6 @@ margin_left = 128.0
 margin_top = 128.0
 margin_right = 640.0
 margin_bottom = 416.0
-
-[node name="btn_camera" type="Button" parent="ui"]
-margin_left = 688.0
-margin_top = 480.0
-margin_right = 720.0
-margin_bottom = 512.0
-hint_tooltip = "Camera rotation"
-focus_mode = 0
-enabled_focus_mode = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="cam" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
@@ -533,4 +533,4 @@ material = SubResource( 7 )
 [connection signal="value_changed" from="ui/panel/btn_cam/spin_fov" to="." method="_on_spin_fov_value_changed"]
 [connection signal="color_changed" from="ui/panel/btn_color_body" to="." method="_on_btn_color_body_color_changed"]
 [connection signal="color_changed" from="ui/panel/btn_color_edge" to="." method="_on_btn_color_edge_color_changed"]
-[connection signal="gui_input" from="ui/btn_camera" to="." method="_on_btn_camera_gui_input"]
+[connection signal="gui_input" from="ui/panel/btn_camera" to="." method="_on_btn_camera_gui_input"]
