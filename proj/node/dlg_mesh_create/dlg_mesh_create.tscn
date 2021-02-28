@@ -26,18 +26,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_ok" type="Button" parent="."]
-margin_left = 208.0
-margin_top = 240.0
-margin_right = 272.0
-margin_bottom = 272.0
-focus_mode = 0
-enabled_focus_mode = 0
-text = "OK"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="lbl_inner" type="Label" parent="."]
 margin_left = 16.0
 margin_top = 64.0
@@ -115,11 +103,16 @@ margin_left = 16.0
 margin_top = 208.0
 margin_right = 272.0
 margin_bottom = 224.0
-[connection signal="about_to_show" from="." to="." method="_on_dlg_create_mesh_about_to_show"]
-[connection signal="popup_hide" from="." to="." method="_on_dlg_create_mesh_popup_hide"]
-[connection signal="item_selected" from="btn_primitive" to="." method="_on_btn_primitive_item_selected"]
+
+[node name="btn_ok" type="Button" parent="."]
+margin_left = 208.0
+margin_top = 240.0
+margin_right = 272.0
+margin_bottom = 272.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="btn_ok" to="." method="_on_btn_ok_pressed"]
-[connection signal="value_changed" from="lbl_inner/spin_min" to="." method="_on_value_changed"]
-[connection signal="value_changed" from="lbl_inner/spin_max" to="." method="_on_value_changed"]
-[connection signal="value_changed" from="lbl_width/spin_width" to="." method="_on_value_changed"]
-[connection signal="value_changed" from="lbl_space/spin_space" to="." method="_on_value_changed"]

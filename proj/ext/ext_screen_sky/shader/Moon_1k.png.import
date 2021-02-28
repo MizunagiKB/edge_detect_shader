@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Moon_1k.png-e9796b0cf44b1ed91a5f743dd729f905.stex"
+path="res://.import/Moon_1k.png-9daf275547e7ad6ed2d6e9301de79e97.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://node/screen_sky/shader/Moon_1k.png"
-dest_files=[ "res://.import/Moon_1k.png-e9796b0cf44b1ed91a5f743dd729f905.stex" ]
+source_file="res://ext/ext_screen_sky/shader/Moon_1k.png"
+dest_files=[ "res://.import/Moon_1k.png-9daf275547e7ad6ed2d6e9301de79e97.stex" ]
 
 [params]
 

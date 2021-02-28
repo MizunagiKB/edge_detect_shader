@@ -1,10 +1,7 @@
 extends WindowDialog
 
-var o_base_node = null
-var need_update = false
-var exit = false
 
-var list_cube_vtx = [
+const list_cube_vtx = [
     Vector3( 1.0, -1.0, -1.0),
     Vector3( 1.0, -1.0,  1.0),
     Vector3(-1.0, -1.0,  1.0),
@@ -15,29 +12,76 @@ var list_cube_vtx = [
     Vector3(-1.0,  1.0, -1.0)
 ]
 
-var list_cube_idx = [
+const list_cube_idx = [
     0, 1, 1, 2, 2, 3, 3, 0,
     4, 5, 5, 6, 6, 7, 7, 4,
     0, 4, 1, 5, 2, 6, 3, 7
 ]
 
-var fixed_aabb = AABB(
-    Vector3(-25, -25, -1),
-    Vector3(50, 50, 2)
+const fixed_aabb = AABB(
+    Vector3(-100, -100, -1),
+    Vector3(200, 200, 2)
 )
+
+
+var result = false
+var o_base_ctl = null
+var eds_mesh_instance: EDSMeshInstance = null
+var list_node = []
+
+var need_update = false
+onready var list_update_event = [
+    {"control": $btn_primitive, "signal_name": "item_selected"},
+    {"control": $lbl_inner/spin_min, "signal_name": "value_changed"},
+    {"control": $lbl_inner/spin_max, "signal_name": "value_changed"},
+    {"control": $lbl_width/spin_width, "signal_name": "value_changed"},
+    {"control": $lbl_space/spin_space, "signal_name": "value_changed"}
+]
 
 
 func ext_name() -> String:
     return "[Mesh Create]"
 
 
-func ext_init(o_node: Spatial) -> bool:
+func ext_init(ext_dir: String) -> bool:
+    return true
 
-    self.o_base_node = o_node
-    self.o_base_node.get_node("ui").add_child(self)
-    self.popup_centered()
+
+func ext_show(o_cam: Camera, o_control: Spatial, o_ext: Spatial) -> bool:
+
+    self.result = false
+    self.o_base_ctl = o_control
+    self.list_node = []
+
+    for o in self.o_base_ctl.get_children():
+        self.o_base_ctl.remove_child(o)
+        self.list_node.append(o)
+
+    assert(self.eds_mesh_instance == null)
+    self.eds_mesh_instance = EDSMeshInstance.new()
+    self.o_base_ctl.add_child(self.eds_mesh_instance)
+    
+    for o_ui in list_update_event:
+        if o_ui.control.is_connected(o_ui.signal_name, self, "evt_value_changed") != true:
+            o_ui.control.connect(o_ui.signal_name, self, "evt_value_changed")
+
+    self.need_update = true
 
     return true
+
+
+func ext_hide():
+
+    if self.result == true:
+        for o in self.list_node:
+            o.queue_free()
+    else:
+        self.eds_mesh_instance.queue_free()
+    
+        for o in self.list_node:
+            self.o_base_ctl.add_child(o)
+
+    self.eds_mesh_instance = null
 
 
 func get_mesh() -> Mesh:
@@ -81,7 +125,7 @@ func get_mesh() -> Mesh:
                     $lbl_inner/spin_max.value
                 )
 
-                var calc_r = (randf() * $lbl_width/spin_width.value) / 2
+                var calc_r = max((randf() * $lbl_width/spin_width.value) / 2, 0.1)
 
                 var cv1 = v.rotated(Vector3.FORWARD, deg2rad(r - calc_r)) * 100
                 var cv2 = v.rotated(Vector3.FORWARD, deg2rad(r + calc_r)) * 100
@@ -114,24 +158,26 @@ func get_mesh() -> Mesh:
 
             seed(0)
 
-            while r < 100:
-                var cv0 = Vector3.LEFT * rand_range(
+            while r < 200:
+                
+                var length = rand_range(
                     $lbl_inner/spin_min.value,
                     $lbl_inner/spin_max.value
                 )
+                var base_y = r - 100
+                var width = max((randf() * $lbl_width/spin_width.value) / 2, 0.1)
 
-                var calc_v = Vector3(0, (randf() * $lbl_width/spin_width.value) / 2, 0)
+                var cv0 = Vector3(length, base_y, 0.0)
+                var cv1 = Vector3(-100.0, base_y - width, 0.0)
+                var cv2 = Vector3(-100.0, base_y + width, 0.0)
 
-                var cv1 = (Vector3.LEFT * 200) - calc_v
-                var cv2 = (Vector3.LEFT * 200) + calc_v
+                ary_vtx.push_back(cv0)
+                ary_vtx.push_back(cv1)
+                ary_vtx.push_back(cv2)
 
-                ary_vtx.push_back(cv0 + Vector3(100, r - 50, 0))
-                ary_vtx.push_back(cv1 + Vector3(100, r - 50, 0))
-                ary_vtx.push_back(cv2 + Vector3(100, r - 50, 0))
-
-                ary_vtx.push_back(cv0 + Vector3(100, r - 50, 0))
-                ary_vtx.push_back(cv2 + Vector3(100, r - 50, 0))
-                ary_vtx.push_back(cv1 + Vector3(100, r - 50, 0))
+                ary_vtx.push_back(cv0)
+                ary_vtx.push_back(cv2)
+                ary_vtx.push_back(cv1)
 
                 r += randf() * $lbl_space/spin_space.value
 
@@ -155,26 +201,15 @@ func _ready():
 func _process(delta):
     if self.need_update == true:
         var new_mesh = self.get_mesh()
-        self.o_base_node.get_node("base_control/model_mesh").attach_mesh(new_mesh)
+        self.eds_mesh_instance.mesh_setup(new_mesh)
         self.need_update = false
 
 
+func evt_value_changed(value):
+    self.need_update = true
+
+
 func _on_btn_ok_pressed():
-    self.exit = true
+    self.result = true
     self.hide()
 
-
-func _on_dlg_create_mesh_about_to_show():
-    self.exit = false
-
-
-func _on_btn_primitive_item_selected(id):
-    self.need_update = true
-
-
-func _on_value_changed(value):
-    self.need_update = true
-
-
-func _on_dlg_create_mesh_popup_hide():
-    self.o_base_node.get_node("ui").remove_child(self)

@@ -10,12 +10,12 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "MeshInstance",
-"class": "ModelMesh",
+"class": "EDSMeshInstance",
 "language": "GDScript",
 "path": "res://node/model_mesh.gd"
 } ]
 _global_script_class_icons={
-"ModelMesh": ""
+"EDSMeshInstance": ""
 }
 
 [application]
@@ -23,11 +23,11 @@ _global_script_class_icons={
 config/name="EdgeDetectShader"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
-config/version="0.1.0"
+config/version="0.1.1"
 
 [autoload]
 
-CONF="*res://lib/conf.gd"
+CONF="*res://main_conf.gd"
 
 [display]
 

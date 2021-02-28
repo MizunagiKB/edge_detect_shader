@@ -1,0 +1,89 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ext/ext_particle_stream/ext_main.gd" type="Script" id=1]
+
+[node name="ext_main" type="WindowDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 128.0
+margin_top = 128.0
+margin_right = -576.0
+margin_bottom = -204.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_amount" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 48.0
+margin_right = 80.0
+margin_bottom = 80.0
+text = "Amount"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="amount" type="HSlider" parent="lbl_amount"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 32.0
+focus_mode = 0
+min_value = 8.0
+max_value = 4096.0
+value = 2048.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_spread" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 80.0
+margin_bottom = 48.0
+text = "Spread"
+valign = 1
+
+[node name="spread" type="HSlider" parent="lbl_spread"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 32.0
+max_value = 180.0
+value = 1.0
+
+[node name="lbl_initial_velocity" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 80.0
+margin_right = 80.0
+margin_bottom = 112.0
+text = "Speed"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="initial_velocity" type="HSlider" parent="lbl_initial_velocity"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 32.0
+focus_mode = 0
+max_value = 10.0
+value = 5.0
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_left = 16.0
+margin_top = 128.0
+margin_right = 240.0
+margin_bottom = 144.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_ok" type="Button" parent="."]
+margin_left = 176.0
+margin_top = 160.0
+margin_right = 240.0
+margin_bottom = 192.0
+text = "OK"
+[connection signal="pressed" from="btn_ok" to="." method="_on_btn_ok_pressed"]

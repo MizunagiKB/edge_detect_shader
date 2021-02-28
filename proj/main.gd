@@ -27,7 +27,6 @@ var shader_depth = load("res://shader/depth.shader")
 
 
 # -------------------------------------------------------------- mesh:shader(s)
-var model_mesh: ModelMesh = null
 var active_win: WindowDialog = null
 
 
@@ -39,11 +38,34 @@ func ui_visible(show: bool):
     $ui/panel.visible = show
 
 
+func load_extension(base_dir: String, o_itemlist: ItemList):
+
+    var o_dir = Directory.new()
+
+    if o_dir.open(base_dir) == OK:
+        o_dir.list_dir_begin()
+        while true:
+            var dirname = o_dir.get_next()
+            if dirname == "":
+                break
+            if dirname in [".", ".."]:
+                continue
+            else:
+                if o_dir.current_is_dir():
+                    var dir_path = "{0}/{1}".format([base_dir, dirname])
+                    var o_class = load(dir_path + "/ext_main.tscn")
+                    if o_class != null:
+                        print(o_class)
+                        var o_instance = o_class.instance()
+                        if o_instance.ext_init(dir_path) == true:
+                            o_itemlist.add_item(o_instance.ext_name())
+                            o_itemlist.set_item_metadata(o_itemlist.get_item_count() - 1, o_instance)
+
+
 func _ready():
 
     CONF.parameter_load()
 
-    model_mesh = $base_control/model_mesh
     reset()
 
     $ui/panel/lbl_version.text = "Version " + ProjectSettings.get_setting("application/config/version")
@@ -52,16 +74,17 @@ func _ready():
     var o_instance = null
 
     o_instance = load("res://node/dlg_mesh_blank/dlg_mesh_blank.tscn").instance()
-    $ui/panel/tab_container/models.add_item(o_instance.ext_name())
-    $ui/panel/tab_container/models.set_item_metadata(0, o_instance)
+    if o_instance.ext_init("res://node/dlg_mesh_blank") == true:
+        $ui/panel/tab_container/models.add_item(o_instance.ext_name())
+        $ui/panel/tab_container/models.set_item_metadata(0, o_instance)
+
     o_instance = load("res://node/dlg_mesh_create/dlg_mesh_create.tscn").instance()
-    $ui/panel/tab_container/models.add_item(o_instance.ext_name())
-    $ui/panel/tab_container/models.set_item_metadata(1, o_instance)
+    if o_instance.ext_init("res://node/dlg_mesh_create") == true:
+        $ui/panel/tab_container/models.add_item(o_instance.ext_name())
+        $ui/panel/tab_container/models.set_item_metadata(1, o_instance)
 
     #
-    o_instance = load("res://node/screen_sky/dlg_screen_sky.tscn").instance()
-    $ui/panel/tab_container/extentions.add_item(o_instance.ext_name())
-    $ui/panel/tab_container/extentions.set_item_metadata(0, o_instance)
+    self.load_extension("res://ext", $ui/panel/tab_container/extentions)
 
     $ui/panel/btn_color_body.color = Color.white
     $ui/panel/btn_color_edge.color = Color.black
@@ -123,10 +146,10 @@ func _on_ui_gui_input(event):
                 MOUSEMODE.MOUSE:
                     var vct = event.position - mouse_pos_save
                     var tform
-                    tform = $base_control.transform.rotated(Vector3.UP, deg2rad(vct.x))
-                    $base_control.transform = tform
-                    tform = $base_control.transform.rotated(Vector3.RIGHT, deg2rad(vct.y))
-                    $base_control.transform = tform
+                    tform = $base_ctl.transform.rotated(Vector3.UP, deg2rad(vct.x))
+                    $base_ctl.transform = tform
+                    tform = $base_ctl.transform.rotated(Vector3.RIGHT, deg2rad(vct.y))
+                    $base_ctl.transform = tform
                     mouse_pos_save = event.position
 
         if Input.is_mouse_button_pressed(BUTTON_RIGHT) == true:
@@ -134,8 +157,8 @@ func _on_ui_gui_input(event):
                 MOUSEMODE.MOUSE:
                     var vct = event.position - mouse_pos_save
                     var tform
-                    tform = $base_control.transform.rotated(Vector3.FORWARD, deg2rad(vct.y))
-                    $base_control.transform = tform
+                    tform = $base_ctl.transform.rotated(Vector3.FORWARD, deg2rad(vct.y))
+                    $base_ctl.transform = tform
                     mouse_pos_save = event.position
 
     if event is InputEventMouseButton:
@@ -144,15 +167,21 @@ func _on_ui_gui_input(event):
 
         match event.button_index:
             BUTTON_WHEEL_UP:
-                self.model_mesh.scale_inc()
+                $base_ctl.scale += Vector3(0.1, 0.1, 0.1)
+                if $base_ctl.scale.length() > 10:
+                    $base_ctl.scale = Vector3(10, 10, 10)
+                    
+                #self.model_mesh.scale_inc()
             BUTTON_WHEEL_DOWN:
-                self.model_mesh.scale_dec()
+                $base_ctl.scale -= Vector3(0.1, 0.1, 0.1)
+                if $base_ctl.scale.length() < 0.1:
+                    $base_ctl.scale = Vector3(0.1, 0.1, 0.1)
             _:
                 mouse_pos_save = event.position
 
-    $ui/knob_D/spin_x.value = $base_control.rotation_degrees.x
-    $ui/knob_D/spin_y.value = $base_control.rotation_degrees.y
-    $ui/knob_D/spin_z.value = $base_control.rotation_degrees.z
+    $ui/knob_D/spin_x.value = $base_ctl.rotation_degrees.x
+    $ui/knob_D/spin_y.value = $base_ctl.rotation_degrees.y
+    $ui/knob_D/spin_z.value = $base_ctl.rotation_degrees.z
 
 
 func _process(delta):
@@ -160,7 +189,7 @@ func _process(delta):
     if move_window == true:
         OS.window_position = window_base_pos
 
-    if $screen.get_child_count() == 0:
+    if $base_ext.get_child_count() == 0:
         if $cam.environment == null:
             $cam.environment = Environment.new()
             $cam.environment.background_mode = Environment.BG_COLOR
@@ -171,10 +200,8 @@ func reset():
     $cam.h_offset = 0
     $cam.v_offset = 0
 
-    model_mesh.reset()
-
     $cam.rotation = Vector3.ZERO
-    $base_control.transform = Transform.IDENTITY
+    $base_ctl.transform = Transform.IDENTITY
 
     $ui/knob_L/cam_distance.value = DEFAULT_CAM_DISTANCE
     $ui/panel/btn_cam.selected = 0
@@ -215,36 +242,72 @@ func _on_models_item_selected(index):
 
     active_win = $ui/panel/tab_container/models.get_item_metadata(index)
     if active_win != null:
-        active_win.ext_init(self)
+        $ui.add_child(active_win)
+        active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
+        active_win.ext_show($cam, $base_ctl, $base_ext)
+
+        active_win.popup_centered()
+
     else:
-        var new_mesh: Mesh = ResourceLoader.load(CONF.mesh_dir + "/" + $ui/panel/tab_container/models.get_item_text(index))
+        var new_mesh: Mesh = load(CONF.mesh_dir + "/" + $ui/panel/tab_container/models.get_item_text(index))
 
         if new_mesh != null:
-            # ResourceSaver.save(DIR_PATH + "/" + $ui/panel/tab_container/models.get_item_text(index) + ".mesh", new_mesh)
-            model_mesh.attach_mesh(new_mesh)
+            for o in $base_ctl.get_children():
+                o.queue_free()
+
+            var eds_mesh_instance: EDSMeshInstance = null
+
+            eds_mesh_instance = EDSMeshInstance.new()
+            eds_mesh_instance.mesh_setup(new_mesh)
+            $base_ctl.add_child(eds_mesh_instance)
+
 
 
 func _on_extentions_item_selected(index):
 
+    assert(self.active_win == null)
+
     active_win = $ui/panel/tab_container/extentions.get_item_metadata(index)
     if active_win != null:
-        active_win.ext_init(self)
+
+        $ui.add_child(active_win)
+        active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
+        active_win.ext_show($cam, $base_ctl, $base_ext)
+
+        active_win.popup_centered()
+
+
+func evt_extenttions_popup_hide():
+
+    assert(self.active_win != null)
+
+    active_win.ext_hide()
+    active_win.disconnect("popup_hide", self, "evt_extenttions_popup_hide")
+
+    $ui.remove_child(active_win)
+
+    active_win = null
 
 
 func _on_btn_shader_item_selected(id):
+
+    for o in $base_ctl.get_children():
+        if o is MeshInstance:
+            if id == 2:
+                o.set_shader_normal()
+            else:
+                o.set_shader_edge()
+
     if id == 0:
-        model_mesh.set_shader_off()
         $render_screen.visible = false
+        $render_screen.material.shader = shader_edge
     elif id == 1:
-        model_mesh.set_shader_edge()
         $render_screen.visible = true
         $render_screen.material.shader = shader_edge
     elif id == 2:
-        model_mesh.set_shader_normal()
         $render_screen.visible = false
         $render_screen.material.shader = shader_edge
     elif id == 3:
-        model_mesh.set_shader_depth()
         $render_screen.visible = true
         $render_screen.material.shader = shader_depth
 
@@ -295,13 +358,13 @@ func _on_panel_gui_input(event):
 
 
 func _on_spin_x_value_changed(value):
-    $base_control.rotation_degrees.x = value
+    $base_ctl.rotation_degrees.x = value
 
 func _on_spin_y_value_changed(value):
-    $base_control.rotation_degrees.y = value
+    $base_ctl.rotation_degrees.y = value
 
 func _on_spin_z_value_changed(value):
-    $base_control.rotation_degrees.z = value
+    $base_ctl.rotation_degrees.z = value
 
 
 func _on_btn_cam_item_selected(id):
@@ -332,20 +395,15 @@ func _on_spin_fov_value_changed(value):
             $cam.size = value
 
 
-func _on_dlg_create_mesh_popup_hide():
-    if $ui/dlg_create_mesh.exit == true:
-        var new_mesh = $ui/dlg_create_mesh.get_mesh()
-
-        if new_mesh != null:
-            model_mesh.attach_mesh(new_mesh)
-
-
 func _on_btn_color_edge_color_changed(color):
     $render_screen.material.set_shader_param("color_value", Vector3(color.r, color.g, color.b))
 
 
 func _on_btn_color_body_color_changed(color):
-    $base_control/model_mesh.set_color_value(color)
+    """
+    self.eds_mesh_instance.set_color_value(color)
+    """
+    assert(false)
 
 
 func _on_btn_capture_pressed():
@@ -400,4 +458,27 @@ func _on_btn_conf_pressed():
 
 func _on_cam_distance_value_changed(value):
     $cam.translation.z = value
+
+
+
+func _on_btn_camera_gui_input(event):
+
+
+    if event is InputEventMouseButton:
+        if event.button_index == BUTTON_LEFT:
+            if event.pressed == true:
+                Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+            else:
+                Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+
+    if event is InputEventMouseMotion:
+        if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+
+            var r = $cam.rotation_degrees.y
+            r = r - event.relative.x
+            $cam.rotation_degrees.y = r
+            
+            r = $cam.rotation_degrees.x
+            r = clamp(r - event.relative.y, -89, 89)
+            $cam.rotation_degrees.x = r
 

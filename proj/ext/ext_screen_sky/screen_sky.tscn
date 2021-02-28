@@ -1,11 +1,11 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://node/screen_sky/shader/noise.png" type="Texture" id=1]
-[ext_resource path="res://node/screen_sky/shader/Moon_1k.png" type="Texture" id=2]
-[ext_resource path="res://node/screen_sky/shader/lightning.png" type="Texture" id=3]
-[ext_resource path="res://node/screen_sky/shader/Sky.shader" type="Shader" id=4]
-[ext_resource path="res://node/screen_sky/shader/Clouds.shader" type="Shader" id=5]
-[ext_resource path="res://node/screen_sky/screen_sky_env.tres" type="Environment" id=7]
+[ext_resource path="res://ext/ext_screen_sky/shader/noise.png" type="Texture" id=1]
+[ext_resource path="res://ext/ext_screen_sky/shader/Moon_1k.png" type="Texture" id=2]
+[ext_resource path="res://ext/ext_screen_sky/shader/lightning.png" type="Texture" id=3]
+[ext_resource path="res://ext/ext_screen_sky/shader/Sky.shader" type="Shader" id=4]
+[ext_resource path="res://ext/ext_screen_sky/shader/Clouds.shader" type="Shader" id=5]
+[ext_resource path="res://ext/ext_screen_sky/screen_sky_env.tres" type="Environment" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/noise.png-62fbff952defda83cac500ff834a2270.s3tc.stex"
-path.etc2="res://.import/noise.png-62fbff952defda83cac500ff834a2270.etc2.stex"
+path.s3tc="res://.import/noise.png-124a572d78f4ca490bff9cb4009bdbf3.s3tc.stex"
+path.etc2="res://.import/noise.png-124a572d78f4ca490bff9cb4009bdbf3.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://node/screen_sky/shader/noise.png"
-dest_files=[ "res://.import/noise.png-62fbff952defda83cac500ff834a2270.s3tc.stex", "res://.import/noise.png-62fbff952defda83cac500ff834a2270.etc2.stex" ]
+source_file="res://ext/ext_screen_sky/shader/noise.png"
+dest_files=[ "res://.import/noise.png-124a572d78f4ca490bff9cb4009bdbf3.s3tc.stex", "res://.import/noise.png-124a572d78f4ca490bff9cb4009bdbf3.etc2.stex" ]
 
 [params]
 
