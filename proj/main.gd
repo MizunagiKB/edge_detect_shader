@@ -186,20 +186,15 @@ func _on_ui_gui_input(event):
                     mouse_pos_save = event.position
                 MOUSEMODE.MOUSE:
                     var vct = event.position - mouse_pos_save
-                    var tform
-                    tform = $base_ctl.transform.rotated(Vector3.UP, deg2rad(vct.x))
-                    $base_ctl.transform = tform
-                    tform = $base_ctl.transform.rotated(Vector3.RIGHT, deg2rad(vct.y))
-                    $base_ctl.transform = tform
+                    $base_ctl.rotate(Vector3.UP, deg2rad(vct.x))
+                    $base_ctl.rotate(Vector3.RIGHT, deg2rad(vct.y))
                     mouse_pos_save = event.position
 
         if Input.is_mouse_button_pressed(BUTTON_RIGHT) == true:
             match self.e_mouse_mode:
                 MOUSEMODE.MOUSE:
                     var vct = event.position - mouse_pos_save
-                    var tform
-                    tform = $base_ctl.transform.rotated(Vector3.FORWARD, deg2rad(vct.y))
-                    $base_ctl.transform = tform
+                    $base_ctl.rotate(Vector3.FORWARD, deg2rad(vct.y))
                     mouse_pos_save = event.position
 
     if event is InputEventMouseButton:
@@ -394,7 +389,6 @@ func _on_knob_L_gui_input(event):
 
 func _on_panel_gui_input(event):
     knob_control(event)
-
 
 
 func _on_spin_x_value_changed(value):
