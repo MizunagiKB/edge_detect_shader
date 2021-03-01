@@ -55,10 +55,12 @@ func ext_hide():
         for o in self.list_node:
             o.queue_free()
     else:
-        self.node_instance.queue_free()
+        self.o_base_ctl.remove_child(self.node_instance)
+        self.node_instance.free()
     
         for o in self.list_node:
-            self.o_base_ctl.add_child(o)
+            if o != null:
+                self.o_base_ctl.add_child(o)
 
     self.node_instance = null
 
@@ -68,6 +70,7 @@ func _ready():
 
 
 func _process(delta):
+
     if self.need_update == true:
         self.node_instance.recalc_gravity = $recalc_gravity.pressed
         self.node_instance.amount = $lbl_amount/amount.value

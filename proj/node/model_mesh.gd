@@ -39,6 +39,7 @@ func set_color_value(new_color: Color):
     self.color_value = new_color
     self.material_override.set_shader_param("color", self.color_value)
 
+
 func set_shader_off():
     self.material_override.set_shader_param("color_mode", 0)
 

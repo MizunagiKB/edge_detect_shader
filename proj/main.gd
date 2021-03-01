@@ -96,7 +96,6 @@ func load_extension(base_dir: String, o_itemlist: ItemList):
                     var dir_path = "{0}/{1}".format([base_dir, dirname])
                     var o_class = load(dir_path + "/ext_main.tscn")
                     if o_class != null:
-                        print(o_class)
                         var o_instance = o_class.instance()
                         if o_instance.ext_init(dir_path) == true:
                             o_itemlist.add_item(o_instance.ext_name())
@@ -138,7 +137,6 @@ func _ready():
         while file_name != "":
             if dir.current_is_dir():
                 pass
-                # print("Found directory: " + file_name)
             else:
                 var b_ready = false
                 if file_name.ends_with(".mesh"):
@@ -154,7 +152,6 @@ func _ready():
             file_name = dir.get_next()
     else:
         pass
-        # print("An error occurred when trying to access the path.")
 
 
 func _input(event):
@@ -177,31 +174,36 @@ func _on_ui_gui_input(event):
         if self.event_frame.has_point(event.position) != true:
             return
 
-        if Input.is_mouse_button_pressed(BUTTON_LEFT) == true:
-            match self.e_mouse_mode:
-                MOUSEMODE.SCROLL:
-                    var vct = ((event.position - mouse_pos_save) / 50)
-                    $cam.h_offset -= vct.x
-                    $cam.v_offset += vct.y
-                    mouse_pos_save = event.position
-                MOUSEMODE.MOUSE:
+        match self.e_mouse_mode:
+            MOUSEMODE.SCROLL:
+                var vct = ((event.position - self.mouse_pos_save) / 50)
+                $cam.h_offset -= vct.x
+                $cam.v_offset += vct.y
+                self.mouse_pos_save = event.position
+            MOUSEMODE.MOUSE:
+                if Input.is_mouse_button_pressed(BUTTON_LEFT) == true:
                     var vct = event.position - mouse_pos_save
                     $base_ctl.rotate(Vector3.UP, deg2rad(vct.x))
                     $base_ctl.rotate(Vector3.RIGHT, deg2rad(vct.y))
                     mouse_pos_save = event.position
 
-        if Input.is_mouse_button_pressed(BUTTON_RIGHT) == true:
-            match self.e_mouse_mode:
-                MOUSEMODE.MOUSE:
+                if Input.is_mouse_button_pressed(BUTTON_RIGHT) == true:
                     var vct = event.position - mouse_pos_save
                     $base_ctl.rotate(Vector3.FORWARD, deg2rad(vct.y))
-                    mouse_pos_save = event.position
+                    self.mouse_pos_save = event.position
 
     if event is InputEventMouseButton:
         if self.event_frame.has_point(event.position) != true:
             return
 
         match event.button_index:
+            BUTTON_MIDDLE:
+                if event.pressed == true:
+                    self.mouse_pos_save = event.position
+                    self.e_mouse_mode = MOUSEMODE.SCROLL
+                else:
+                    self.e_mouse_mode = MOUSEMODE.MOUSE
+
             BUTTON_WHEEL_UP:
                 $base_ctl.scale += Vector3(0.1, 0.1, 0.1)
                 if $base_ctl.scale.length() > 10:
@@ -282,7 +284,9 @@ func _on_models_item_selected(index):
         active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
         active_win.ext_show($cam, $base_ctl, $base_ext)
 
-        active_win.popup_centered()
+        active_win.popup()
+        var calcsize = event_frame.size - active_win.rect_size
+        active_win.rect_position = calcsize / 2
 
     else:
         var new_mesh: Mesh = load(CONF.mesh_dir + "/" + $ui/panel/tab_container/models.get_item_text(index))
@@ -300,6 +304,7 @@ func _on_models_item_selected(index):
 
 
 func _on_extentions_item_selected(index):
+    print("show")
 
     assert(self.active_win == null)
 
@@ -310,11 +315,13 @@ func _on_extentions_item_selected(index):
         active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
         active_win.ext_show($cam, $base_ctl, $base_ext)
 
-        active_win.popup_centered()
+        active_win.popup()
+        var calcsize = event_frame.size - active_win.rect_size
+        active_win.rect_position = calcsize / 2
 
 
 func evt_extenttions_popup_hide():
-
+    print("hide")
     assert(self.active_win != null)
 
     active_win.ext_hide()

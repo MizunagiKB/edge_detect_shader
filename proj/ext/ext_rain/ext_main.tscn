@@ -1,0 +1,161 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ext/ext_rain/ext_main.gd" type="Script" id=1]
+
+[node name="ext_main" type="WindowDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 128.0
+margin_top = 128.0
+margin_right = -288.0
+margin_bottom = -156.0
+window_title = "Particle Rain"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_size" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 64.0
+margin_right = 80.0
+margin_bottom = 96.0
+text = "Size"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size" type="HSlider" parent="lbl_size"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 32.0
+focus_mode = 0
+min_value = 1.0
+value = 8.0
+
+[node name="lbl_amount" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 96.0
+margin_right = 80.0
+margin_bottom = 128.0
+text = "Amount"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="amount" type="HSlider" parent="lbl_amount"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 32.0
+focus_mode = 0
+min_value = 8.0
+max_value = 32768.0
+value = 2048.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_initial_velocity" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 128.0
+margin_right = 80.0
+margin_bottom = 160.0
+text = "Speed"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="initial_velocity" type="HSlider" parent="lbl_initial_velocity"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 32.0
+focus_mode = 0
+max_value = 200.0
+value = 100.0
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_left = 16.0
+margin_top = 176.0
+margin_right = 528.0
+margin_bottom = 192.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_ok" type="Button" parent="."]
+margin_left = 464.0
+margin_top = 208.0
+margin_right = 528.0
+margin_bottom = 240.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "OK"
+
+[node name="fog_enable" type="CheckBox" parent="."]
+margin_left = 272.0
+margin_top = 16.0
+margin_right = 528.0
+margin_bottom = 48.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Fog Enables"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_fog_amount" type="Label" parent="."]
+margin_left = 272.0
+margin_top = 96.0
+margin_right = 368.0
+margin_bottom = 128.0
+text = "Fog Amount"
+valign = 1
+
+[node name="amount" type="HSlider" parent="lbl_fog_amount"]
+margin_left = 96.0
+margin_right = 256.0
+margin_bottom = 32.0
+focus_mode = 0
+max_value = 1024.0
+value = 256.0
+
+[node name="lbl_fog_color" type="Label" parent="."]
+margin_left = 272.0
+margin_top = 128.0
+margin_right = 352.0
+margin_bottom = 160.0
+text = "Fog Color"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fog_color" type="ColorPickerButton" parent="lbl_fog_color"]
+margin_left = 192.0
+margin_right = 256.0
+margin_bottom = 32.0
+focus_mode = 0
+enabled_focus_mode = 0
+color = Color( 1, 1, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="particle_type" type="OptionButton" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 240.0
+margin_bottom = 48.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Disabled"
+align = 1
+items = [ "Disabled", null, false, 0, null, "Rain", null, false, 1, null, "Snow", null, false, 2, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="btn_ok" to="." method="_on_btn_ok_pressed"]
