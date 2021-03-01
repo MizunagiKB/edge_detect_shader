@@ -59,6 +59,16 @@ It's probably easier to understand if you think in 1D rather than 2D, so I'll sh
 [1]:https://docs.godotengine.org/en/stable/tutorials/viewports/custom_postprocessing.html
 [2]:https://en.wikipedia.org/wiki/Sobel_operator
 
+
+## Fonts
+
+* ロゴたいぷゴシック
+  * http://www.fontna.com/%E3%83%AD%E3%82%B4%E3%81%9F%E3%81%84%E3%81%B7%E3%82%B4%E3%82%B7%E3%83%83%E3%82%AF/
+
+* Voltaire-Regular.ttf
+  * https://fonts.google.com/specimen/Voltaire?preview.text_type=custom
+
+
 ## Shaders
 
 * Godot_sky_shader

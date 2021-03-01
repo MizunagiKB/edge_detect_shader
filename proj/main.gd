@@ -304,7 +304,6 @@ func _on_models_item_selected(index):
 
 
 func _on_extentions_item_selected(index):
-    print("show")
 
     assert(self.active_win == null)
 
@@ -321,7 +320,7 @@ func _on_extentions_item_selected(index):
 
 
 func evt_extenttions_popup_hide():
-    print("hide")
+
     assert(self.active_win != null)
 
     active_win.ext_hide()
