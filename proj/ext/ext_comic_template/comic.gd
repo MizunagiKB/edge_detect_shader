@@ -5,10 +5,13 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
-var PAPER_RECT = Rect2(0, 0, 0, 0)
-var DPI = 150
-var MARGIN = 3
-var FONT
+var PAPER_SRC_RECT: Rect2 = Rect2(0, 0, 0, 0)
+var PAPER_DST_RECT: Rect2
+var DPI: float = 150
+var MARGIN: Vector2 = Vector2.ZERO
+var COMMENT: String = ""
+var FONT: DynamicFont = null
+
 
 func mm_to_px(v: float) -> int:
     var result = float(v * self.DPI) / 25.4
@@ -29,66 +32,125 @@ func _process(delta):
 
 func _draw():
 
-    self.draw_rect(self.PAPER_RECT, Color.white, true)
+    # Fill
+    self.draw_rect(self.PAPER_SRC_RECT, Color.white, true)
 
-    var rect_size
-    var rect_pos
+    if self.PAPER_DST_RECT.has_no_area() != true:
 
+        var tombow_line_width = self.mm_to_px(15)
 
-    rect_size = Vector2(mm_to_px(1024), mm_to_px(257))
-    rect_pos = ((self.PAPER_RECT.size - rect_size) / 2).floor()
+        # Center
+        self.draw_line(
+            Vector2(0, self.PAPER_SRC_RECT.size.y / 2),
+            Vector2(self.PAPER_SRC_RECT.size.x, self.PAPER_SRC_RECT.size.y / 2),
+            Color.blue, 1.0
+            )
 
-    self.draw_rect(Rect2(rect_pos, rect_size), Color.blue, false)
+        self.draw_line(
+            Vector2(self.PAPER_SRC_RECT.size.x / 2, 0),
+            Vector2(self.PAPER_SRC_RECT.size.x / 2, self.PAPER_SRC_RECT.size.y),
+            Color.blue, 1.0
+            )
 
+        # Tombow U
+        self.draw_line(
+            Vector2(
+                (self.PAPER_SRC_RECT.size.x / 2) - tombow_line_width,
+                self.PAPER_DST_RECT.position.y - self.MARGIN.y * 2),
+            Vector2(
+                (self.PAPER_SRC_RECT.size.x / 2) + tombow_line_width,
+                self.PAPER_DST_RECT.position.y - self.MARGIN.y * 2),
+            Color.blue, 1.0
+            )
 
-    rect_size = Vector2(mm_to_px(182), mm_to_px(1024))
-    rect_pos = ((self.PAPER_RECT.size - rect_size) / 2).floor()
+        self.draw_line(
+            Vector2(0, self.PAPER_DST_RECT.position.y),
+            Vector2(self.PAPER_SRC_RECT.size.x, self.PAPER_DST_RECT.position.y),
+            Color.blue, 1.0
+            )
 
-    self.draw_rect(Rect2(rect_pos, rect_size), Color.blue, false)
+        # Tombow D
+        self.draw_line(
+            Vector2(
+                (self.PAPER_SRC_RECT.size.x / 2) - tombow_line_width,
+                self.PAPER_DST_RECT.end.y + self.MARGIN.y * 2
+                ),
+            Vector2(
+                (self.PAPER_SRC_RECT.size.x / 2) + tombow_line_width,
+                self.PAPER_DST_RECT.end.y + self.MARGIN.y * 2
+                ),
+            Color.blue, 1.0
+            )
 
+        self.draw_line(
+            Vector2(0, self.PAPER_DST_RECT.position.y + self.PAPER_DST_RECT.size.y),
+            Vector2(self.PAPER_SRC_RECT.size.x, self.PAPER_DST_RECT.end.y),
+            Color.blue, 1.0
+            )
 
-    rect_size = Vector2(mm_to_px(182), mm_to_px(1024))
-    rect_pos = (self.PAPER_RECT.size / 2).floor()
+        # Tombow L
+        self.draw_line(
+            Vector2(
+                self.PAPER_DST_RECT.position.x - self.MARGIN.y * 2,
+                (self.PAPER_SRC_RECT.size.y / 2) - tombow_line_width
+                ),
+            Vector2(
+                self.PAPER_DST_RECT.position.x - self.MARGIN.y * 2,
+                (self.PAPER_SRC_RECT.size.y / 2) + tombow_line_width
+                ),
+            Color.blue, 1.0
+            )
 
-    self.draw_line(Vector2(rect_pos.x, 0), Vector2(rect_pos.x, self.PAPER_RECT.size.y), Color.blue, false)
-    self.draw_line(Vector2(0, rect_pos.y), Vector2(self.PAPER_RECT.size.x, rect_pos.y), Color.blue, false)
+        self.draw_line(
+            Vector2(self.PAPER_DST_RECT.position.x, 0),
+            Vector2(self.PAPER_DST_RECT.position.x, self.PAPER_SRC_RECT.size.y),
+            Color.blue, 1.0
+            )
 
+        # Tombow R
+        self.draw_line(
+            Vector2(
+                self.PAPER_DST_RECT.end.x + self.MARGIN.y * 2,
+                (self.PAPER_SRC_RECT.size.y / 2) - tombow_line_width
+                ),
+            Vector2(
+                self.PAPER_DST_RECT.end.x + self.MARGIN.y * 2,
+                (self.PAPER_SRC_RECT.size.y / 2) + tombow_line_width
+                ),
+            Color.blue, 1.0
+            )
 
-    rect_size = Vector2(mm_to_px(182 + self.MARGIN * 4), mm_to_px(257 + self.MARGIN * 4))
-    rect_pos = ((self.PAPER_RECT.size - rect_size) / 2).floor()
+        self.draw_line(
+            Vector2(self.PAPER_DST_RECT.position.x + self.PAPER_DST_RECT.size.x, 0),
+            Vector2(self.PAPER_DST_RECT.end.x, self.PAPER_SRC_RECT.size.y),
+            Color.blue, 1.0
+            )
 
-    self.draw_rect(Rect2(rect_pos, rect_size), Color.blue, false, 1)
+        # Border
+        self.draw_rect(
+            Rect2(
+                self.PAPER_DST_RECT.position - self.MARGIN,
+                self.PAPER_DST_RECT.size + (self.MARGIN * 2)
+                ),
+            Color.white, true
+            )
 
+        self.draw_rect(
+            Rect2(
+                self.PAPER_DST_RECT.position - self.MARGIN,
+                self.PAPER_DST_RECT.size + (self.MARGIN * 2)
+                ),
+            Color.blue, false, 3.0
+            )
 
-    # border
-    rect_size = Vector2(mm_to_px(182 + self.MARGIN * 2), mm_to_px(257 + self.MARGIN * 2))
-    rect_pos = ((self.PAPER_RECT.size - rect_size) / 2).floor()
+        # Size
+        self.draw_rect(self.PAPER_DST_RECT, Color.blue, false, 1.0)
 
-    self.draw_rect(Rect2(rect_pos, rect_size), Color.white, true)
-    self.draw_rect(Rect2(rect_pos, rect_size), Color.blue, false, 3)
+        self.draw_string(
+            self.FONT,
+            Vector2(self.PAPER_DST_RECT.position.x, self.PAPER_DST_RECT.end.y) + self.MARGIN * 2,
+            self.COMMENT,
+            Color.blue
+        )
 
-
-
-    rect_size = Vector2(mm_to_px(182), mm_to_px(257))
-    rect_pos = ((self.PAPER_RECT.size - rect_size) / 2).floor()
-        
-    self.draw_rect(Rect2(rect_pos, rect_size), Color.blue, false)
-    
-
-    rect_size = Vector2(mm_to_px(150), mm_to_px(220))
-    rect_pos = ((self.PAPER_RECT.size - rect_size) / 2).floor()
-        
-    self.draw_rect(Rect2(rect_pos, rect_size), Color.blue, false)
-
-
-
-    var text_x = floor(self.PAPER_RECT.size.x - mm_to_px(182)) / 2
-    var text_y = floor(self.PAPER_RECT.size.y - mm_to_px(257)) / 2
-
-    self.draw_string(
-        self.FONT,
-        Vector2(mm_to_px(1) + text_x, mm_to_px(257 + 6) + text_y),
-        "水凪工房",
-        Color.blue
-    )
 

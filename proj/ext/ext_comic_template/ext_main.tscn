@@ -4,12 +4,11 @@
 [ext_resource path="res://ext/ext_comic_template/comic.gd" type="Script" id=2]
 
 [node name="ext_main" type="WindowDialog"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -704.0
-margin_bottom = -300.0
-window_title = "Comic Template"
+margin_bottom = -204.0
+window_title = "Paper Template"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -17,9 +16,9 @@ __meta__ = {
 
 [node name="btn_ok" type="Button" parent="."]
 margin_left = 176.0
-margin_top = 192.0
+margin_top = 288.0
 margin_right = 240.0
-margin_bottom = 224.0
+margin_bottom = 320.0
 text = "OK"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -27,18 +26,18 @@ __meta__ = {
 
 [node name="HSeparator" type="HSeparator" parent="."]
 margin_left = 16.0
-margin_top = 160.0
+margin_top = 256.0
 margin_right = 240.0
-margin_bottom = 176.0
+margin_bottom = 272.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="btn_generate" type="Button" parent="."]
 margin_left = 16.0
-margin_top = 112.0
+margin_top = 208.0
 margin_right = 240.0
-margin_bottom = 144.0
+margin_bottom = 240.0
 focus_mode = 0
 enabled_focus_mode = 0
 text = "Generate"
@@ -55,8 +54,8 @@ focus_mode = 0
 enabled_focus_mode = 0
 text = "150 dpi"
 align = 1
-items = [ "150 dpi", null, false, 0, null, "300 dpi", null, false, 1, null, "600dpi", null, false, 2, null ]
-selected = 0
+items = [ "75 dpi", null, false, 0, null, "150 dpi", null, false, 1, null, "300 dpi", null, false, 2, null, "600 dpi", null, false, 3, null ]
+selected = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -68,27 +67,62 @@ margin_right = 240.0
 margin_bottom = 48.0
 focus_mode = 0
 enabled_focus_mode = 0
-text = "B5 (182 x 257)"
 align = 1
-items = [ "A4 (210 x 297)", null, true, 0, null, "B5 (182 x 257)", null, false, 1, null ]
 selected = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ViewportContainer" type="ViewportContainer" parent="."]
+[node name="preview" type="ViewportContainer" parent="."]
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+[node name="viewport" type="Viewport" parent="preview"]
 handle_input_locally = false
 hdr = false
 usage = 0
-render_target_update_mode = 3
+render_target_update_mode = 0
 
-[node name="comic" type="Node2D" parent="ViewportContainer/Viewport"]
+[node name="paper" type="Node2D" parent="preview/viewport"]
 script = ExtResource( 2 )
+
+[node name="lbl_margin" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 112.0
+margin_right = 112.0
+margin_bottom = 144.0
+text = "Margin (mm)"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="margin" type="SpinBox" parent="lbl_margin"]
+margin_left = 96.0
+margin_right = 224.0
+margin_bottom = 32.0
+max_value = 30.0
+value = 3.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_comment" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 160.0
+margin_right = 112.0
+margin_bottom = 192.0
+text = "Comment"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="comment" type="LineEdit" parent="lbl_comment"]
+margin_left = 96.0
+margin_right = 224.0
+margin_bottom = 32.0
 [connection signal="pressed" from="btn_ok" to="." method="_on_btn_ok_pressed"]
 [connection signal="pressed" from="btn_generate" to="." method="_on_btn_generate_pressed"]
-[connection signal="item_selected" from="paper_dpi" to="." method="_on_paper_dpi_item_selected"]

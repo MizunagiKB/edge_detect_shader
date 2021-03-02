@@ -521,3 +521,12 @@ func _on_btn_camera_gui_input(event):
             r = clamp(r - event.relative.y, -89, 89)
             $cam.rotation_degrees.x = r
 
+
+func _on_btn_resize_toggled(button_pressed):
+    var size = Vector2(960, 540)
+
+    if button_pressed == true:
+        OS.window_size = size * 2
+    else:
+        OS.window_size = size
+

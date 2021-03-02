@@ -142,11 +142,25 @@ margin_left = 24.0
 margin_top = 16.0
 margin_right = 56.0
 margin_bottom = 48.0
-hint_tooltip = "Window Maximize"
+hint_tooltip = "Window maximize"
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 text = "Max"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_resize" type="Button" parent="ui/knob_L"]
+margin_left = 64.0
+margin_top = 16.0
+margin_right = 96.0
+margin_bottom = 48.0
+hint_tooltip = "Window resize"
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+text = "x2"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -156,7 +170,7 @@ margin_left = 24.0
 margin_top = 64.0
 margin_right = 56.0
 margin_bottom = 96.0
-hint_tooltip = "Window Transparent"
+hint_tooltip = "Window transparent"
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
@@ -184,7 +198,7 @@ margin_left = 24.0
 margin_top = 416.0
 margin_right = 56.0
 margin_bottom = 448.0
-hint_tooltip = "Open Configuration Dialog"
+hint_tooltip = "Open configuration dialog"
 focus_mode = 0
 enabled_focus_mode = 0
 text = "Conf"
@@ -197,7 +211,7 @@ margin_left = 24.0
 margin_top = 464.0
 margin_right = 56.0
 margin_bottom = 496.0
-hint_tooltip = "Quit Application"
+hint_tooltip = "Quit application"
 focus_mode = 0
 enabled_focus_mode = 0
 text = "Quit"
@@ -244,6 +258,7 @@ __meta__ = {
 margin_left = 16.0
 margin_right = 208.0
 margin_bottom = 32.0
+hint_tooltip = "Camera reset"
 focus_mode = 0
 theme = ExtResource( 3 )
 text = "Reset"
@@ -411,7 +426,7 @@ margin_left = 16.0
 margin_top = 384.0
 margin_right = 128.0
 margin_bottom = 416.0
-hint_tooltip = "Projection"
+hint_tooltip = "Camera projection"
 focus_mode = 0
 enabled_focus_mode = 0
 text = "Perspective"
@@ -432,7 +447,8 @@ step = 5.0
 value = 45.0
 align = 1
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": "Camera parameter"
 }
 
 [node name="lbl_color_edge" type="Label" parent="ui/panel"]
@@ -449,6 +465,7 @@ margin_left = 128.0
 margin_top = 336.0
 margin_right = 160.0
 margin_bottom = 368.0
+hint_tooltip = "Model edge color"
 focus_mode = 0
 enabled_focus_mode = 0
 edit_alpha = false
@@ -473,6 +490,7 @@ margin_left = 176.0
 margin_top = 336.0
 margin_right = 208.0
 margin_bottom = 368.0
+hint_tooltip = "Model body color"
 focus_mode = 0
 enabled_focus_mode = 0
 color = Color( 1, 1, 1, 1 )
@@ -520,6 +538,7 @@ material = SubResource( 7 )
 [connection signal="gui_input" from="ui/knob_D/btn_camera" to="." method="_on_btn_camera_gui_input"]
 [connection signal="gui_input" from="ui/knob_L" to="." method="_on_knob_L_gui_input"]
 [connection signal="toggled" from="ui/knob_L/btn_fullscreen" to="." method="_on_btn_fullscreen_toggled"]
+[connection signal="toggled" from="ui/knob_L/btn_resize" to="." method="_on_btn_resize_toggled"]
 [connection signal="toggled" from="ui/knob_L/btn_transparent" to="." method="_on_btn_transparent_toggled"]
 [connection signal="pressed" from="ui/knob_L/btn_capture" to="." method="_on_btn_capture_pressed"]
 [connection signal="pressed" from="ui/knob_L/btn_conf" to="." method="_on_btn_conf_pressed"]
