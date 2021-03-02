@@ -47,9 +47,11 @@ shader_param/screen_w = 960.0
 shader_param/screen_h = 540.0
 
 [node name="main" type="Spatial"]
+pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="ui" type="Control" parent="."]
+pause_mode = 2
 margin_right = 960.0
 margin_bottom = 544.0
 theme = ExtResource( 3 )
@@ -110,8 +112,16 @@ __meta__ = {
 [node name="knob_D" type="Panel" parent="ui"]
 margin_left = -16.0
 margin_top = 528.0
-margin_right = 976.0
+margin_right = 944.0
 margin_bottom = 560.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="knob_Resize" type="Panel" parent="ui/knob_D"]
+margin_left = 960.0
+margin_right = 992.0
+margin_bottom = 32.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -219,9 +229,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="btn_pause" type="Button" parent="ui/knob_L"]
+margin_left = 24.0
+margin_top = 160.0
+margin_right = 56.0
+margin_bottom = 192.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+text = "[]"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="cam_distance" type="VSlider" parent="ui/knob_L"]
 margin_left = 32.0
-margin_top = 176.0
+margin_top = 208.0
 margin_right = 64.0
 margin_bottom = 384.0
 hint_tooltip = "Camera distance"
@@ -527,6 +550,7 @@ mesh = SubResource( 6 )
 material = SubResource( 7 )
 
 [node name="base_ctl" type="Spatial" parent="."]
+pause_mode = 1
 
 [node name="base_ext" type="Spatial" parent="."]
 [connection signal="gui_input" from="ui" to="." method="_on_ui_gui_input"]
@@ -535,6 +559,7 @@ material = SubResource( 7 )
 [connection signal="value_changed" from="ui/knob_U/spin_y" to="." method="_on_spin_y_value_changed"]
 [connection signal="value_changed" from="ui/knob_U/spin_z" to="." method="_on_spin_z_value_changed"]
 [connection signal="gui_input" from="ui/knob_D" to="." method="_on_knob_D_gui_input"]
+[connection signal="gui_input" from="ui/knob_D/knob_Resize" to="." method="_on_knob_Resize_gui_input"]
 [connection signal="gui_input" from="ui/knob_D/btn_camera" to="." method="_on_btn_camera_gui_input"]
 [connection signal="gui_input" from="ui/knob_L" to="." method="_on_knob_L_gui_input"]
 [connection signal="toggled" from="ui/knob_L/btn_fullscreen" to="." method="_on_btn_fullscreen_toggled"]
@@ -543,6 +568,7 @@ material = SubResource( 7 )
 [connection signal="pressed" from="ui/knob_L/btn_capture" to="." method="_on_btn_capture_pressed"]
 [connection signal="pressed" from="ui/knob_L/btn_conf" to="." method="_on_btn_conf_pressed"]
 [connection signal="pressed" from="ui/knob_L/btn_exit" to="." method="_on_btn_exit_pressed"]
+[connection signal="toggled" from="ui/knob_L/btn_pause" to="." method="_on_btn_pause_toggled"]
 [connection signal="value_changed" from="ui/knob_L/cam_distance" to="." method="_on_cam_distance_value_changed"]
 [connection signal="gui_input" from="ui/panel" to="." method="_on_panel_gui_input"]
 [connection signal="pressed" from="ui/panel/btn_reset" to="." method="_on_btn_reset_pressed"]

@@ -41,10 +41,6 @@ func ext_show(o_cam: Camera, o_control: Spatial, o_ext: Spatial) -> bool:
     self.o_base_ctl = o_control
     self.list_node = []
 
-    for item in PAPER_SIZE:
-        var label = "{0} ({1}mm x {2}mm)".format([item.name, item.src.w, item.src.h])
-        $paper_size.add_item(label, item.id)
-
     for o in self.o_base_ctl.get_children():
         self.o_base_ctl.remove_child(o)
         self.list_node.append(o)
@@ -126,7 +122,10 @@ func generate_paper():
 
 
 func _ready():
-    pass # Replace with function body.
+
+    for item in PAPER_SIZE:
+        var label = "{0} ({1}mm x {2}mm)".format([item.name, item.src.w, item.src.h])
+        $paper_size.add_item(label, item.id)
 
 
 func _process(delta):

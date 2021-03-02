@@ -20,7 +20,10 @@ var event_frame: Rect2 = Rect2(16, 16, 740 - 16, 544 - 16)
 
 var ui_visible = true
 var move_window = false
-var window_base_pos = Vector2(0, 0)
+var size_window = false
+
+var window_base_move = Vector2(0, 0)
+var window_base_size = Vector2(0, 0)
 var rot_axis = Vector2(0, 0)
 
 var shader_edge = load("res://shader/edge.shader")
@@ -157,11 +160,13 @@ func _ready():
 func _input(event):
 
     if event is InputEventKey:
+        """
         if event.scancode == KEY_SPACE:
             if event.pressed == true:
                 e_mouse_mode = MOUSEMODE.SCROLL
             else:
                 e_mouse_mode = MOUSEMODE.MOUSE
+        """
 
         if event.scancode == KEY_TAB:
             if event.pressed == true:
@@ -225,7 +230,10 @@ func _on_ui_gui_input(event):
 func _process(delta):
 
     if move_window == true:
-        OS.window_position = window_base_pos
+        OS.window_position = self.window_base_move
+
+    if size_window == true:
+        OS.window_size = self.window_base_size
 
     if $base_ext.get_child_count() == 0:
         if $cam.environment == null:
@@ -327,7 +335,6 @@ func evt_extenttions_popup_hide():
     active_win.disconnect("popup_hide", self, "evt_extenttions_popup_hide")
 
     $ui.remove_child(active_win)
-
     active_win = null
 
 
@@ -376,13 +383,13 @@ func knob_control(event):
                 Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
                 get_viewport().warp_mouse(rot_axis)
 
-            window_base_pos = OS.window_position
+            self.window_base_move = OS.window_position
             rot_axis = get_viewport().get_mouse_position()
             move_window = event.pressed
 
     if event is InputEventMouseMotion:
         if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-            window_base_pos += event.relative
+            self.window_base_move += event.relative
 
 func _on_knob_U_gui_input(event):
     knob_control(event)
@@ -395,6 +402,30 @@ func _on_knob_L_gui_input(event):
 
 func _on_panel_gui_input(event):
     knob_control(event)
+
+func _on_knob_Resize_gui_input(event):
+
+    if event is InputEventMouseButton:
+        if event.button_index == BUTTON_LEFT:
+            if event.pressed == true:
+                Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+            else:
+                Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+                get_viewport().warp_mouse(rot_axis)
+
+            self.window_base_size = OS.window_size
+            rot_axis = get_viewport().get_mouse_position()
+            size_window = event.pressed
+
+    if event is InputEventMouseMotion:
+        if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+            """ for TEST
+            self.window_base_size += event.relative
+
+            var w = max(self.window_base_size.x, 960)
+            var h = max(self.window_base_size.y, 540)
+            self.window_base_size = Vector2(w, h)
+            """
 
 
 func _on_spin_x_value_changed(value):
@@ -530,3 +561,6 @@ func _on_btn_resize_toggled(button_pressed):
     else:
         OS.window_size = size
 
+
+func _on_btn_pause_toggled(button_pressed):
+    self.get_tree().paused = button_pressed
