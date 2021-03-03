@@ -9,6 +9,7 @@ margin_left = 128.0
 margin_top = 128.0
 margin_right = -576.0
 margin_bottom = -188.0
+popup_exclusive = true
 window_title = "Particle Stream"
 script = ExtResource( 1 )
 __meta__ = {

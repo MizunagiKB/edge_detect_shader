@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://shader/edge.shader" type="Shader" id=2]
 [ext_resource path="res://theme_gray.tres" type="Theme" id=3]
 [ext_resource path="res://font/Voltaire-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://node/dlg_conf/dlg_conf.tscn" type="PackedScene" id=7]
-[ext_resource path="res://node/dlg_mesh_blank/dlg_mesh_blank.tscn" type="PackedScene" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 12
@@ -212,6 +211,7 @@ hint_tooltip = "Open configuration dialog"
 focus_mode = 0
 enabled_focus_mode = 0
 text = "Conf"
+expand_icon = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -256,7 +256,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="panel" type="Panel" parent="ui"]
+[node name="knob_R" type="Panel" parent="ui"]
 margin_left = 736.0
 margin_top = 16.0
 margin_right = 976.0
@@ -265,7 +265,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_version" type="Label" parent="ui/panel"]
+[node name="lbl_version" type="Label" parent="ui/knob_R"]
 margin_left = 64.0
 margin_top = 496.0
 margin_right = 208.0
@@ -277,7 +277,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_reset" type="Button" parent="ui/panel"]
+[node name="btn_reset" type="Button" parent="ui/knob_R"]
 margin_left = 16.0
 margin_right = 208.0
 margin_bottom = 32.0
@@ -289,7 +289,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="tab_container" type="TabContainer" parent="ui/panel"]
+[node name="tab_container" type="TabContainer" parent="ui/knob_R"]
 margin_left = 16.0
 margin_top = 48.0
 margin_right = 208.0
@@ -299,7 +299,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="models" type="ItemList" parent="ui/panel/tab_container"]
+[node name="models" type="ItemList" parent="ui/knob_R/tab_container"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
@@ -308,11 +308,12 @@ margin_right = -1.0
 margin_bottom = -1.0
 focus_mode = 0
 allow_reselect = true
+fixed_icon_size = Vector2( 24, 24 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="extentions" type="ItemList" parent="ui/panel/tab_container"]
+[node name="extentions" type="ItemList" parent="ui/knob_R/tab_container"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -322,7 +323,7 @@ margin_right = -1.0
 margin_bottom = -1.0
 allow_reselect = true
 
-[node name="btn_shader" type="OptionButton" parent="ui/panel"]
+[node name="btn_shader" type="OptionButton" parent="ui/knob_R"]
 margin_left = 16.0
 margin_top = 336.0
 margin_right = 96.0
@@ -344,7 +345,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_edge_depth" type="Label" parent="ui/panel"]
+[node name="lbl_edge_depth" type="Label" parent="ui/knob_R"]
 margin_left = 16.0
 margin_top = 416.0
 margin_right = 64.0
@@ -355,7 +356,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="edge_depth" type="HScrollBar" parent="ui/panel"]
+[node name="edge_depth" type="HScrollBar" parent="ui/knob_R"]
 margin_left = 64.0
 margin_top = 432.0
 margin_right = 208.0
@@ -369,7 +370,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="ui/panel/edge_depth"]
+[node name="value" type="Label" parent="ui/knob_R/edge_depth"]
 margin_left = -112.0
 margin_top = -16.0
 margin_right = -64.0
@@ -381,7 +382,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_edge_size" type="Label" parent="ui/panel"]
+[node name="lbl_edge_size" type="Label" parent="ui/knob_R"]
 margin_left = 16.0
 margin_top = 448.0
 margin_right = 64.0
@@ -392,7 +393,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="edge_size" type="HSlider" parent="ui/panel"]
+[node name="edge_size" type="HSlider" parent="ui/knob_R"]
 margin_left = 64.0
 margin_top = 464.0
 margin_right = 208.0
@@ -406,7 +407,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="ui/panel/edge_size"]
+[node name="value" type="Label" parent="ui/knob_R/edge_size"]
 margin_left = -112.0
 margin_top = -16.0
 margin_right = -64.0
@@ -418,7 +419,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_desc" type="Label" parent="ui/panel"]
+[node name="lbl_desc" type="Label" parent="ui/knob_R"]
 visible = false
 margin_left = -704.0
 margin_top = 464.0
@@ -434,7 +435,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_text" type="Label" parent="ui/panel/lbl_desc"]
+[node name="lbl_text" type="Label" parent="ui/knob_R/lbl_desc"]
 margin_left = 80.0
 margin_right = 175.0
 margin_bottom = 96.0
@@ -444,7 +445,7 @@ Z Rotation
 Camera Move
 Hide/Show UI"
 
-[node name="btn_cam" type="OptionButton" parent="ui/panel"]
+[node name="btn_cam" type="OptionButton" parent="ui/knob_R"]
 margin_left = 16.0
 margin_top = 384.0
 margin_right = 128.0
@@ -460,7 +461,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="spin_fov" type="SpinBox" parent="ui/panel/btn_cam"]
+[node name="spin_fov" type="SpinBox" parent="ui/knob_R/btn_cam"]
 margin_left = 128.0
 margin_right = 192.0
 margin_bottom = 32.0
@@ -474,7 +475,7 @@ __meta__ = {
 "_editor_description_": "Camera parameter"
 }
 
-[node name="lbl_color_edge" type="Label" parent="ui/panel"]
+[node name="lbl_color_edge" type="Label" parent="ui/knob_R"]
 margin_left = 112.0
 margin_top = 336.0
 margin_right = 128.0
@@ -483,7 +484,7 @@ text = "E"
 align = 1
 valign = 1
 
-[node name="btn_color_edge" type="ColorPickerButton" parent="ui/panel"]
+[node name="btn_color_edge" type="ColorPickerButton" parent="ui/knob_R"]
 margin_left = 128.0
 margin_top = 336.0
 margin_right = 160.0
@@ -496,7 +497,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_color_body" type="Label" parent="ui/panel"]
+[node name="lbl_color_body" type="Label" parent="ui/knob_R"]
 margin_left = 160.0
 margin_top = 336.0
 margin_right = 176.0
@@ -508,7 +509,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_color_body" type="ColorPickerButton" parent="ui/panel"]
+[node name="btn_color_body" type="ColorPickerButton" parent="ui/knob_R"]
 margin_left = 176.0
 margin_top = 336.0
 margin_right = 208.0
@@ -522,14 +523,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="dlg_mesh_blank" parent="ui" instance=ExtResource( 8 )]
-margin_left = 128.0
-margin_top = 128.0
-margin_right = 256.0
-margin_bottom = 256.0
-
 [node name="dlg_conf" parent="ui" instance=ExtResource( 7 )]
-visible = false
 margin_left = 128.0
 margin_top = 128.0
 margin_right = 640.0
@@ -570,14 +564,14 @@ pause_mode = 1
 [connection signal="pressed" from="ui/knob_L/btn_exit" to="." method="_on_btn_exit_pressed"]
 [connection signal="toggled" from="ui/knob_L/btn_pause" to="." method="_on_btn_pause_toggled"]
 [connection signal="value_changed" from="ui/knob_L/cam_distance" to="." method="_on_cam_distance_value_changed"]
-[connection signal="gui_input" from="ui/panel" to="." method="_on_panel_gui_input"]
-[connection signal="pressed" from="ui/panel/btn_reset" to="." method="_on_btn_reset_pressed"]
-[connection signal="item_selected" from="ui/panel/tab_container/models" to="." method="_on_models_item_selected"]
-[connection signal="item_selected" from="ui/panel/tab_container/extentions" to="." method="_on_extentions_item_selected"]
-[connection signal="item_selected" from="ui/panel/btn_shader" to="." method="_on_btn_shader_item_selected"]
-[connection signal="value_changed" from="ui/panel/edge_depth" to="." method="_on_edge_range_value_changed"]
-[connection signal="value_changed" from="ui/panel/edge_size" to="." method="_on_edge_size_value_changed"]
-[connection signal="item_selected" from="ui/panel/btn_cam" to="." method="_on_btn_cam_item_selected"]
-[connection signal="value_changed" from="ui/panel/btn_cam/spin_fov" to="." method="_on_spin_fov_value_changed"]
-[connection signal="color_changed" from="ui/panel/btn_color_edge" to="." method="_on_btn_color_edge_color_changed"]
-[connection signal="color_changed" from="ui/panel/btn_color_body" to="." method="_on_btn_color_body_color_changed"]
+[connection signal="gui_input" from="ui/knob_R" to="." method="_on_panel_gui_input"]
+[connection signal="pressed" from="ui/knob_R/btn_reset" to="." method="_on_btn_reset_pressed"]
+[connection signal="item_selected" from="ui/knob_R/tab_container/models" to="." method="_on_models_item_selected"]
+[connection signal="item_selected" from="ui/knob_R/tab_container/extentions" to="." method="_on_extentions_item_selected"]
+[connection signal="item_selected" from="ui/knob_R/btn_shader" to="." method="_on_btn_shader_item_selected"]
+[connection signal="value_changed" from="ui/knob_R/edge_depth" to="." method="_on_edge_range_value_changed"]
+[connection signal="value_changed" from="ui/knob_R/edge_size" to="." method="_on_edge_size_value_changed"]
+[connection signal="item_selected" from="ui/knob_R/btn_cam" to="." method="_on_btn_cam_item_selected"]
+[connection signal="value_changed" from="ui/knob_R/btn_cam/spin_fov" to="." method="_on_spin_fov_value_changed"]
+[connection signal="color_changed" from="ui/knob_R/btn_color_edge" to="." method="_on_btn_color_edge_color_changed"]
+[connection signal="color_changed" from="ui/knob_R/btn_color_body" to="." method="_on_btn_color_body_color_changed"]

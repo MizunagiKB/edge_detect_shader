@@ -31,7 +31,7 @@ var shader_depth = load("res://shader/depth.shader")
 
 
 onready var knob_L_pos = [$ui/knob_L.rect_position, $ui/knob_L.rect_position + Vector2(-128, 0)]
-onready var panel_pos = [$ui/panel.rect_position, $ui/panel.rect_position + Vector2(256, 0)]
+onready var knob_R_pos = [$ui/knob_R.rect_position, $ui/knob_R.rect_position + Vector2(256, 0)]
 
 onready var knob_U_pos = [$ui/knob_U.rect_position, $ui/knob_U.rect_position + Vector2(0, -128)]
 onready var knob_D_pos = [$ui/knob_D.rect_position, $ui/knob_D.rect_position + Vector2(0, 128)]
@@ -51,7 +51,7 @@ func ui_visible(show: bool):
     $ui/tween.interpolate_property(
         $ui/panel,
         "rect_position",
-        panel_pos[order[0]], panel_pos[order[1]], 0.3,
+        knob_R_pos[order[0]], knob_R_pos[order[1]], 0.3,
         Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 
     $ui/tween.interpolate_property(
@@ -111,26 +111,26 @@ func _ready():
 
     reset()
 
-    $ui/panel/lbl_version.text = "Version " + ProjectSettings.get_setting("application/config/version")
+    $ui/knob_R/lbl_version.text = "Version " + ProjectSettings.get_setting("application/config/version")
 
     # Models
     var o_instance = null
 
     o_instance = load("res://node/dlg_mesh_blank/dlg_mesh_blank.tscn").instance()
     if o_instance.ext_init("res://node/dlg_mesh_blank") == true:
-        $ui/panel/tab_container/models.add_item(o_instance.ext_name())
-        $ui/panel/tab_container/models.set_item_metadata(0, o_instance)
+        $ui/knob_R/tab_container/models.add_item(o_instance.ext_name())
+        $ui/knob_R/tab_container/models.set_item_metadata(0, o_instance)
 
     o_instance = load("res://node/dlg_mesh_create/dlg_mesh_create.tscn").instance()
     if o_instance.ext_init("res://node/dlg_mesh_create") == true:
-        $ui/panel/tab_container/models.add_item(o_instance.ext_name())
-        $ui/panel/tab_container/models.set_item_metadata(1, o_instance)
+        $ui/knob_R/tab_container/models.add_item(o_instance.ext_name())
+        $ui/knob_R/tab_container/models.set_item_metadata(1, o_instance)
 
     #
-    self.load_extension("res://ext", $ui/panel/tab_container/extentions)
+    self.load_extension("res://ext", $ui/knob_R/tab_container/extentions)
 
-    $ui/panel/btn_color_body.color = Color.white
-    $ui/panel/btn_color_edge.color = Color.black
+    $ui/knob_R/btn_color_body.color = Color.white
+    $ui/knob_R/btn_color_edge.color = Color.black
 
     var dir = Directory.new()
     
@@ -146,10 +146,10 @@ func _ready():
                     b_ready = true
 
                 if b_ready == true:
-                    $ui/panel/tab_container/models.add_item(file_name)
-                    var item_count = $ui/panel/tab_container/models.get_item_count()
+                    $ui/knob_R/tab_container/models.add_item(file_name)
+                    var item_count = $ui/knob_R/tab_container/models.get_item_count()
                     if item_count > 0:
-                        $ui/panel/tab_container/models.set_item_metadata(item_count - 1, null)
+                        $ui/knob_R/tab_container/models.set_item_metadata(item_count - 1, null)
 
                     
             file_name = dir.get_next()
@@ -229,6 +229,8 @@ func _on_ui_gui_input(event):
 
 func _process(delta):
 
+    $ui/knob_L/btn_pause.pressed = get_tree().paused
+
     if move_window == true:
         OS.window_position = self.window_base_move
 
@@ -250,18 +252,18 @@ func reset():
     $base_ctl.transform = Transform.IDENTITY
 
     $ui/knob_L/cam_distance.value = DEFAULT_CAM_DISTANCE
-    $ui/panel/btn_cam.selected = 0
-    _on_btn_cam_item_selected($ui/panel/btn_cam.selected)
-    $ui/panel/edge_depth.value = DEFAULT_EDGE_DEPTH
-    $ui/panel/edge_size.value = DEFAULT_EDGE_SIZE
+    $ui/knob_R/btn_cam.selected = 0
+    _on_btn_cam_item_selected($ui/knob_R/btn_cam.selected)
+    $ui/knob_R/edge_depth.value = DEFAULT_EDGE_DEPTH
+    $ui/knob_R/edge_size.value = DEFAULT_EDGE_SIZE
 
 
 func _on_edge_range_value_changed(value):
     $render_screen.material.set_shader_param("edge_range", float(value))
 
-    $ui/panel/edge_depth/value.text = str(value)
+    $ui/knob_R/edge_depth/value.text = str(value)
     $ui/tween.interpolate_property(
-        $ui/panel/edge_depth/value,
+        $ui/knob_R/edge_depth/value,
         "visible",
         true, false, 3,
         Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -271,9 +273,9 @@ func _on_edge_range_value_changed(value):
 func _on_edge_size_value_changed(value):
     $render_screen.material.set_shader_param("edge_size", float(value))
 
-    $ui/panel/edge_size/value.text = str(value)
+    $ui/knob_R/edge_size/value.text = str(value)
     $ui/tween.interpolate_property(
-        $ui/panel/edge_size/value,
+        $ui/knob_R/edge_size/value,
         "visible",
         true, false, 3,
         Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -286,7 +288,12 @@ func _on_btn_reset_pressed():
 
 func _on_models_item_selected(index):
 
-    active_win = $ui/panel/tab_container/models.get_item_metadata(index)
+    assert(self.active_win == null)
+    
+    get_tree().paused = false
+
+    active_win = $ui/knob_R/tab_container/models.get_item_metadata(index)
+
     if active_win != null:
         $ui.add_child(active_win)
         active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
@@ -297,7 +304,7 @@ func _on_models_item_selected(index):
         active_win.rect_position = calcsize / 2
 
     else:
-        var new_mesh: Mesh = load(CONF.mesh_dir + "/" + $ui/panel/tab_container/models.get_item_text(index))
+        var new_mesh: Mesh = load(CONF.mesh_dir + "/" + $ui/knob_R/tab_container/models.get_item_text(index))
 
         if new_mesh != null:
             for o in $base_ctl.get_children():
@@ -315,7 +322,10 @@ func _on_extentions_item_selected(index):
 
     assert(self.active_win == null)
 
-    active_win = $ui/panel/tab_container/extentions.get_item_metadata(index)
+    get_tree().paused = false
+
+    active_win = $ui/knob_R/tab_container/extentions.get_item_metadata(index)
+
     if active_win != null:
 
         $ui.add_child(active_win)
@@ -442,18 +452,18 @@ func _on_btn_cam_item_selected(id):
     match id:
         0:
             $cam.projection = Camera.PROJECTION_PERSPECTIVE
-            $ui/panel/btn_cam/spin_fov.min_value = 30
-            $ui/panel/btn_cam/spin_fov.max_value = 120
-            $ui/panel/btn_cam/spin_fov.step = 5
-            $ui/panel/btn_cam/spin_fov.value = DEFAULT_PERSPECTIVE_FOV
+            $ui/knob_R/btn_cam/spin_fov.min_value = 30
+            $ui/knob_R/btn_cam/spin_fov.max_value = 120
+            $ui/knob_R/btn_cam/spin_fov.step = 5
+            $ui/knob_R/btn_cam/spin_fov.value = DEFAULT_PERSPECTIVE_FOV
         1:
             $cam.projection = Camera.PROJECTION_ORTHOGONAL
         2:
             $cam.projection = Camera.PROJECTION_FRUSTUM
-            $ui/panel/btn_cam/spin_fov.min_value = 0.1
-            $ui/panel/btn_cam/spin_fov.max_value = 2
-            $ui/panel/btn_cam/spin_fov.step = 0.1
-            $ui/panel/btn_cam/spin_fov.value = DEFAULT_FRUSTUM_SIZE
+            $ui/knob_R/btn_cam/spin_fov.min_value = 0.1
+            $ui/knob_R/btn_cam/spin_fov.max_value = 2
+            $ui/knob_R/btn_cam/spin_fov.step = 0.1
+            $ui/knob_R/btn_cam/spin_fov.value = DEFAULT_FRUSTUM_SIZE
 
 
 func _on_spin_fov_value_changed(value):
@@ -554,6 +564,8 @@ func _on_btn_camera_gui_input(event):
 
 
 func _on_btn_resize_toggled(button_pressed):
+
+    var pos = OS.window_position
     var size = Vector2(960, 540)
 
     if button_pressed == true:
@@ -561,6 +573,10 @@ func _on_btn_resize_toggled(button_pressed):
     else:
         OS.window_size = size
 
+    OS.window_position = pos
+
 
 func _on_btn_pause_toggled(button_pressed):
-    self.get_tree().paused = button_pressed
+    
+    get_tree().paused = button_pressed
+

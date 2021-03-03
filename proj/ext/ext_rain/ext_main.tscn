@@ -9,6 +9,7 @@ margin_left = 128.0
 margin_top = 128.0
 margin_right = -288.0
 margin_bottom = -156.0
+popup_exclusive = true
 window_title = "Particle Rain"
 script = ExtResource( 1 )
 __meta__ = {

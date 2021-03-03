@@ -5,6 +5,7 @@
 [node name="ext_main" type="WindowDialog"]
 margin_right = 384.0
 margin_bottom = 272.0
+popup_exclusive = true
 window_title = "Screen Sky"
 script = ExtResource( 1 )
 __meta__ = {

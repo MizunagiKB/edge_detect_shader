@@ -3,9 +3,9 @@
 [ext_resource path="res://node/dlg_conf/dlg_conf.gd" type="Script" id=1]
 
 [node name="dlg_conf" type="WindowDialog"]
-visible = true
 margin_right = 512.0
 margin_bottom = 288.0
+popup_exclusive = true
 window_title = "Configure"
 script = ExtResource( 1 )
 __meta__ = {
