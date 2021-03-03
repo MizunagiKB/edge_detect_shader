@@ -41,13 +41,13 @@ func _draw():
 
         # Center
         self.draw_line(
-            Vector2(0, self.PAPER_SRC_RECT.size.y / 2),
+            Vector2(0, self.PAPER_SRC_RECT.size.y / 2).floor(),
             Vector2(self.PAPER_SRC_RECT.size.x, self.PAPER_SRC_RECT.size.y / 2),
             Color.blue, 1.0
             )
 
         self.draw_line(
-            Vector2(self.PAPER_SRC_RECT.size.x / 2, 0),
+            Vector2(self.PAPER_SRC_RECT.size.x / 2, 0).floor(),
             Vector2(self.PAPER_SRC_RECT.size.x / 2, self.PAPER_SRC_RECT.size.y),
             Color.blue, 1.0
             )
@@ -137,14 +137,21 @@ func _draw():
 
         self.draw_rect(
             Rect2(
-                self.PAPER_DST_RECT.position - self.MARGIN,
-                self.PAPER_DST_RECT.size + (self.MARGIN * 2)
+                self.PAPER_DST_RECT.position - self.MARGIN.floor(),
+                self.PAPER_DST_RECT.size + (self.MARGIN * 2).floor()
                 ),
-            Color.blue, false, 3.0
+            Color.blue, false, 4.0
             )
 
         # Size
         self.draw_rect(self.PAPER_DST_RECT, Color.blue, false, 1.0)
+
+        # inner frame
+        var vct_size = Vector2(self.mm_to_px(150), self.mm_to_px(220))
+        var vct_pos = (self.PAPER_SRC_RECT.size - vct_size) / 2
+        self.draw_rect(Rect2(vct_pos, vct_size), Color.blue, false, 1.0)
+
+        self.FONT.size = (12 * self.DPI) / 150
 
         self.draw_string(
             self.FONT,
