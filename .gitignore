@@ -9,6 +9,10 @@ export_presets.cfg
 data_*/
 .DS_Store
 
+proj/model/*.mesh
+proj/model/*.obj
+proj/model/*.obj.import
+
 model_src
 
 dist/*.zip

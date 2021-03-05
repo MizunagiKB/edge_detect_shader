@@ -49,7 +49,7 @@ func ui_visible(show: bool):
         order = [1, 0]
 
     $ui/tween.interpolate_property(
-        $ui/panel,
+        $ui/knob_R,
         "rect_position",
         knob_R_pos[order[0]], knob_R_pos[order[1]], 0.3,
         Tween.TRANS_SINE, Tween.EASE_IN_OUT)
@@ -72,14 +72,9 @@ func ui_visible(show: bool):
         knob_D_pos[order[0]], knob_D_pos[order[1]], 0.3,
         Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 
-
     $ui/tween.start()
 
     self.ui_visible = show
-    #$ui/knob_U.visible = show
-    #$ui/knob_D.visible = show
-    # $ui/knob_L.visible = show
-    # $ui/panel.visible = show
 
 
 func load_extension(base_dir: String, o_itemlist: ItemList):
