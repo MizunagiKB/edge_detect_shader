@@ -3,7 +3,7 @@
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://shader/edge.shader" type="Shader" id=2]
 [ext_resource path="res://theme_gray.tres" type="Theme" id=3]
-[ext_resource path="res://font/Voltaire-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://res/font/Voltaire-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://node/dlg_conf/dlg_conf.tscn" type="PackedScene" id=7]
 
 [sub_resource type="DynamicFont" id=1]
@@ -130,7 +130,7 @@ margin_left = 704.0
 margin_top = -48.0
 margin_right = 736.0
 margin_bottom = -16.0
-hint_tooltip = "Camera rotation"
+hint_tooltip = "BTN_CAMERA_ROTATION"
 focus_mode = 0
 enabled_focus_mode = 0
 __meta__ = {
@@ -281,10 +281,10 @@ __meta__ = {
 margin_left = 16.0
 margin_right = 208.0
 margin_bottom = 32.0
-hint_tooltip = "Camera reset"
+hint_tooltip = "BTN_RESET_HINT"
 focus_mode = 0
 theme = ExtResource( 3 )
-text = "Reset"
+text = "BTN_RESET_TEXT"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -328,13 +328,7 @@ margin_left = 16.0
 margin_top = 336.0
 margin_right = 96.0
 margin_bottom = 368.0
-hint_tooltip = "Render mode
-
-- None
-- Edge
-- Normal
-- Depth
-"
+hint_tooltip = "BTN_EDGE_HINT"
 focus_mode = 0
 enabled_focus_mode = 0
 text = "Edge"

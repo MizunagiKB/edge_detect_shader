@@ -20,14 +20,15 @@ _global_script_class_icons={
 
 [application]
 
-config/name="EdgeDetectShader"
+config/name="EDS"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
-config/version="0.1.5"
+config/version="0.1.8"
 
 [autoload]
 
 CONF="*res://main_conf.gd"
+MODEL_OBJ="*res://lib/model_obj.gd"
 
 [display]
 
@@ -38,6 +39,11 @@ window/per_pixel_transparency/allowed=true
 window/per_pixel_transparency/enabled=true
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[locale]
+
+translations=PoolStringArray( "res://res/translation/ui.en.translation", "res://res/translation/ui.ja.translation" )
+locale_filter=[ 0, [ "ja" ] ]
 
 [rendering]
 

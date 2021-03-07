@@ -100,8 +100,35 @@ func load_extension(base_dir: String, o_itemlist: ItemList):
                             o_itemlist.set_item_metadata(o_itemlist.get_item_count() - 1, o_instance)
 
 
+func load_mesh(mesh_pathname: String):
+
+    var new_mesh: Mesh = load(mesh_pathname)
+    
+    if new_mesh == null:
+        new_mesh = MODEL_OBJ.load(mesh_pathname)
+
+    if new_mesh != null:
+        for o in $base_ctl.get_children():
+            o.queue_free()
+
+        var eds_mesh_instance: EDSMeshInstance = null
+
+        eds_mesh_instance = EDSMeshInstance.new()
+        eds_mesh_instance.mesh_setup(new_mesh)
+        $base_ctl.add_child(eds_mesh_instance)
+
+
+func _files_droppped(files: PoolStringArray, screen: int):
+    for pathname in files:
+        if pathname.ends_with(".mesh"):
+            self.load_mesh(pathname)
+            break
+
+
 func _ready():
 
+    get_tree().connect("files_dropped", self, "_files_droppped")
+    
     CONF.parameter_load()
 
     reset()
@@ -137,7 +164,11 @@ func _ready():
                 pass
             else:
                 var b_ready = false
+
                 if file_name.ends_with(".mesh"):
+                    b_ready = true
+
+                if file_name.ends_with(".obj"):
                     b_ready = true
 
                 if b_ready == true:
@@ -299,18 +330,7 @@ func _on_models_item_selected(index):
         active_win.rect_position = calcsize / 2
 
     else:
-        var new_mesh: Mesh = load(CONF.mesh_dir + "/" + $ui/knob_R/tab_container/models.get_item_text(index))
-
-        if new_mesh != null:
-            for o in $base_ctl.get_children():
-                o.queue_free()
-
-            var eds_mesh_instance: EDSMeshInstance = null
-
-            eds_mesh_instance = EDSMeshInstance.new()
-            eds_mesh_instance.mesh_setup(new_mesh)
-            $base_ctl.add_child(eds_mesh_instance)
-
+        self.load_mesh(CONF.mesh_dir + "/" + $ui/knob_R/tab_container/models.get_item_text(index))
 
 
 func _on_extentions_item_selected(index):
