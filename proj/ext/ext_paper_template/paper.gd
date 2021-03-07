@@ -26,7 +26,7 @@ func _ready():
     FONT.size = 12
 
 
-func _process(delta):
+func _process(_delta):
     self.update()
 
 
@@ -151,7 +151,7 @@ func _draw():
         var vct_pos = (self.PAPER_SRC_RECT.size - vct_size) / 2
         self.draw_rect(Rect2(vct_pos, vct_size), Color.blue, false, 1.0)
 
-        self.FONT.size = (12 * self.DPI) / 150
+        self.FONT.size = int((12 * self.DPI) / 150)
 
         self.draw_string(
             self.FONT,

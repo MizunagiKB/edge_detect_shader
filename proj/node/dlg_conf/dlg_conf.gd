@@ -26,14 +26,14 @@ func _on_dlg_conf_about_to_show():
 func _on_btn_mesh_dir_pressed():
 
     $dlg_choose_dir.current_dir = $lbl_mesh_dir/line_edit.text
-    $dlg_choose_dir.connect("confirmed", self, "_evt_mesh_dir_confirmed")
+    var _err = $dlg_choose_dir.connect("confirmed", self, "_evt_mesh_dir_confirmed")
     $dlg_choose_dir.popup_centered()
 
 
 func _on_btn_capture_image_dir_pressed():
 
     $dlg_choose_dir.current_dir = $lbl_capture_image_dir/line_edit.text
-    $dlg_choose_dir.connect("confirmed", self, "_on_dlg_choose_dir_confirmed")
+    var _err = $dlg_choose_dir.connect("confirmed", self, "_on_dlg_choose_dir_confirmed")
     $dlg_choose_dir.popup_centered()
 
 

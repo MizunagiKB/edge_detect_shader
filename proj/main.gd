@@ -41,7 +41,7 @@ var active_win: WindowDialog = null
 
 
 # ------------------------------------------------------------------- method(s)
-func ui_visible(show: bool):
+func set_ui_visible(show: bool):
 
     var order = [0, 1]
 
@@ -102,32 +102,43 @@ func load_extension(base_dir: String, o_itemlist: ItemList):
 
 func load_mesh(mesh_pathname: String):
 
-    var new_mesh: Mesh = load(mesh_pathname)
+    var valid_ext: bool = false
+
+    if mesh_pathname.ends_with(".mesh"):  valid_ext = true
+    if mesh_pathname.ends_with(".obj"):  valid_ext = true
+
+    if valid_ext == true:
+        var new_mesh: Mesh = load(mesh_pathname)
+        
+        if new_mesh == null:
+            new_mesh = MODEL_OBJ.load(mesh_pathname)
+
+            """ Convert save
+            if new_mesh.get_aabb().has_no_surface() != true:
+                var save_pathname = CONF.mesh_dir + "/" + mesh_pathname.get_file().replace(".obj", ".mesh")
+                ResourceSaver.save(save_pathname, new_mesh)
+            """
     
-    if new_mesh == null:
-        new_mesh = MODEL_OBJ.load(mesh_pathname)
-
-    if new_mesh != null:
-        for o in $base_ctl.get_children():
-            o.queue_free()
-
-        var eds_mesh_instance: EDSMeshInstance = null
-
-        eds_mesh_instance = EDSMeshInstance.new()
-        eds_mesh_instance.mesh_setup(new_mesh)
-        $base_ctl.add_child(eds_mesh_instance)
+        if new_mesh != null:
+            for o in $base_ctl.get_children():
+                o.queue_free()
+    
+            var eds_mesh_instance: EDSMeshInstance = null
+    
+            eds_mesh_instance = EDSMeshInstance.new()
+            eds_mesh_instance.mesh_setup(new_mesh)
+            $base_ctl.add_child(eds_mesh_instance)
 
 
-func _files_droppped(files: PoolStringArray, screen: int):
+func _files_droppped(files: PoolStringArray, _screen: int):
     for pathname in files:
-        if pathname.ends_with(".mesh"):
-            self.load_mesh(pathname)
-            break
+        self.load_mesh(pathname)
+        break
 
 
 func _ready():
 
-    get_tree().connect("files_dropped", self, "_files_droppped")
+    var _err = get_tree().connect("files_dropped", self, "_files_droppped")
     
     CONF.parameter_load()
 
@@ -196,7 +207,7 @@ func _input(event):
 
         if event.scancode == KEY_TAB:
             if event.pressed == true:
-                ui_visible(not self.ui_visible)
+                self.set_ui_visible(not self.ui_visible)
 
 
 func _on_ui_gui_input(event):
@@ -253,7 +264,7 @@ func _on_ui_gui_input(event):
     $ui/knob_U/spin_z.value = $base_ctl.rotation_degrees.z
 
 
-func _process(delta):
+func _process(_delta):
 
     $ui/knob_L/btn_pause.pressed = get_tree().paused
 
@@ -322,12 +333,13 @@ func _on_models_item_selected(index):
 
     if active_win != null:
         $ui.add_child(active_win)
-        active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
-        active_win.ext_show($cam, $base_ctl, $base_ext)
-
-        active_win.popup()
-        var calcsize = event_frame.size - active_win.rect_size
-        active_win.rect_position = calcsize / 2
+        var err = active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
+        if err == OK:
+            active_win.ext_show($cam, $base_ctl, $base_ext)
+    
+            active_win.popup()
+            var calcsize = event_frame.size - active_win.rect_size
+            active_win.rect_position = calcsize / 2
 
     else:
         self.load_mesh(CONF.mesh_dir + "/" + $ui/knob_R/tab_container/models.get_item_text(index))
@@ -344,7 +356,7 @@ func _on_extentions_item_selected(index):
     if active_win != null:
 
         $ui.add_child(active_win)
-        active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
+        var _err = active_win.connect("popup_hide", self, "evt_extenttions_popup_hide")
         active_win.ext_show($cam, $base_ctl, $base_ext)
 
         active_win.popup()

@@ -43,11 +43,11 @@ func ext_name() -> String:
     return "[Mesh Create]"
 
 
-func ext_init(ext_dir: String) -> bool:
+func ext_init(_ext_dir: String) -> bool:
     return true
 
 
-func ext_show(o_cam: Camera, o_control: Spatial, o_ext: Spatial) -> bool:
+func ext_show(_o_cam: Camera, o_control: Spatial, _o_ext: Spatial) -> bool:
 
     self.result = false
     self.o_base_ctl = o_control
@@ -152,8 +152,6 @@ func get_mesh() -> Mesh:
 
         5:
             var r = 0
-            var v = Vector3.RIGHT
-
             var ary_vtx = PoolVector3Array()
 
             seed(0)
@@ -198,14 +196,14 @@ func _ready():
     pass # Replace with function body.
 
 
-func _process(delta):
+func _process(_delta):
     if self.need_update == true:
         var new_mesh = self.get_mesh()
         self.eds_mesh_instance.mesh_setup(new_mesh)
         self.need_update = false
 
 
-func evt_value_changed(value):
+func evt_value_changed(_value):
     self.need_update = true
 
 

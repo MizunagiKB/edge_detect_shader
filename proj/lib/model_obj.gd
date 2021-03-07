@@ -1,22 +1,7 @@
 extends Node
 
 
-"""
-            var ary_vtx = PoolVector3Array()
-            var ary_idx = PoolIntArray()
-            for v in list_cube_vtx:
-                ary_vtx.push_back(v)
-            for i in list_cube_idx:
-                ary_idx.push_back(i)
-
-            var arrays = []
-            arrays.resize(ArrayMesh.ARRAY_MAX)
-            arrays[ArrayMesh.ARRAY_VERTEX] = ary_vtx                
-            arrays[ArrayMesh.ARRAY_INDEX] = ary_idx
-
-"""
-
-class CModelMesh:
+class CConvertObj:
     var ary_vert = []
     var ary_vert_index = []
     var ary_norm = []
@@ -95,45 +80,52 @@ class CModelMesh:
 
 
 func load(model_pathname: String) -> Mesh:
+
+    var o_mesh: Mesh
     var file = File.new()
-    var e = file.open(model_pathname, File.READ)
-    var filesize = file.get_len()
 
-    var o_mmesh = CModelMesh.new()
+    if file.open(model_pathname, File.READ) == OK:
 
-    while file.get_position() < filesize:
-        var line = file.get_line()
+        var filesize = file.get_len()
+        var o_conv = CConvertObj.new()
 
-        line = line.strip_edges()
-        
-        if line.length() == 0:
-            continue
+        while file.get_position() < filesize:
+            var line = file.get_line()
+    
+            line = line.strip_edges()
+            
+            if line.length() == 0:
+                continue
+    
+            var ary_data = line.split(" ")
+    
+            if ary_data.size() > 0:
+                match ary_data[0]:
+                    "g":
+                        pass
+                    "o":
+                        pass
+                    "s":
+                        pass
+                    "v":
+                        o_conv.append_vertex(ary_data)
+                    "vt":
+                        pass
+                    "vn":
+                        o_conv.append_normal(ary_data)
+                    "f":
+                        o_conv.append_face(ary_data)
+                    "mtllib":
+                        pass
+                    "usemtl":
+                        pass
+                    "#":
+                        pass
+                    _:
+                        print(ary_data)
+                        assert(false)
+    
+        o_mesh = o_conv.create_mesh()
 
-        var arydata = line.split(" ")
-
-        if arydata.size() > 0:
-            match arydata[0]:
-                "g":
-                    #print(arydata[1])
-                    pass
-                "v":
-                    o_mmesh.append_vertex(arydata)
-                    pass
-                "vn":
-                    o_mmesh.append_normal(arydata)
-                    pass
-                "f":
-                    o_mmesh.append_face(arydata)
-                    pass
-                "mtllib":
-                    pass
-                "usemtl":
-                    pass
-                "#":
-                    pass
-                _:
-                    print(arydata)
-                    assert(false)
-
-    return o_mmesh.create_mesh()
+    return o_mesh
 

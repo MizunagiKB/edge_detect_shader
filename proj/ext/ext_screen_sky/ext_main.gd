@@ -21,11 +21,11 @@ func get_conf() -> Dictionary:
     return {}
 
 
-func set_conf(conf: Dictionary) -> bool:
+func set_conf(_conf: Dictionary) -> bool:
     return false
 
 
-func ext_show(o_cam: Camera, o_control: Spatial, o_ext: Spatial) -> bool:
+func ext_show(o_cam: Camera, _o_control: Spatial, o_ext: Spatial) -> bool:
     self.o_base_cam = o_cam
     self.o_base_ext = o_ext
 

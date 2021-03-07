@@ -35,7 +35,7 @@ func ext_init(ext_dir: String) -> bool:
     return true
 
 
-func ext_show(o_cam: Camera, o_control: Spatial, o_ext: Spatial) -> bool:
+func ext_show(_o_cam: Camera, o_control: Spatial, _o_ext: Spatial) -> bool:
 
     self.result = false
     self.o_base_ctl = o_control
@@ -128,14 +128,14 @@ func _ready():
         $paper_size.add_item(label, item.id)
 
 
-func _process(delta):
+func _process(_delta):
 
     if self.need_update == true:
 
         self.need_update = false
 
 
-func evt_value_changed(value):
+func evt_value_changed(_value):
     self.need_update = true
 
 

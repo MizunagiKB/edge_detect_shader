@@ -26,7 +26,7 @@ func ext_init(ext_dir: String) -> bool:
     return true
 
 
-func ext_show(o_cam: Camera, o_control: Spatial, o_ext: Spatial) -> bool:
+func ext_show(_o_cam: Camera, o_control: Spatial, _o_ext: Spatial) -> bool:
 
     self.result = false
     self.o_base_ctl = o_control
@@ -69,7 +69,7 @@ func _ready():
     pass # Replace with function body.
 
 
-func _process(delta):
+func _process(_delta):
 
     if self.need_update == true:
         self.node_instance.recalc_gravity = $recalc_gravity.pressed
@@ -79,7 +79,7 @@ func _process(delta):
         self.need_update = false
 
 
-func evt_value_changed(value):
+func evt_value_changed(_value):
     self.need_update = true
 
 
