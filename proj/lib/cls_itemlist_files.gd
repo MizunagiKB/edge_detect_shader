@@ -68,11 +68,16 @@ func reload(pathname: String) -> bool:
 func load_mesh(pathname: String):
 
     var valid_ext: bool = false
+    var lower_ext: String = pathname.to_lower()
+    var new_mesh: Mesh
 
-    print(pathname.get_extension())
+    match lower_ext.get_extension():
+        "mesh":
+            new_mesh = load(pathname)
+        "obj":
+            var loader = FileFormatObj.new()
+            new_mesh = loader.load(pathname)
 
-    var new_mesh: Mesh = load(pathname)
-        
     if new_mesh != null:
 
         var o_node = self.get_node("/root/main_frame/base/node")
@@ -82,7 +87,7 @@ func load_mesh(pathname: String):
         var o_mesh_instance = CEDSMeshInstance.new()
         o_node.add_child(o_mesh_instance)
         o_mesh_instance.set_mesh(new_mesh)
-
+        
 
 func _ready():
 

@@ -58,6 +58,11 @@ _global_script_classes=[ {
 "class": "EDSTextureButton",
 "language": "GDScript",
 "path": "res://lib/eds_btn_locked.gd"
+}, {
+"base": "Node",
+"class": "FileFormatObj",
+"language": "GDScript",
+"path": "res://lib/lib_file_format_obj.gd"
 } ]
 _global_script_class_icons={
 "CEDSMeshInstance": "",
@@ -69,7 +74,8 @@ _global_script_class_icons={
 "EDSPanel": "",
 "EDSShaderParam_ColorPickerButton": "",
 "EDSShaderParam_float": "",
-"EDSTextureButton": ""
+"EDSTextureButton": "",
+"FileFormatObj": ""
 }
 
 [application]
