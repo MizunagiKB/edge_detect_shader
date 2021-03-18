@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://lib/builtins/simple_mesh/ext_simple_mesh.gd" type="Script" id=1]
+
+[node name="ext_simple_mesh" type="VBoxContainer"]
+margin_right = 256.0
+margin_bottom = 80.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl" type="Label" parent="."]
+margin_right = 256.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+text = "Select PrimitiveType"
+valign = 2
+
+[node name="btn_primitive" type="OptionButton" parent="."]
+margin_top = 36.0
+margin_right = 256.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 0, 32 )
+focus_mode = 0
+enabled_focus_mode = 0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

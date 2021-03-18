@@ -1,0 +1,109 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://res_ui/icon/folder-solid_disabled.svg" type="Texture" id=1]
+[ext_resource path="res://res_ui/icon/folder-solid_pressed.svg" type="Texture" id=2]
+[ext_resource path="res://res_ui/icon/folder-solid_normal.svg" type="Texture" id=3]
+[ext_resource path="res://res_ui/icon/folder-solid_hover.svg" type="Texture" id=4]
+[ext_resource path="res://conf/container_configure.gd" type="Script" id=5]
+
+[node name="container_configure" type="VBoxContainer"]
+margin_top = 8.0
+margin_right = 416.0
+margin_bottom = 148.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_mesh_dir" type="Label" parent="."]
+margin_right = 416.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+text = "Mesh Dir"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ctl_mesh_dir" type="Control" parent="."]
+margin_top = 36.0
+margin_right = 416.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 0, 32 )
+
+[node name="mesh_dir" type="LineEdit" parent="ctl_mesh_dir"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -40.0
+rect_min_size = Vector2( 0, 32 )
+editable = false
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_mesh_dir" type="TextureButton" parent="ctl_mesh_dir"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -16.0
+margin_bottom = 16.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 1 )
+expand = true
+stretch_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_capture_image_dir" type="Label" parent="."]
+margin_top = 72.0
+margin_right = 416.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 32 )
+text = "CaptureImage Dir"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ctl_capture_image_dir" type="Control" parent="."]
+margin_top = 108.0
+margin_right = 416.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 0, 32 )
+
+[node name="capture_image_dir" type="LineEdit" parent="ctl_capture_image_dir"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -40.0
+rect_min_size = Vector2( 0, 32 )
+editable = false
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_capture_image_dir" type="TextureButton" parent="ctl_capture_image_dir"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -16.0
+margin_bottom = 16.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 1 )
+expand = true
+stretch_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}

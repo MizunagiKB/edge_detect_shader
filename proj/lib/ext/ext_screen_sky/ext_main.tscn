@@ -1,0 +1,147 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://lib/ext/ext_screen_sky/ext_main.gd" type="Script" id=1]
+
+[node name="ext_main" type="VBoxContainer"]
+margin_right = 324.0
+margin_bottom = 212.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_screen" type="OptionButton" parent="."]
+margin_right = 324.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 256, 32 )
+text = "Disable"
+align = 1
+items = [ "Disable", null, false, 0, null, "Sky", null, false, 1, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hbox1" type="HBoxContainer" parent="."]
+margin_top = 36.0
+margin_right = 324.0
+margin_bottom = 68.0
+
+[node name="lbl_time" type="Label" parent="hbox1"]
+margin_right = 128.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+text = "Time"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider_time" type="HSlider" parent="hbox1"]
+margin_left = 132.0
+margin_right = 324.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 192, 32 )
+focus_mode = 0
+max_value = 1440.0
+value = 720.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hbox2" type="HBoxContainer" parent="."]
+margin_top = 72.0
+margin_right = 324.0
+margin_bottom = 104.0
+
+[node name="lbl_cloud_coverage" type="Label" parent="hbox2"]
+margin_right = 128.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+text = "Cloud Coverage"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider_clouds_coverage" type="HSlider" parent="hbox2"]
+margin_left = 132.0
+margin_right = 324.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 192, 32 )
+focus_mode = 0
+max_value = 1.0
+step = 0.01
+value = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hbox3" type="HBoxContainer" parent="."]
+margin_top = 108.0
+margin_right = 324.0
+margin_bottom = 140.0
+
+[node name="lbl_cloud_size" type="Label" parent="hbox3"]
+margin_right = 128.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+text = "Cloud Size"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider_clouds_size" type="HSlider" parent="hbox3"]
+margin_left = 132.0
+margin_right = 324.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 192, 32 )
+focus_mode = 0
+max_value = 10.0
+step = 0.01
+value = 2.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hbox4" type="HBoxContainer" parent="."]
+margin_top = 144.0
+margin_right = 324.0
+margin_bottom = 176.0
+
+[node name="lbl_wind_strength" type="Label" parent="hbox4"]
+margin_right = 128.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+text = "Wind Strength"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="wind_strength" type="HSlider" parent="hbox4"]
+margin_left = 132.0
+margin_right = 324.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 192, 32 )
+focus_mode = 0
+max_value = 1.0
+step = 0.01
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 180.0
+margin_right = 324.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 256, 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="item_selected" from="btn_screen" to="." method="_on_btn_screen_item_selected"]
+[connection signal="value_changed" from="hbox1/slider_time" to="." method="_on_slider_time_value_changed"]
+[connection signal="value_changed" from="hbox2/slider_clouds_coverage" to="." method="_on_slider_clouds_coverage_value_changed"]
+[connection signal="value_changed" from="hbox3/slider_clouds_size" to="." method="_on_slider_clouds_size_value_changed"]
+[connection signal="value_changed" from="hbox4/wind_strength" to="." method="_on_wind_strength_value_changed"]

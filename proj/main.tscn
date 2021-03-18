@@ -1,571 +1,600 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
-[ext_resource path="res://shader/edge.shader" type="Shader" id=2]
-[ext_resource path="res://theme_gray.tres" type="Theme" id=3]
-[ext_resource path="res://res/font/Voltaire-Regular.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://node/dlg_conf/dlg_conf.tscn" type="PackedScene" id=7]
+[ext_resource path="res://lib/eds_panel.gd" type="Script" id=2]
+[ext_resource path="res://lib/eds_control_size.gd" type="Script" id=3]
+[ext_resource path="res://res_ui/icon/door-open-solid_hover.svg" type="Texture" id=4]
+[ext_resource path="res://res_ui/icon/door-closed-solid_normal.svg" type="Texture" id=5]
+[ext_resource path="res://res_ui/icon/border-none-solid_hover.svg" type="Texture" id=6]
+[ext_resource path="res://res_ui/icon/cogs-solid_hover.svg" type="Texture" id=7]
+[ext_resource path="res://lib/eds_render_mode.gd" type="Script" id=8]
+[ext_resource path="res://res_ui/icon/cubes-solid_hover.svg" type="Texture" id=9]
+[ext_resource path="res://res_ui/icon/camera-solid_hover.svg" type="Texture" id=10]
+[ext_resource path="res://res_ui/icon/file-download-solid_hover.svg" type="Texture" id=11]
+[ext_resource path="res://res_ui/icon/expand-arrows-alt-solid_hover.svg" type="Texture" id=12]
+[ext_resource path="res://res_ui/icon/cubes-solid_normal.svg" type="Texture" id=13]
+[ext_resource path="res://res_ui/icon/cubes-solid_pressed.svg" type="Texture" id=14]
+[ext_resource path="res://res_ui/icon/eraser-solid_hover.svg" type="Texture" id=15]
+[ext_resource path="res://res_ui/icon/eraser-solid_normal.svg" type="Texture" id=16]
+[ext_resource path="res://res_ui/icon/eraser-solid_pressed.svg" type="Texture" id=17]
+[ext_resource path="res://lib/cls_screen.gd" type="Script" id=18]
+[ext_resource path="res://lib/cls_itemlist_files.gd" type="Script" id=19]
+[ext_resource path="res://res_ui/font/NotoSansJP-Regular.otf" type="DynamicFontData" id=20]
+[ext_resource path="res://lib/eds_shader_param_color.gd" type="Script" id=21]
+[ext_resource path="res://lib/eds_shader_param_float.gd" type="Script" id=22]
+[ext_resource path="res://lib/eds_fov.gd" type="Script" id=23]
+[ext_resource path="res://res_ui/icon/expand-arrows-alt-solid_pressed.svg" type="Texture" id=24]
+[ext_resource path="res://res_ui/icon/expand-arrows-alt-normal.svg" type="Texture" id=25]
+[ext_resource path="res://res_ui/icon/cogs-solid_normal.svg" type="Texture" id=26]
+[ext_resource path="res://res_ui/icon/cogs-solid_pressed.svg" type="Texture" id=27]
+[ext_resource path="res://res_ui/icon/cogs-solid_disabled.svg" type="Texture" id=28]
+[ext_resource path="res://res_ui/icon/door-open-solid_pressed.svg" type="Texture" id=29]
+[ext_resource path="res://res_ui/icon/border-none-solid_pressed.svg" type="Texture" id=30]
+[ext_resource path="res://res_ui/icon/border-none-solid_normal.svg" type="Texture" id=31]
+[ext_resource path="res://res_ui/icon/camera-solid_pressed.svg" type="Texture" id=32]
+[ext_resource path="res://res_ui/icon/camera-solid_disabled.svg" type="Texture" id=33]
+[ext_resource path="res://res_ui/icon/camera-solid_normal.svg" type="Texture" id=34]
+[ext_resource path="res://res_ui/icon/file-download-solid_normal.svg" type="Texture" id=35]
+[ext_resource path="res://res_ui/icon/file-download-solid_disabled.svg" type="Texture" id=36]
+[ext_resource path="res://res_ui/icon/file-download-solid_pressed.svg" type="Texture" id=37]
+[ext_resource path="res://conf/dlg_configure.tscn" type="PackedScene" id=38]
+[ext_resource path="res://res_ui/icon/lock-open-solid_normal.svg" type="Texture" id=39]
+[ext_resource path="res://lib/eds_btn_locked.gd" type="Script" id=40]
+[ext_resource path="res://res_ui/icon/lock-solid_normal.svg" type="Texture" id=41]
+[ext_resource path="res://res_ui/icon/lock-open-solid_pressed.svg" type="Texture" id=42]
+[ext_resource path="res://res_ui/icon/lock-solid_disabled.svg" type="Texture" id=43]
+[ext_resource path="res://res_ui/icon/lock-open-solid_disabled.svg" type="Texture" id=44]
+[ext_resource path="res://res_ui/icon/lock-open-solid_hover.svg" type="Texture" id=45]
+[ext_resource path="res://res_ui/icon/lock-solid_hover.svg" type="Texture" id=46]
+[ext_resource path="res://res_ui/icon/lock-solid_pressed.svg" type="Texture" id=47]
+[ext_resource path="res://res_ui/icon/search-solid_pressed_16x16.svg" type="Texture" id=48]
+[ext_resource path="res://lib/cls_itemlist_extentions.gd" type="Script" id=49]
 
 [sub_resource type="DynamicFont" id=1]
 size = 12
-font_data = ExtResource( 4 )
+font_data = ExtResource( 20 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 14
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
+size = 12
+font_data = ExtResource( 20 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 14
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
-
-[sub_resource type="DynamicFont" id=4]
 size = 12
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
+font_data = ExtResource( 20 )
 
-[sub_resource type="DynamicFont" id=5]
-size = 12
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
-
-[sub_resource type="QuadMesh" id=6]
+[sub_resource type="QuadMesh" id=4]
 size = Vector2( 2, 2 )
 
-[sub_resource type="ShaderMaterial" id=7]
-shader = ExtResource( 2 )
-shader_param/edge_range = 1000.0
-shader_param/edge_size = 1.0
-shader_param/color_value = Vector3( 0, 0, 0 )
-shader_param/screen_w = 960.0
-shader_param/screen_h = 540.0
-
-[node name="main" type="Spatial"]
-pause_mode = 2
+[node name="main_frame" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
-
-[node name="ui" type="Control" parent="."]
-pause_mode = 2
-margin_right = 960.0
-margin_bottom = 544.0
-theme = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="tween" type="Tween" parent="ui"]
+[node name="ui_tween" type="Tween" parent="."]
 
-[node name="knob_U" type="Panel" parent="ui"]
-margin_left = -16.0
-margin_top = -16.0
-margin_right = 976.0
+[node name="frmU" type="Panel" parent="."]
+anchor_right = 1.0
 margin_bottom = 16.0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="spin_x" type="SpinBox" parent="ui/knob_U"]
-margin_left = 512.0
-margin_top = 48.0
-margin_right = 576.0
-margin_bottom = 80.0
-min_value = -1000.0
-max_value = 1000.0
-align = 1
-prefix = "X:"
+[node name="rot_x" type="SpinBox" parent="frmU"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -528.0
+margin_top = 24.0
+margin_right = -448.0
+margin_bottom = 48.0
+min_value = -360.0
+max_value = 360.0
+allow_greater = true
+allow_lesser = true
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="spin_y" type="SpinBox" parent="ui/knob_U"]
-margin_left = 592.0
-margin_top = 48.0
-margin_right = 656.0
-margin_bottom = 80.0
-min_value = -1000.0
-max_value = 1000.0
-align = 1
-prefix = "Y:"
+[node name="rot_y" type="SpinBox" parent="frmU"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -440.0
+margin_top = 24.0
+margin_right = -360.0
+margin_bottom = 48.0
+min_value = -360.0
+max_value = 360.0
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="rot_z" type="SpinBox" parent="frmU"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -352.0
+margin_top = 24.0
+margin_right = -272.0
+margin_bottom = 48.0
+min_value = -360.0
+max_value = 360.0
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="btn_locked" type="TextureButton" parent="frmU"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -264.0
+margin_top = 24.0
+margin_right = -232.0
+margin_bottom = 56.0
+texture_normal = ExtResource( 39 )
+texture_pressed = ExtResource( 47 )
+texture_hover = ExtResource( 45 )
+texture_disabled = ExtResource( 44 )
+expand = true
+stretch_mode = 3
+script = ExtResource( 40 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+tex0_normal = ExtResource( 39 )
+tex0_hover = ExtResource( 45 )
+tex0_pressed = ExtResource( 42 )
+tex0_disabled = ExtResource( 44 )
+tex1_normal = ExtResource( 41 )
+tex1_hover = ExtResource( 46 )
+tex1_pressed = ExtResource( 47 )
+tex1_disabled = ExtResource( 43 )
+
+[node name="frmD" type="Panel" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -16.0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="spin_z" type="SpinBox" parent="ui/knob_U"]
-margin_left = 672.0
-margin_top = 48.0
-margin_right = 736.0
-margin_bottom = 80.0
-min_value = -1000.0
-max_value = 1000.0
-align = 1
-prefix = "Z:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="knob_D" type="Panel" parent="ui"]
-margin_left = -16.0
-margin_top = 528.0
-margin_right = 944.0
-margin_bottom = 560.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="knob_Resize" type="Panel" parent="ui/knob_D"]
-margin_left = 960.0
-margin_right = 992.0
-margin_bottom = 32.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="btn_camera" type="Button" parent="ui/knob_D"]
-margin_left = 704.0
-margin_top = -48.0
-margin_right = 736.0
-margin_bottom = -16.0
-hint_tooltip = "BTN_CAMERA_ROTATION"
-focus_mode = 0
-enabled_focus_mode = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="knob_L" type="Panel" parent="ui"]
-margin_left = -16.0
-margin_top = 16.0
+[node name="frmL" type="Panel" parent="."]
+anchor_bottom = 1.0
 margin_right = 16.0
-margin_bottom = 528.0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_fullscreen" type="Button" parent="ui/knob_L"]
+[node name="btn_maximize" type="TextureButton" parent="frmL"]
 margin_left = 24.0
-margin_top = 16.0
+margin_top = 24.0
 margin_right = 56.0
-margin_bottom = 48.0
-hint_tooltip = "Window maximize"
+margin_bottom = 56.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
-text = "Max"
+texture_normal = ExtResource( 25 )
+texture_pressed = ExtResource( 24 )
+texture_hover = ExtResource( 12 )
+expand = true
+stretch_mode = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_resize" type="Button" parent="ui/knob_L"]
-margin_left = 64.0
-margin_top = 16.0
-margin_right = 96.0
-margin_bottom = 48.0
-hint_tooltip = "Window resize"
-focus_mode = 0
-toggle_mode = true
-enabled_focus_mode = 0
-text = "x2"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="btn_transparent" type="Button" parent="ui/knob_L"]
+[node name="btn_configure" type="TextureButton" parent="frmL"]
+anchor_top = 1.0
+anchor_bottom = 1.0
 margin_left = 24.0
-margin_top = 64.0
+margin_top = -96.0
 margin_right = 56.0
-margin_bottom = 96.0
-hint_tooltip = "Window transparent"
+margin_bottom = -64.0
 focus_mode = 0
-toggle_mode = true
 enabled_focus_mode = 0
-text = "Tr"
+texture_normal = ExtResource( 26 )
+texture_pressed = ExtResource( 27 )
+texture_hover = ExtResource( 7 )
+texture_disabled = ExtResource( 28 )
+expand = true
+stretch_mode = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_capture" type="Button" parent="ui/knob_L"]
+[node name="btn_close" type="TextureButton" parent="frmL"]
+anchor_top = 1.0
+anchor_bottom = 1.0
 margin_left = 24.0
-margin_top = 112.0
+margin_top = -56.0
 margin_right = 56.0
-margin_bottom = 144.0
-hint_tooltip = "Capture
-(Export to PNG File)"
+margin_bottom = -24.0
 focus_mode = 0
 enabled_focus_mode = 0
-text = "Cap"
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 29 )
+texture_hover = ExtResource( 4 )
+expand = true
+stretch_mode = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_conf" type="Button" parent="ui/knob_L"]
-margin_left = 24.0
-margin_top = 416.0
-margin_right = 56.0
-margin_bottom = 448.0
-hint_tooltip = "Open configuration dialog"
-focus_mode = 0
-enabled_focus_mode = 0
-text = "Conf"
-expand_icon = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="btn_exit" type="Button" parent="ui/knob_L"]
-margin_left = 24.0
-margin_top = 464.0
-margin_right = 56.0
-margin_bottom = 496.0
-hint_tooltip = "Quit application"
-focus_mode = 0
-enabled_focus_mode = 0
-text = "Quit"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="btn_pause" type="Button" parent="ui/knob_L"]
-margin_left = 24.0
-margin_top = 160.0
-margin_right = 56.0
-margin_bottom = 192.0
-focus_mode = 0
-toggle_mode = true
-enabled_focus_mode = 0
-text = "[]"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="cam_distance" type="VSlider" parent="ui/knob_L"]
+[node name="camera_pos" type="VScrollBar" parent="frmL"]
+anchor_bottom = 1.0
 margin_left = 32.0
-margin_top = 208.0
-margin_right = 64.0
-margin_bottom = 384.0
-hint_tooltip = "Camera distance"
-focus_mode = 0
-min_value = 1.0
-max_value = 10.0
+margin_top = 112.0
+margin_right = 48.0
+margin_bottom = -112.0
 value = 10.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="knob_R" type="Panel" parent="ui"]
-margin_left = 736.0
-margin_top = 16.0
-margin_right = 976.0
-margin_bottom = 528.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="lbl_version" type="Label" parent="ui/knob_R"]
-margin_left = 64.0
-margin_top = 496.0
-margin_right = 208.0
-margin_bottom = 512.0
-custom_fonts/font = SubResource( 1 )
-align = 2
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="btn_reset" type="Button" parent="ui/knob_R"]
-margin_left = 16.0
-margin_right = 208.0
-margin_bottom = 32.0
-hint_tooltip = "BTN_RESET_HINT"
+[node name="btn_transparent" type="TextureButton" parent="frmL"]
+margin_left = 24.0
+margin_top = 64.0
+margin_right = 56.0
+margin_bottom = 96.0
 focus_mode = 0
-theme = ExtResource( 3 )
-text = "BTN_RESET_TEXT"
+toggle_mode = true
+enabled_focus_mode = 0
+texture_normal = ExtResource( 31 )
+texture_pressed = ExtResource( 30 )
+texture_hover = ExtResource( 6 )
+expand = true
+stretch_mode = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="tab_container" type="TabContainer" parent="ui/knob_R"]
+[node name="frmR" type="Panel" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -224.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="container" type="TabContainer" parent="frmR"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 16.0
-margin_top = 48.0
-margin_right = 208.0
-margin_bottom = 320.0
+margin_top = 56.0
+margin_right = -16.0
+margin_bottom = -192.0
 tab_align = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="models" type="ItemList" parent="ui/knob_R/tab_container"]
+[node name="Files" type="ToolButton" parent="frmR/container"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 29.0
-margin_right = -1.0
-margin_bottom = -1.0
-focus_mode = 0
-allow_reselect = true
-fixed_icon_size = Vector2( 24, 24 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="extentions" type="ItemList" parent="ui/knob_R/tab_container"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 29.0
-margin_right = -1.0
-margin_bottom = -1.0
-allow_reselect = true
-
-[node name="btn_shader" type="OptionButton" parent="ui/knob_R"]
-margin_left = 16.0
-margin_top = 336.0
-margin_right = 96.0
-margin_bottom = 368.0
-hint_tooltip = "BTN_EDGE_HINT"
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
 focus_mode = 0
 enabled_focus_mode = 0
-text = "Edge"
-align = 1
-items = [ "Off", null, false, 0, null, "Edge", null, false, 1, null, "Normal", null, false, 2, null, "Depth", null, false, 3, null ]
-selected = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_edge_depth" type="Label" parent="ui/knob_R"]
-margin_left = 16.0
-margin_top = 416.0
-margin_right = 64.0
-margin_bottom = 464.0
-text = "Depth"
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="edge_depth" type="HScrollBar" parent="ui/knob_R"]
-margin_left = 64.0
-margin_top = 432.0
-margin_right = 208.0
-margin_bottom = 448.0
-min_value = 1024.0
-max_value = 66560.0
-step = 1024.0
-page = 1024.0
-value = 1024.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="value" type="Label" parent="ui/knob_R/edge_depth"]
-margin_left = -112.0
-margin_top = -16.0
-margin_right = -64.0
+[node name="btn_create" type="TextureButton" parent="frmR/container/Files"]
+anchor_right = 1.0
+margin_left = 4.0
+margin_right = -148.0
 margin_bottom = 32.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 14 )
+texture_hover = ExtResource( 9 )
+expand = true
+stretch_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_delete" type="TextureButton" parent="frmR/container/Files"]
+margin_left = 36.0
+margin_right = 68.0
+margin_bottom = 32.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 17 )
+texture_hover = ExtResource( 15 )
+expand = true
+stretch_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="file_search" type="LineEdit" parent="frmR/container/Files"]
+anchor_right = 1.0
+margin_left = 76.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 1 )
+editable = false
+right_icon = ExtResource( 48 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="files" type="ItemList" parent="frmR/container/Files"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 40.0
+focus_mode = 0
 custom_fonts/font = SubResource( 2 )
-align = 1
-valign = 1
+fixed_icon_size = Vector2( 16, 16 )
+script = ExtResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_edge_size" type="Label" parent="ui/knob_R"]
-margin_left = 16.0
-margin_top = 448.0
-margin_right = 64.0
-margin_bottom = 496.0
-text = "Size"
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="edge_size" type="HSlider" parent="ui/knob_R"]
-margin_left = 64.0
-margin_top = 464.0
-margin_right = 208.0
-margin_bottom = 480.0
-focus_mode = 0
-min_value = 0.1
-max_value = 3.0
-step = 0.1
-value = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="value" type="Label" parent="ui/knob_R/edge_size"]
-margin_left = -112.0
-margin_top = -16.0
-margin_right = -64.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 3 )
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="lbl_desc" type="Label" parent="ui/knob_R"]
+[node name="Extentions" type="ItemList" parent="frmR/container"]
 visible = false
-margin_left = -704.0
-margin_top = 464.0
-margin_right = -640.0
-margin_bottom = 560.0
-custom_fonts/font = SubResource( 4 )
-text = "Mouse L:
-Mouse R:
-Mouse M:
-TAB:"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+focus_mode = 0
+custom_fonts/font = SubResource( 3 )
+allow_reselect = true
+fixed_icon_size = Vector2( 16, 16 )
+script = ExtResource( 49 )
 
-[node name="lbl_text" type="Label" parent="ui/knob_R/lbl_desc"]
-margin_left = 80.0
-margin_right = 175.0
-margin_bottom = 96.0
-custom_fonts/font = SubResource( 5 )
-text = "X and Y Rotation
-Z Rotation
-Camera Move
-Hide/Show UI"
-
-[node name="btn_cam" type="OptionButton" parent="ui/knob_R"]
+[node name="panel" type="Panel" parent="frmR"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 16.0
-margin_top = 384.0
-margin_right = 128.0
-margin_bottom = 416.0
-hint_tooltip = "Camera projection"
-focus_mode = 0
-enabled_focus_mode = 0
-text = "Perspective"
-align = 1
-items = [ "Perspective", null, false, 0, null, "Orthogonal", null, true, 1, null, "Frustum", null, false, 2, null ]
-selected = 0
+margin_top = -176.0
+margin_right = -16.0
+margin_bottom = -48.0
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="spin_fov" type="SpinBox" parent="ui/knob_R/btn_cam"]
-margin_left = 128.0
-margin_right = 192.0
+[node name="render_mode" type="OptionButton" parent="frmR/panel" groups=[
+"render_mode",
+]]
+margin_right = 112.0
 margin_bottom = 32.0
-min_value = 30.0
-max_value = 120.0
-step = 5.0
-value = 45.0
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": "Camera parameter"
-}
-
-[node name="lbl_color_edge" type="Label" parent="ui/knob_R"]
-margin_left = 112.0
-margin_top = 336.0
-margin_right = 128.0
-margin_bottom = 368.0
-text = "E"
-align = 1
-valign = 1
-
-[node name="btn_color_edge" type="ColorPickerButton" parent="ui/knob_R"]
-margin_left = 128.0
-margin_top = 336.0
-margin_right = 160.0
-margin_bottom = 368.0
-hint_tooltip = "Model edge color"
 focus_mode = 0
-enabled_focus_mode = 0
-edit_alpha = false
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_color_body" type="Label" parent="ui/knob_R"]
-margin_left = 160.0
-margin_top = 336.0
-margin_right = 176.0
-margin_bottom = 368.0
-text = "B"
-align = 1
-valign = 1
+[node name="camera_mode" type="OptionButton" parent="frmR/panel"]
+margin_top = 48.0
+margin_right = 112.0
+margin_bottom = 80.0
+disabled = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_color_body" type="ColorPickerButton" parent="ui/knob_R"]
-margin_left = 176.0
-margin_top = 336.0
-margin_right = 208.0
-margin_bottom = 368.0
-hint_tooltip = "Model body color"
+[node name="color_albedo" type="ColorPickerButton" parent="frmR/panel" groups=[
+"shader_param",
+]]
+margin_left = 120.0
+margin_right = 152.0
+margin_bottom = 32.0
 focus_mode = 0
 enabled_focus_mode = 0
 color = Color( 1, 1, 1, 1 )
-edit_alpha = false
+script = ExtResource( 21 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="dlg_conf" parent="ui" instance=ExtResource( 7 )]
-margin_left = 128.0
-margin_top = 128.0
-margin_right = 640.0
-margin_bottom = 416.0
+[node name="color_line" type="ColorPickerButton" parent="frmR/panel" groups=[
+"shader_param",
+]]
+margin_left = 160.0
+margin_right = 192.0
+margin_bottom = 32.0
+focus_mode = 0
+enabled_focus_mode = 0
+script = ExtResource( 21 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="cam" type="Camera" parent="."]
+[node name="depth_pow" type="HScrollBar" parent="frmR/panel"]
+margin_left = 56.0
+margin_top = 96.0
+margin_right = 192.0
+margin_bottom = 112.0
+max_value = 200.0
+step = 1.0
+value = 100.0
+script = ExtResource( 22 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="line_weight" type="HScrollBar" parent="frmR/panel"]
+margin_left = 56.0
+margin_top = 120.0
+margin_right = 192.0
+margin_bottom = 136.0
+max_value = 200.0
+step = 1.0
+value = 100.0
+script = ExtResource( 22 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fov" type="SpinBox" parent="frmR/panel"]
+margin_left = 120.0
+margin_top = 48.0
+margin_right = 194.0
+margin_bottom = 80.0
+min_value = 30.0
+max_value = 120.0
+value = 45.0
+align = 2
+script = ExtResource( 23 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_depth" type="Label" parent="frmR/panel"]
+margin_top = 88.0
+margin_right = 56.0
+margin_bottom = 120.0
+text = "Depth"
+valign = 1
+
+[node name="lbl_weight" type="Label" parent="frmR/panel"]
+margin_top = 112.0
+margin_right = 56.0
+margin_bottom = 144.0
+text = "Weight"
+valign = 1
+
+[node name="btn_reset" type="Button" parent="frmR"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -96.0
+margin_top = 16.0
+margin_right = 96.0
+margin_bottom = 48.0
+text = "RESET"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_version" type="Label" parent="frmR"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -176.0
+margin_top = -40.0
+margin_right = -16.0
+margin_bottom = -16.0
+text = "Version 0.0.0"
+align = 2
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_camera" type="TextureButton" parent="frmR"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -264.0
+margin_top = -56.0
+margin_right = -232.0
+margin_bottom = -24.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+texture_normal = ExtResource( 34 )
+texture_pressed = ExtResource( 32 )
+texture_hover = ExtResource( 10 )
+texture_disabled = ExtResource( 33 )
+expand = true
+stretch_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_capture" type="TextureButton" parent="frmR"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -264.0
+margin_top = -96.0
+margin_right = -232.0
+margin_bottom = -64.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 35 )
+texture_pressed = ExtResource( 37 )
+texture_hover = ExtResource( 11 )
+texture_disabled = ExtResource( 36 )
+expand = true
+stretch_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sizerD" type="Control" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -8.0
+margin_right = -16.0
+mouse_default_cursor_shape = 9
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sizerR" type="Control" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -8.0
+margin_bottom = -16.0
+mouse_default_cursor_shape = 10
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sizerDR" type="Control" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -16.0
+margin_top = -16.0
+mouse_default_cursor_shape = 12
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dlg_configure" parent="." instance=ExtResource( 38 )]
+
+[node name="camera" type="Camera" parent="." groups=[
+"camera",
+]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
 current = true
 fov = 45.0
-size = 0.1
-near = 0.01
-far = 1024.0
 
-[node name="render_screen" type="CSGMesh" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7912, 0 )
-cast_shadow = 0
-mesh = SubResource( 6 )
-material = SubResource( 7 )
+[node name="screen" type="CSGMesh" parent="." groups=[
+"screen",
+]]
+mesh = SubResource( 4 )
+script = ExtResource( 18 )
 
-[node name="base_ctl" type="Spatial" parent="."]
-pause_mode = 1
+[node name="base" type="Spatial" parent="."]
 
-[node name="base_ext" type="Spatial" parent="."]
-[connection signal="gui_input" from="ui" to="." method="_on_ui_gui_input"]
-[connection signal="gui_input" from="ui/knob_U" to="." method="_on_knob_U_gui_input"]
-[connection signal="value_changed" from="ui/knob_U/spin_x" to="." method="_on_spin_x_value_changed"]
-[connection signal="value_changed" from="ui/knob_U/spin_y" to="." method="_on_spin_y_value_changed"]
-[connection signal="value_changed" from="ui/knob_U/spin_z" to="." method="_on_spin_z_value_changed"]
-[connection signal="gui_input" from="ui/knob_D" to="." method="_on_knob_D_gui_input"]
-[connection signal="gui_input" from="ui/knob_D/knob_Resize" to="." method="_on_knob_Resize_gui_input"]
-[connection signal="gui_input" from="ui/knob_D/btn_camera" to="." method="_on_btn_camera_gui_input"]
-[connection signal="gui_input" from="ui/knob_L" to="." method="_on_knob_L_gui_input"]
-[connection signal="toggled" from="ui/knob_L/btn_fullscreen" to="." method="_on_btn_fullscreen_toggled"]
-[connection signal="toggled" from="ui/knob_L/btn_resize" to="." method="_on_btn_resize_toggled"]
-[connection signal="toggled" from="ui/knob_L/btn_transparent" to="." method="_on_btn_transparent_toggled"]
-[connection signal="pressed" from="ui/knob_L/btn_capture" to="." method="_on_btn_capture_pressed"]
-[connection signal="pressed" from="ui/knob_L/btn_conf" to="." method="_on_btn_conf_pressed"]
-[connection signal="pressed" from="ui/knob_L/btn_exit" to="." method="_on_btn_exit_pressed"]
-[connection signal="toggled" from="ui/knob_L/btn_pause" to="." method="_on_btn_pause_toggled"]
-[connection signal="value_changed" from="ui/knob_L/cam_distance" to="." method="_on_cam_distance_value_changed"]
-[connection signal="gui_input" from="ui/knob_R" to="." method="_on_panel_gui_input"]
-[connection signal="pressed" from="ui/knob_R/btn_reset" to="." method="_on_btn_reset_pressed"]
-[connection signal="item_selected" from="ui/knob_R/tab_container/models" to="." method="_on_models_item_selected"]
-[connection signal="item_selected" from="ui/knob_R/tab_container/extentions" to="." method="_on_extentions_item_selected"]
-[connection signal="item_selected" from="ui/knob_R/btn_shader" to="." method="_on_btn_shader_item_selected"]
-[connection signal="value_changed" from="ui/knob_R/edge_depth" to="." method="_on_edge_range_value_changed"]
-[connection signal="value_changed" from="ui/knob_R/edge_size" to="." method="_on_edge_size_value_changed"]
-[connection signal="item_selected" from="ui/knob_R/btn_cam" to="." method="_on_btn_cam_item_selected"]
-[connection signal="value_changed" from="ui/knob_R/btn_cam/spin_fov" to="." method="_on_spin_fov_value_changed"]
-[connection signal="color_changed" from="ui/knob_R/btn_color_edge" to="." method="_on_btn_color_edge_color_changed"]
-[connection signal="color_changed" from="ui/knob_R/btn_color_body" to="." method="_on_btn_color_body_color_changed"]
+[node name="node" type="Spatial" parent="base"]
+
+[node name="extension" type="Spatial" parent="base"]
+[connection signal="gui_input" from="." to="." method="_on_main_frame_gui_input"]

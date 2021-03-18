@@ -1,0 +1,114 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://lib/ext/particle_stream/ext_main.gd" type="Script" id=1]
+
+[node name="ext_main" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -704.0
+margin_bottom = -412.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hbox1" type="HBoxContainer" parent="."]
+margin_right = 256.0
+margin_bottom = 32.0
+
+[node name="lbl_amount" type="Label" parent="hbox1"]
+margin_right = 64.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+text = "Amount"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="amount" type="HSlider" parent="hbox1"]
+margin_left = 68.0
+margin_right = 256.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 188, 32 )
+focus_mode = 0
+size_flags_horizontal = 3
+min_value = 8.0
+max_value = 4096.0
+value = 2048.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hbox2" type="HBoxContainer" parent="."]
+margin_top = 36.0
+margin_right = 256.0
+margin_bottom = 68.0
+
+[node name="lbl_spread" type="Label" parent="hbox2"]
+margin_right = 64.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+text = "Spread"
+valign = 1
+
+[node name="spread" type="HSlider" parent="hbox2"]
+margin_left = 68.0
+margin_right = 256.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 188, 32 )
+focus_mode = 0
+size_flags_horizontal = 3
+max_value = 180.0
+value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hbox3" type="HBoxContainer" parent="."]
+margin_top = 72.0
+margin_right = 256.0
+margin_bottom = 104.0
+
+[node name="lbl_initial_velocity" type="Label" parent="hbox3"]
+margin_right = 64.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+text = "Speed"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="initial_velocity" type="HSlider" parent="hbox3"]
+margin_left = 68.0
+margin_right = 256.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 188, 32 )
+focus_mode = 0
+size_flags_horizontal = 3
+max_value = 10.0
+value = 5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 108.0
+margin_right = 256.0
+margin_bottom = 112.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="recalc_gravity" type="CheckBox" parent="."]
+margin_top = 116.0
+margin_right = 256.0
+margin_bottom = 148.0
+rect_min_size = Vector2( 0, 32 )
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Recalc Gravity"
+__meta__ = {
+"_edit_use_anchors_": false
+}

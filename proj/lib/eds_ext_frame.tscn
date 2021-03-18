@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://lib/eds_ext_frame.gd" type="Script" id=1]
+
+[node name="EDSExtFrame" type="WindowDialog"]
+margin_right = 256.0
+margin_bottom = 256.0
+rect_min_size = Vector2( 256, 0 )
+resizable = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="base" type="Control" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -32.0
+margin_right = -8.0
+rect_min_size = Vector2( 0, 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_ok" type="Button" parent="base"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -16.0
+margin_bottom = 8.0
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_cancel" type="Button" parent="base"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -208.0
+margin_top = -16.0
+margin_right = -144.0
+margin_bottom = 8.0
+text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
