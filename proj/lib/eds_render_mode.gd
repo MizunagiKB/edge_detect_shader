@@ -68,7 +68,7 @@ func _on_item_selected(id: int):
             get_tree().call_group("screen", "set_material_override", self.mat_s_curr)
             self.mat_s_curr.shader = self.mat_shader_b
             get_tree().call_group("render_node", "set_material_override", null)
-            self.mat_m_curr.shader = null
+            self.mat_m_curr.shader = load("res://shader/shader_e.shader")
 
         2:
             get_tree().call_group("screen", "set_material_override", self.mat_s_curr)
