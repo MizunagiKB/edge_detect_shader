@@ -43,6 +43,9 @@ func reload(pathname: String) -> bool:
         if name == "":
             break
 
+        if name == ".":
+            continue
+
         if o_dir.current_is_dir():
             var ext_pathname: String = pathname + "/" + name.plus_file("ext_main.tscn")
             var o_class = load(ext_pathname)

@@ -43,6 +43,9 @@ func reload(pathname: String) -> bool:
         if name == "":
             break
 
+        if name == ".":
+            continue
+
         if o_dir.current_is_dir():
             list_name.append([TYPE_FOLD, name])
         else:
@@ -67,7 +70,6 @@ func reload(pathname: String) -> bool:
 
 func load_mesh(pathname: String):
 
-    var valid_ext: bool = false
     var lower_ext: String = pathname.to_lower()
     var new_mesh: Mesh
 
