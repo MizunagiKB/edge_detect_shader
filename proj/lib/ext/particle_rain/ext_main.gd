@@ -87,6 +87,9 @@ func _ready():
 
 func _process(_delta):
 
+    if self.node_instance == null:
+        return
+
     var node_r = self.node_instance.get_node("particles_rain")
     var node_s = self.node_instance.get_node("particles_snow")
     var node_f: Particles = self.node_instance.get_node("particles_fog")
