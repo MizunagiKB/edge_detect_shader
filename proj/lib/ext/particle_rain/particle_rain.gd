@@ -10,7 +10,7 @@ func _ready():
     get_tree().call_group("render_mode", "request_material")
 
 
-func _process(delta):
+func _process(_delta):
 
     pass
 

@@ -65,6 +65,8 @@ func _ready():
     $frmR/container/Files/btn_delete.connect("pressed", self, "_on_pressed_delete")
     $frmR/btn_capture.connect("pressed", self, "_on_pressed_capture")
 
+    $frmR/lbl_version.text = "Version " + ProjectSettings.get_setting("application/config/version")
+
 
 func _on_mouse_entered():
     self.mouse_actve = true
