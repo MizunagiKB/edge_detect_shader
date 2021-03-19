@@ -6,6 +6,10 @@ const DEFAULT_CAMERA_FOV = 45
 const DEFAULT_LINE_WEIGHT = 100
 const DEFAULT_DEPTH_POW = 100
 
+var ENABLE_ROT_X = 0b001
+var ENABLE_ROT_Y = 0b010
+var ENABLE_ROT_Z = 0b100
+
 var mouse_pos_save: Vector2
 var mouse_actve: bool = false
 
@@ -33,18 +37,28 @@ func _ready():
 
     self.connect("resized", self, "_on_resized")
 
+    self.connect("gui_input", self, "_on_gui_input_rot_xy")
     self.connect("mouse_entered", self, "_on_mouse_entered")
     self.connect("mouse_exited", self, "_on_mouse_exited")
+
 
     $frmU/rot_x.connect("value_changed", self, "_on_value_changed_rot_x")
     $frmU/rot_y.connect("value_changed", self, "_on_value_changed_rot_y")
     $frmU/rot_z.connect("value_changed", self, "_on_value_changed_rot_z")
+
+    $frmD/rotate_box.connect("gui_input", self, "_on_gui_input_rot_x")
+    $frmD/rotate_box.connect("mouse_entered", self, "_on_mouse_entered")
+    $frmD/rotate_box.connect("mouse_exited", self, "_on_mouse_exited")
 
     $frmL/btn_maximize.connect("toggled", self, "_on_toggle_maximize")    
     $frmL/btn_transparent.connect("toggled", self, "_on_toggle_transparent")
     $frmL/camera_pos.connect("value_changed", self, "_on_value_changed_camera_pos")
     $frmL/btn_configure.connect("pressed", self, "_on_pressed_configure")
     $frmL/btn_close.connect("pressed", self, "_on_close")
+
+    $frmR/rotate_box.connect("gui_input", self, "_on_gui_input_rot_y")
+    $frmR/rotate_box.connect("mouse_entered", self, "_on_mouse_entered")
+    $frmR/rotate_box.connect("mouse_exited", self, "_on_mouse_exited")
 
     $frmR/btn_reset.connect("pressed", self, "_on_pressed_reset")
     $frmR/container/Files/btn_create.connect("pressed", self, "_on_pressed_create")
@@ -60,7 +74,7 @@ func _on_mouse_exited():
     self.mouse_actve = false
     
 
-func _input(delta):
+func _input(_delta):
 
     if Input.is_action_just_pressed("show_user_interface") == true:
         LibUi.show = not LibUi.show
@@ -72,7 +86,17 @@ func _input(delta):
         pass
 
 
-func _on_main_frame_gui_input(event):
+func _on_gui_input_rot_x(event):
+    self._on_gui_input(event, ENABLE_ROT_X)
+
+func _on_gui_input_rot_y(event):
+    self._on_gui_input(event, ENABLE_ROT_Y)
+
+func _on_gui_input_rot_xy(event):
+    self._on_gui_input(event, ENABLE_ROT_X | ENABLE_ROT_Y)
+
+
+func _on_gui_input(event, enable_rot: int):
 
     if self.mouse_actve == false:
         return
@@ -92,14 +116,16 @@ func _on_main_frame_gui_input(event):
     
         if event is InputEventMouseMotion:
             if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-    
-                var r = $camera.rotation_degrees.y
-                r = r - event.relative.x
-                $camera.rotation_degrees.y = r
+
+                if enable_rot & ENABLE_ROT_Y:
+                    var r = $camera.rotation_degrees.y
+                    r = r - event.relative.x
+                    $camera.rotation_degrees.y = r
                 
-                r = $camera.rotation_degrees.x
-                r = clamp(r - event.relative.y, -89, 89)
-                $camera.rotation_degrees.x = r
+                if enable_rot & ENABLE_ROT_X:
+                    var r = $camera.rotation_degrees.x
+                    r = clamp(r - event.relative.y, -89, 89)
+                    $camera.rotation_degrees.x = r
 
     else:
 
@@ -108,8 +134,10 @@ func _on_main_frame_gui_input(event):
     
             if Input.is_mouse_button_pressed(BUTTON_LEFT) == true:
                 var vct = event.position - self.mouse_pos_save
-                $base/node.rotate(Vector3.UP, deg2rad(vct.x))
-                $base/node.rotate(Vector3.RIGHT, deg2rad(vct.y))
+                if enable_rot & ENABLE_ROT_X:
+                    $base/node.rotate(Vector3.UP, deg2rad(vct.x))
+                if enable_rot & ENABLE_ROT_Y:
+                    $base/node.rotate(Vector3.RIGHT, deg2rad(vct.y))
                 self.mouse_pos_save = event.position
     
             if Input.is_mouse_button_pressed(BUTTON_RIGHT) == true:
@@ -119,8 +147,10 @@ func _on_main_frame_gui_input(event):
     
             if Input.is_mouse_button_pressed(BUTTON_MIDDLE) == true:
                 var vct = ((event.position - self.mouse_pos_save) / 50)
-                $camera.h_offset -= vct.x
-                $camera.v_offset += vct.y
+                if enable_rot & ENABLE_ROT_X:
+                    $camera.h_offset -= vct.x
+                if enable_rot & ENABLE_ROT_Y:
+                    $camera.v_offset += vct.y
                 self.mouse_pos_save = event.position
     
         if event is InputEventMouseButton:
@@ -147,7 +177,7 @@ func _on_main_frame_gui_input(event):
         $frmU/rot_z.value = $base/node.rotation_degrees.z
 
 
-func _files_droppped(files: PoolStringArray, screen: int):
+func _files_droppped(files: PoolStringArray, _screen: int):
     for pathname in files:
         $frmR/container/Files/files.load_mesh(pathname)
         break

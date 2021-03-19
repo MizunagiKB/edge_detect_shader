@@ -161,6 +161,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="rotate_box" type="Control" parent="frmD"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 128.0
+margin_top = -128.0
+margin_right = -336.0
+margin_bottom = -64.0
+mouse_default_cursor_shape = 10
+
 [node name="frmL" type="Panel" parent="."]
 anchor_bottom = 1.0
 margin_right = 16.0
@@ -257,6 +267,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -224.0
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rotate_box" type="Control" parent="frmR"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -336.0
+margin_top = 128.0
+margin_right = -272.0
+margin_bottom = -128.0
+mouse_default_cursor_shape = 9
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -597,4 +620,3 @@ script = ExtResource( 18 )
 [node name="node" type="Spatial" parent="base"]
 
 [node name="extension" type="Spatial" parent="base"]
-[connection signal="gui_input" from="." to="." method="_on_main_frame_gui_input"]
