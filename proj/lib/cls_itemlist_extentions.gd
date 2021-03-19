@@ -48,11 +48,13 @@ func reload(pathname: String) -> bool:
 
         if o_dir.current_is_dir():
             var ext_pathname: String = pathname + "/" + name.plus_file("ext_main.tscn")
-            var o_class = load(ext_pathname)
-            if o_class != null:
-                list_name.append([TYPE_FILE, o_class])
-            else:
-                list_name.append([TYPE_FOLD, name])
+
+            if ResourceLoader.exists(ext_pathname) == true:
+                var o_class = load(ext_pathname)
+                if o_class != null:
+                    list_name.append([TYPE_FILE, o_class])
+                else:
+                    list_name.append([TYPE_FOLD, name])
 
     list_name.sort_custom(self, "order_dir_file")
 

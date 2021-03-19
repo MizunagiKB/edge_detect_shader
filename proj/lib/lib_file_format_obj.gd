@@ -14,7 +14,8 @@ class CModelMesh:
 
     func append_normal(ary_data):
         assert(ary_data.size() == 4)
-        self.ary_norm.append(Vector3(float(ary_data[1]), float(ary_data[2]), float(ary_data[3])))
+        var norm = Vector3(float(ary_data[1]), float(ary_data[2]), float(ary_data[3]))
+        self.ary_norm.append(norm.normalized())
 
     func append_face(ary_data):
         match ary_data.size():
@@ -34,15 +35,15 @@ class CModelMesh:
 
     func create_mesh() -> Mesh:
         var ary_pool_vert = PoolVector3Array()
-        var ary_pool_norm = PoolVector3Array()
+        # var ary_pool_norm = PoolVector3Array()
         var ary_pool_face = PoolIntArray()
         var o_mesh: ArrayMesh = ArrayMesh.new()
         var ary_mesh = []
         
-        assert(self.ary_norm.size() <= self.ary_vert.size())
+        # assert(self.ary_norm.size() <= self.ary_vert.size())
         
         ary_pool_vert.resize(self.ary_vert.size())
-        ary_pool_norm.resize(self.ary_vert.size())
+        # ary_pool_norm.resize(self.ary_vert.size())
         ary_pool_face.resize(self.ary_vert_index.size() * 3)
 
         for idx in range(self.ary_vert_index.size()):
@@ -65,14 +66,14 @@ class CModelMesh:
             ary_pool_vert[v_idx[1]] = self.ary_vert[v_idx[1]]
             ary_pool_vert[v_idx[2]] = self.ary_vert[v_idx[2]]
 
-            ary_pool_norm[v_idx[0]] = self.ary_norm[n_idx[0]]
-            ary_pool_norm[v_idx[1]] = self.ary_norm[n_idx[1]]
-            ary_pool_norm[v_idx[2]] = self.ary_norm[n_idx[2]]
+            # ary_pool_norm[v_idx[0]] = self.ary_norm[n_idx[0]]
+            # ary_pool_norm[v_idx[1]] = self.ary_norm[n_idx[1]]
+            # ary_pool_norm[v_idx[2]] = self.ary_norm[n_idx[2]]
 
 
         ary_mesh.resize(ArrayMesh.ARRAY_MAX)
         ary_mesh[ArrayMesh.ARRAY_VERTEX] = ary_pool_vert
-        ary_mesh[ArrayMesh.ARRAY_NORMAL] = ary_pool_norm
+        # ary_mesh[ArrayMesh.ARRAY_NORMAL] = ary_pool_norm
         ary_mesh[ArrayMesh.ARRAY_INDEX] = ary_pool_face
 
         o_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, ary_mesh)
@@ -83,9 +84,10 @@ class CModelMesh:
 func load(model_pathname: String) -> Mesh:
 
     var file = File.new()
-    var e = file.open(model_pathname, File.READ)
-    var filesize = file.get_len()
 
+    file.open(model_pathname, File.READ)
+
+    var filesize = file.get_len()
     var o_mmesh = CModelMesh.new()
 
     while file.get_position() < filesize:

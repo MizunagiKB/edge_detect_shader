@@ -77,8 +77,9 @@ func load_mesh(pathname: String):
         "mesh":
             new_mesh = load(pathname)
         "obj":
-            var loader = FileFormatObj.new()
+            var loader = load("res://lib/lib_file_format_obj.gd").new()
             new_mesh = loader.load(pathname)
+            pass
 
     if new_mesh != null:
 
@@ -93,7 +94,39 @@ func load_mesh(pathname: String):
 
 func _ready():
 
+    self.connect("gui_input", self, "_on_gui_input")
     self.connect("item_selected", self, "_on_item_selected")
+
+
+func _on_gui_input(event):
+    
+    if event is InputEventMouseButton:
+        if event.button_index == BUTTON_RIGHT:
+            if event.pressed == true:
+                var index = self.get_item_at_position(event.position)
+                if self.get_item_icon(index) == self.tex_null:
+                    """
+                    var x = PopupMenu.new()
+                    x.connect("id_pressed", self, "_on_id_pressed")
+                    x.add_item("Convert to Mesh", index)
+                    x.rect_position = self.get_global_mouse_position()
+                    
+                    self.add_child(x)
+                    x.popup()
+                    """
+
+
+func _on_id_pressed(index: int):
+
+    var name = self.get_item_text(index)
+
+    print(self.dir_curr.plus_file(name))
+
+    var loader = load("res://lib/lib_file_format_obj.gd").new()
+    var new_mesh = loader.load(self.dir_curr.plus_file(name))
+
+    # ResourceSaver.save(self.dir_curr.plus_file(name) + ".mesh", new_mesh)
+    # self.reload(self.dir_curr)
 
 
 func _on_item_selected(index: int):

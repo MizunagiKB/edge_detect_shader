@@ -33,7 +33,7 @@ func _ready():
     $frmR/container/Files/files.reload(LibConfigure.mesh_dir)
     $frmR/container/Extentions.reload("res://lib/ext")
 
-    var err = get_tree().connect("files_dropped", self, "_files_droppped")
+    get_tree().connect("files_dropped", self, "_files_droppped")
 
     self.connect("resized", self, "_on_resized")
 
