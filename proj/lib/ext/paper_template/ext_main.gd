@@ -27,7 +27,7 @@ var PAPER_SIZE = [
 ]
 
 func ext_name() -> String:
-    return "Paper Template Generator"
+    return "Paper Template"
 
 
 func ext_init(ext_dir: String) -> bool:
