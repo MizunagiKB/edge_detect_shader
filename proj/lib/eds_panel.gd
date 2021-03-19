@@ -15,7 +15,7 @@ func _ready():
     self.connect("gui_input", self, "_on_gui_input")
 
 
-func _process(delta):
+func _process(_delta):
 
     if self.require_update == true:
         OS.window_position = self.window_move

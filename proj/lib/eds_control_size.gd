@@ -1,8 +1,8 @@
 extends Control
 class_name EDSControlSize
 
-const MIN_WINDOW_W = 960
-const MIN_WINDOW_H = 560
+const MIN_WINDOW_W = 640
+const MIN_WINDOW_H = 480
 
 var require_update: bool = false
 var window_move: Vector2
@@ -19,7 +19,7 @@ func _ready():
     self.connect("gui_input", self, "_on_gui_input")
 
 
-func _process(delta):
+func _process(_delta):
 
     if self.require_update == true:
         OS.window_size = self.window_size

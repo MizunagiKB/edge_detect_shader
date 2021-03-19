@@ -33,7 +33,7 @@ func _ready():
     self.set_textures()
 
 
-func _process(delta):
+func _process(_delta):
     pass
 
 
