@@ -132,7 +132,7 @@ func _process(_delta):
         node_s1.process_material.initial_velocity = float($vbox1/hbox3/initial_velocity.value) / 10
 
         # radius = $vbox1/hbox1/size.value / 64
-        # node_s2.amount = $vbox1/hbox2/amount.value
+        self.node_instance.amount = $vbox1/hbox2/amount.value
         # node_s2.process_material.initial_velocity = float($vbox1/hbox3/initial_velocity.value) / 10
         
         node_f.visible = $vbox2/fog_enable.pressed

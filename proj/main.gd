@@ -189,7 +189,8 @@ func _on_resized():
 
 
 func _on_pressed_configure():
-    $dlg_configure.popup_centered()
+
+    self.open_extention("res://conf/container_configure.tscn")
 
 
 func _on_close():
@@ -257,8 +258,11 @@ func _on_pressed_capture():
 
     var save_viewport_size = get_viewport().size
 
-    get_viewport().size = save_viewport_size
-    
+    get_viewport().size *= LibConfigure.render_scale
+
+    if LibConfigure.line_scale == 1:
+        get_tree().call_group("render_mode", "set_shader_param", "viewport", save_viewport_size)
+
     self.visible = false
 
     # get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
@@ -293,4 +297,5 @@ func _on_pressed_capture():
     self.visible = true
     
     get_viewport().size = save_viewport_size
+    get_tree().call_group("render_mode", "set_shader_param", "viewport", get_viewport().size)
 

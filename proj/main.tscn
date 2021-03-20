@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://lib/eds_panel.gd" type="Script" id=2]
@@ -37,7 +37,6 @@
 [ext_resource path="res://res_ui/icon/file-download-solid_normal.svg" type="Texture" id=35]
 [ext_resource path="res://res_ui/icon/file-download-solid_disabled.svg" type="Texture" id=36]
 [ext_resource path="res://res_ui/icon/file-download-solid_pressed.svg" type="Texture" id=37]
-[ext_resource path="res://conf/dlg_configure.tscn" type="PackedScene" id=38]
 [ext_resource path="res://res_ui/icon/lock-open-solid_normal.svg" type="Texture" id=39]
 [ext_resource path="res://lib/eds_btn_locked.gd" type="Script" id=40]
 [ext_resource path="res://res_ui/icon/lock-solid_normal.svg" type="Texture" id=41]
@@ -53,25 +52,25 @@
 [ext_resource path="res://res_ui/slider_rot_y.png" type="Texture" id=51]
 [ext_resource path="res://res_ui/slider_rot.shader" type="Shader" id=52]
 
-[sub_resource type="ShaderMaterial" id=9]
+[sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 52 )
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 52 )
-
-[sub_resource type="DynamicFont" id=1]
-size = 12
-font_data = ExtResource( 20 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 12
-font_data = ExtResource( 20 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 12
 font_data = ExtResource( 20 )
 
-[sub_resource type="QuadMesh" id=4]
+[sub_resource type="DynamicFont" id=4]
+size = 12
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 12
+font_data = ExtResource( 20 )
+
+[sub_resource type="QuadMesh" id=6]
 size = Vector2( 2, 2 )
 
 [node name="main_frame" type="Control"]
@@ -171,7 +170,7 @@ __meta__ = {
 }
 
 [node name="rotate_box" type="TextureRect" parent="frmB"]
-material = SubResource( 9 )
+material = SubResource( 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -288,7 +287,7 @@ __meta__ = {
 }
 
 [node name="rotate_box" type="TextureRect" parent="frmR"]
-material = SubResource( 8 )
+material = SubResource( 2 )
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -361,7 +360,7 @@ __meta__ = {
 anchor_right = 1.0
 margin_left = 76.0
 margin_bottom = 32.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 editable = false
 right_icon = ExtResource( 48 )
 __meta__ = {
@@ -373,7 +372,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 40.0
 focus_mode = 0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 fixed_icon_size = Vector2( 16, 16 )
 script = ExtResource( 19 )
 __meta__ = {
@@ -389,7 +388,7 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 focus_mode = 0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 allow_reselect = true
 fixed_icon_size = Vector2( 16, 16 )
 script = ExtResource( 49 )
@@ -617,8 +616,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="dlg_configure" parent="." instance=ExtResource( 38 )]
-
 [node name="camera" type="Camera" parent="." groups=[
 "camera",
 ]]
@@ -629,7 +626,7 @@ fov = 45.0
 [node name="screen" type="CSGMesh" parent="." groups=[
 "screen",
 ]]
-mesh = SubResource( 4 )
+mesh = SubResource( 6 )
 script = ExtResource( 18 )
 
 [node name="base" type="Spatial" parent="."]
