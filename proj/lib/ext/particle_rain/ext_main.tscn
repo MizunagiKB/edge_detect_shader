@@ -22,9 +22,7 @@ margin_bottom = 32.0
 rect_min_size = Vector2( 96, 32 )
 focus_mode = 0
 enabled_focus_mode = 0
-text = "Disabled"
 align = 1
-items = [ "Disabled", null, false, 0, null, "Rain", null, false, 1, null, "Snow", null, false, 2, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false

@@ -1,8 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://lib/ext/particle_rain/particle_rain.gd" type="Script" id=1]
 [ext_resource path="res://lib/ext/particle_rain/res/fog.png" type="Texture" id=2]
-
+[ext_resource path="res://lib/ext/particle_rain/res/snow_4.png" type="Texture" id=3]
+[ext_resource path="res://lib/ext/particle_rain/res/snow_1.png" type="Texture" id=4]
+[ext_resource path="res://lib/ext/particle_rain/res/snow_3.png" type="Texture" id=5]
+[ext_resource path="res://lib/ext/particle_rain/res/snow_2.png" type="Texture" id=6]
 
 [sub_resource type="ParticlesMaterial" id=1]
 emission_shape = 2
@@ -27,28 +30,161 @@ emission_shape = 2
 emission_box_extents = Vector3( 50, 1, 50 )
 direction = Vector3( 0, -1, 0 )
 spread = 8.0
-gravity = Vector3( 0, -0.5, 0 )
-initial_velocity = 100.0
+initial_velocity = 8.0
 initial_velocity_random = 0.5
-linear_accel = 0.1
-linear_accel_random = 0.58
+angular_velocity = 30.0
+angle = -347.6
+angle_random = 0.34
+scale = 2.0
+scale_random = 0.75
 
 [sub_resource type="SpatialMaterial" id=5]
 flags_unshaded = true
 vertex_color_use_as_albedo = true
+albedo_texture = ExtResource( 4 )
 
 [sub_resource type="SphereMesh" id=6]
 material = SubResource( 5 )
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=22]
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.498039 )
+
+[sub_resource type="GradientTexture" id=23]
+gradient = SubResource( 22 )
+
+[sub_resource type="ParticlesMaterial" id=24]
+direction = Vector3( 0, -1, 0 )
+spread = 0.0
+color_ramp = SubResource( 23 )
+
+[sub_resource type="SpatialMaterial" id=25]
+flags_transparent = true
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+vertex_color_use_as_albedo = true
+params_specular_mode = 4
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 4 )
+
+[sub_resource type="QuadMesh" id=26]
+material = SubResource( 25 )
+size = Vector2( 256, 256 )
+
+[sub_resource type="Gradient" id=27]
+offsets = PoolRealArray( 0, 0.218519, 1 )
+colors = PoolColorArray( 0.941176, 0.952941, 1, 0, 0.960784, 0.968627, 1, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=28]
+gradient = SubResource( 27 )
+
+[sub_resource type="ParticlesMaterial" id=29]
+emission_shape = 2
+emission_box_extents = Vector3( 50, 1, 50 )
+direction = Vector3( 0, -1, 0 )
+spread = 5.0
+initial_velocity = 30.0
+angle = 180.0
+scale = 3.0
+scale_random = 1.0
+color_ramp = SubResource( 28 )
+
+[sub_resource type="SpatialMaterial" id=30]
+flags_transparent = true
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+vertex_color_use_as_albedo = true
+params_specular_mode = 4
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 6 )
+
+[sub_resource type="QuadMesh" id=31]
+material = SubResource( 30 )
+
+[sub_resource type="ParticlesMaterial" id=32]
+emission_shape = 2
+emission_box_extents = Vector3( 50, 1, 50 )
+direction = Vector3( 0, -1, 0 )
+initial_velocity = 20.0
+radial_accel = 30.0
+radial_accel_random = 0.75
+tangential_accel = 26.77
+angle = 45.0
+scale = 2.0
+scale_random = 1.0
+
+[sub_resource type="SpatialMaterial" id=33]
+flags_transparent = true
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+params_specular_mode = 4
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 5 )
+
+[sub_resource type="QuadMesh" id=34]
+material = SubResource( 33 )
+
+[sub_resource type="SpatialMaterial" id=18]
+flags_transparent = true
+flags_unshaded = true
+flags_disable_ambient_light = true
+params_specular_mode = 4
+params_cull_mode = 2
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=21]
+emission_shape = 2
+emission_box_extents = Vector3( 50, 1, 50 )
+direction = Vector3( 0, -1, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 0.5
+angular_velocity = 15.0
+radial_accel = -0.1
+tangential_accel = 5.0
+angle = 90.0
+angle_random = 0.5
+scale = 2.0
+scale_random = 1.0
+
+[sub_resource type="SpatialMaterial" id=19]
+flags_transparent = true
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+params_specular_mode = 4
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="QuadMesh" id=20]
+material = SubResource( 19 )
+
+[sub_resource type="Gradient" id=9]
 offsets = PoolRealArray( 0, 0.257971, 0.788406, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=8]
-gradient = SubResource( 7 )
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
 width = 16
 
-[sub_resource type="ParticlesMaterial" id=9]
+[sub_resource type="ParticlesMaterial" id=11]
 emission_shape = 2
 emission_box_extents = Vector3( 50, 1, 50 )
 direction = Vector3( 0, 1, 0 )
@@ -60,9 +196,9 @@ angular_velocity_random = 0.18
 angle = 16.0
 angle_random = 0.2
 scale = 16.0
-color_ramp = SubResource( 8 )
+color_ramp = SubResource( 10 )
 
-[sub_resource type="SpatialMaterial" id=10]
+[sub_resource type="SpatialMaterial" id=12]
 flags_transparent = true
 flags_unshaded = true
 flags_disable_ambient_light = true
@@ -76,14 +212,15 @@ particles_anim_loop = false
 albedo_color = Color( 1, 1, 1, 0.0509804 )
 albedo_texture = ExtResource( 2 )
 
-[sub_resource type="QuadMesh" id=11]
-material = SubResource( 10 )
+[sub_resource type="QuadMesh" id=13]
+material = SubResource( 12 )
 
 [node name="particle_root" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="particles_rain" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
+visible = false
 cast_shadow = 0
 amount = 2048
 lifetime = 2.0
@@ -92,7 +229,7 @@ visibility_aabb = AABB( -50, -50, -50, 100, 100, 100 )
 process_material = SubResource( 1 )
 draw_pass_1 = SubResource( 3 )
 
-[node name="particles_snow" type="Particles" parent="."]
+[node name="particles_snow_1" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
 visible = false
 amount = 2048
@@ -102,9 +239,50 @@ visibility_aabb = AABB( -50, -50, -50, 100, 100, 100 )
 process_material = SubResource( 4 )
 draw_pass_1 = SubResource( 6 )
 
+[node name="particles_snow_2" type="Spatial" parent="."]
+
+[node name="snow_1" type="Particles" parent="particles_snow_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
+visible = false
+amount = 2
+lifetime = 8.0
+preprocess = 60.0
+visibility_aabb = AABB( -50, -50, -50, 100, 100, 100 )
+process_material = SubResource( 24 )
+draw_pass_1 = SubResource( 26 )
+
+[node name="snow_5" type="Particles" parent="particles_snow_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
+amount = 64
+lifetime = 8.0
+preprocess = 60.0
+visibility_aabb = AABB( -50, -50, -50, 100, 100, 100 )
+process_material = SubResource( 29 )
+draw_pass_1 = SubResource( 31 )
+
+[node name="snow_6" type="Particles" parent="particles_snow_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
+amount = 256
+lifetime = 8.0
+preprocess = 60.0
+visibility_aabb = AABB( -50, -50, -50, 100, 100, 100 )
+process_material = SubResource( 32 )
+draw_pass_1 = SubResource( 34 )
+
+[node name="snow_7" type="Particles" parent="particles_snow_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
+material_override = SubResource( 18 )
+amount = 128
+lifetime = 8.0
+preprocess = 60.0
+visibility_aabb = AABB( -50, -50, -50, 100, 100, 100 )
+process_material = SubResource( 21 )
+draw_pass_1 = SubResource( 20 )
+
 [node name="particles_fog" type="Particles" parent="."]
+visible = false
 amount = 256
 lifetime = 3.0
 preprocess = 60.0
-process_material = SubResource( 9 )
-draw_pass_1 = SubResource( 11 )
+process_material = SubResource( 11 )
+draw_pass_1 = SubResource( 13 )

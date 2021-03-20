@@ -42,13 +42,13 @@ func _ready():
     self.connect("mouse_exited", self, "_on_mouse_exited")
 
 
-    $frmU/rot_x.connect("value_changed", self, "_on_value_changed_rot_x")
-    $frmU/rot_y.connect("value_changed", self, "_on_value_changed_rot_y")
-    $frmU/rot_z.connect("value_changed", self, "_on_value_changed_rot_z")
+    $frmT/rot_x.connect("value_changed", self, "_on_value_changed_rot_x")
+    $frmT/rot_y.connect("value_changed", self, "_on_value_changed_rot_y")
+    $frmT/rot_z.connect("value_changed", self, "_on_value_changed_rot_z")
 
-    $frmD/rotate_box.connect("gui_input", self, "_on_gui_input_rot_x")
-    $frmD/rotate_box.connect("mouse_entered", self, "_on_mouse_entered")
-    $frmD/rotate_box.connect("mouse_exited", self, "_on_mouse_exited")
+    $frmB/rotate_box.connect("gui_input", self, "_on_gui_input_rot_x")
+    $frmB/rotate_box.connect("mouse_entered", self, "_on_mouse_entered")
+    $frmB/rotate_box.connect("mouse_exited", self, "_on_mouse_exited")
 
     $frmL/btn_maximize.connect("toggled", self, "_on_toggle_maximize")    
     $frmL/btn_transparent.connect("toggled", self, "_on_toggle_transparent")
@@ -103,7 +103,7 @@ func _on_gui_input(event, enable_rot: int):
     if self.mouse_actve == false:
         return
 
-    if $frmU/btn_locked.pressed_status == true:
+    if $frmT/btn_locked.pressed_status == true:
         return
 
     if $frmR/btn_camera.pressed == true:
@@ -174,9 +174,9 @@ func _on_gui_input(event, enable_rot: int):
                     var scale = max($base/node.scale.x - 0.1, 0.1)
                     $base/node.scale = Vector3.ONE * scale
     
-        $frmU/rot_x.value = $base/node.rotation_degrees.x
-        $frmU/rot_y.value = $base/node.rotation_degrees.y
-        $frmU/rot_z.value = $base/node.rotation_degrees.z
+        $frmT/rot_x.value = $base/node.rotation_degrees.x
+        $frmT/rot_y.value = $base/node.rotation_degrees.y
+        $frmT/rot_z.value = $base/node.rotation_degrees.z
 
 
 func _files_droppped(files: PoolStringArray, _screen: int):
@@ -226,9 +226,9 @@ func _on_pressed_reset():
     $camera.h_offset = 0
     $camera.v_offset = 0
 
-    $frmU/rot_x.value = 0
-    $frmU/rot_y.value = 0
-    $frmU/rot_z.value = 0
+    $frmT/rot_x.value = 0
+    $frmT/rot_y.value = 0
+    $frmT/rot_z.value = 0
     $base/node.scale = Vector3.ONE
     $frmL/camera_pos.value = DEFAULT_CAMERA_POS
     $frmR/panel/fov.value = DEFAULT_CAMERA_FOV

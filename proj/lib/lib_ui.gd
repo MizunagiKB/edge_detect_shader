@@ -1,6 +1,6 @@
 extends Node
 
-const SLIDE_PADDING := 95
+const SLIDE_PADDING := 96
 
 enum E_FADE {
     E_FADE_I,E_FADE_O
@@ -25,7 +25,7 @@ func set_show(new_value: bool):
     var o_frm: Control
 
     # frmU
-    o_frm = self.main_frame.get_node("frmU")
+    o_frm = self.main_frame.get_node("frmT")
     twI = Vector2(0, 0)
     twO = twI - Vector2(0, o_frm.rect_size.y + SLIDE_PADDING)
     list_tw = [twI, twO]
@@ -40,7 +40,7 @@ func set_show(new_value: bool):
         Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 
     # frmD
-    o_frm = self.main_frame.get_node("frmD")
+    o_frm = self.main_frame.get_node("frmB")
     twI = Vector2(0, self.main_frame.rect_size.y - o_frm.rect_size.y)
     twO = twI + Vector2(0, o_frm.rect_size.y + SLIDE_PADDING)
     list_tw = [twI, twO]

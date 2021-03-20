@@ -82,7 +82,11 @@ func ext_term():
 
 
 func _ready():
-    pass
+
+    $vbox1/particle_type.add_item("off")
+    $vbox1/particle_type.add_item("rain")
+    $vbox1/particle_type.add_item("snow_1")
+    $vbox1/particle_type.add_item("snow_2")
 
 
 func _process(_delta):
@@ -91,7 +95,8 @@ func _process(_delta):
         return
 
     var node_r = self.node_instance.get_node("particles_rain")
-    var node_s = self.node_instance.get_node("particles_snow")
+    var node_s1 = self.node_instance.get_node("particles_snow_1")
+    var node_s2 = self.node_instance.get_node("particles_snow_2")
     var node_f: Particles = self.node_instance.get_node("particles_fog")
 
     if self.need_update == true:
@@ -99,23 +104,36 @@ func _process(_delta):
         match $vbox1/particle_type.get_selected_id():
             0:
                 node_r.visible = false
-                node_s.visible = false
+                node_s1.visible = false
+                node_s2.visible = false
             1:
                 node_r.visible = true
-                node_s.visible = false
+                node_s1.visible = false
+                node_s2.visible = false
             2:
                 node_r.visible = false
-                node_s.visible = true
+                node_s1.visible = true
+                node_s2.visible = false
+            3:
+                node_r.visible = false
+                node_s1.visible = false
+                node_s2.visible = true
 
         node_r.draw_pass_1.size.y = $vbox1/hbox1/size.value
         node_r.amount = $vbox1/hbox2/amount.value
         node_r.process_material.initial_velocity = float($vbox1/hbox3/initial_velocity.value)
 
-        var radius = $vbox1/hbox1/size.value / 64
-        node_s.draw_pass_1.radius = radius
-        node_s.draw_pass_1.height = radius * 2
-        node_s.amount = $vbox1/hbox2/amount.value
-        node_s.process_material.initial_velocity = float($vbox1/hbox3/initial_velocity.value) / 10
+        var radius
+
+        radius = $vbox1/hbox1/size.value / 64
+        node_s1.draw_pass_1.radius = radius
+        node_s1.draw_pass_1.height = radius * 2
+        node_s1.amount = $vbox1/hbox2/amount.value
+        node_s1.process_material.initial_velocity = float($vbox1/hbox3/initial_velocity.value) / 10
+
+        # radius = $vbox1/hbox1/size.value / 64
+        # node_s2.amount = $vbox1/hbox2/amount.value
+        # node_s2.process_material.initial_velocity = float($vbox1/hbox3/initial_velocity.value) / 10
         
         node_f.visible = $vbox2/fog_enable.pressed
         node_f.amount = $vbox2/hbox1/amount.value
