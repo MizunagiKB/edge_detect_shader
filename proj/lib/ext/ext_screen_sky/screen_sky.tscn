@@ -10,6 +10,10 @@
 [sub_resource type="GDScript" id=1]
 script/source = "tool
 extends Spatial
+# EXT_GUID
+const EXT_GUID = \"daac8657-8eb8-4357-bfd2-815e92f4fd3f\"
+
+
 onready var env: Environment = $WorldEnvironment.environment
 onready var sun: DirectionalLight = $Sun_Moon
 onready var sky_view: Viewport = $sky_viewport

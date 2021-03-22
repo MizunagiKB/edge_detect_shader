@@ -1,6 +1,9 @@
 shader_type spatial;
 
 
+uniform sampler2D tex;
+
+
 void vertex()
 {
     POSITION = vec4(VERTEX, 1.0);

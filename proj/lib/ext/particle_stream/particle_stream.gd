@@ -1,4 +1,6 @@
 extends Particles
+#
+const EXT_GUID = "e7237b8c-87ec-4abb-8bf8-792528d9591f"
 
 
 var recalc_gravity = false

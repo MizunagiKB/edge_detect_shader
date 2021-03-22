@@ -1,4 +1,6 @@
 extends Spatial
+#
+const EXT_GUID = "61588df9-ee20-4c43-9f18-9c0489cfe949"
 
 
 var amount: float setget set_amount

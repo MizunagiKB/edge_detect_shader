@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://lib/eds_panel.gd" type="Script" id=2]
@@ -37,6 +37,7 @@
 [ext_resource path="res://res_ui/icon/file-download-solid_normal.svg" type="Texture" id=35]
 [ext_resource path="res://res_ui/icon/file-download-solid_disabled.svg" type="Texture" id=36]
 [ext_resource path="res://res_ui/icon/file-download-solid_pressed.svg" type="Texture" id=37]
+[ext_resource path="res://env_default.tres" type="Environment" id=38]
 [ext_resource path="res://res_ui/icon/lock-open-solid_normal.svg" type="Texture" id=39]
 [ext_resource path="res://lib/eds_btn_locked.gd" type="Script" id=40]
 [ext_resource path="res://res_ui/icon/lock-solid_normal.svg" type="Texture" id=41]
@@ -615,6 +616,9 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 38 )
 
 [node name="camera" type="Camera" parent="." groups=[
 "camera",

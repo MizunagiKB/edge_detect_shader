@@ -1,0 +1,358 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://lib/ext/meta_stream/ext_main.gd" type="Script" id=1]
+
+[node name="vbox1" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -520.0
+margin_bottom = -236.0
+rect_min_size = Vector2( 472, 0 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hbox1" type="HBoxContainer" parent="."]
+margin_right = 472.0
+margin_bottom = 288.0
+
+[node name="emission_shape" type="TabContainer" parent="hbox1"]
+margin_right = 136.0
+margin_bottom = 288.0
+size_flags_vertical = 3
+
+[node name="Point" type="VBoxContainer" parent="hbox1/emission_shape"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 40.0
+margin_right = -8.0
+margin_bottom = 4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label_dummy" type="Label" parent="hbox1/emission_shape/Point"]
+margin_right = 128.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+
+[node name="Box" type="VBoxContainer" parent="hbox1/emission_shape"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -24.0
+margin_bottom = -148.0
+
+[node name="grid" type="GridContainer" parent="hbox1/emission_shape/Box"]
+margin_right = 128.0
+margin_bottom = 104.0
+columns = 2
+
+[node name="label_x" type="Label" parent="hbox1/emission_shape/Box/grid"]
+margin_right = 32.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+text = "X"
+align = 1
+valign = 1
+
+[node name="x" type="LineEdit" parent="hbox1/emission_shape/Box/grid"]
+margin_left = 36.0
+margin_right = 128.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+size_flags_horizontal = 3
+
+[node name="label_y" type="Label" parent="hbox1/emission_shape/Box/grid"]
+margin_top = 36.0
+margin_right = 32.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 32, 32 )
+text = "Y"
+align = 1
+valign = 1
+
+[node name="y" type="LineEdit" parent="hbox1/emission_shape/Box/grid"]
+margin_left = 36.0
+margin_top = 36.0
+margin_right = 128.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 64, 32 )
+
+[node name="label_z" type="Label" parent="hbox1/emission_shape/Box/grid"]
+margin_top = 72.0
+margin_right = 32.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 32, 32 )
+text = "Z"
+align = 1
+valign = 1
+
+[node name="z" type="LineEdit" parent="hbox1/emission_shape/Box/grid"]
+margin_left = 36.0
+margin_top = 72.0
+margin_right = 128.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 64, 32 )
+
+[node name="label_dummy" type="Label" parent="hbox1/emission_shape/Box"]
+margin_top = 108.0
+margin_right = 128.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 128, 32 )
+
+[node name="VSeparator" type="VSeparator" parent="hbox1"]
+margin_left = 140.0
+margin_right = 172.0
+margin_bottom = 288.0
+rect_min_size = Vector2( 32, 0 )
+
+[node name="vbox1" type="VBoxContainer" parent="hbox1"]
+margin_left = 176.0
+margin_right = 472.0
+margin_bottom = 288.0
+
+[node name="hbox1" type="HBoxContainer" parent="hbox1/vbox1"]
+margin_right = 296.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="hbox1/vbox1/hbox1"]
+margin_right = 96.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 96, 32 )
+text = "Amount"
+valign = 1
+
+[node name="aomunt" type="HScrollBar" parent="hbox1/vbox1/hbox1"]
+margin_left = 100.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+min_value = 16.0
+max_value = 2048.0
+step = 16.0
+value = 128.0
+
+[node name="value" type="LineEdit" parent="hbox1/vbox1/hbox1"]
+margin_left = 232.0
+margin_right = 296.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+align = 1
+editable = false
+
+[node name="hbox2" type="HBoxContainer" parent="hbox1/vbox1"]
+margin_top = 36.0
+margin_right = 296.0
+margin_bottom = 68.0
+
+[node name="Label" type="Label" parent="hbox1/vbox1/hbox2"]
+margin_right = 96.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 96, 32 )
+text = "Lifetime"
+valign = 1
+
+[node name="lifetime" type="HScrollBar" parent="hbox1/vbox1/hbox2"]
+margin_left = 100.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+min_value = 1.0
+max_value = 10.0
+step = 1.0
+value = 3.0
+
+[node name="value" type="LineEdit" parent="hbox1/vbox1/hbox2"]
+margin_left = 232.0
+margin_right = 296.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+align = 1
+editable = false
+
+[node name="hbox3" type="HBoxContainer" parent="hbox1/vbox1"]
+margin_top = 72.0
+margin_right = 296.0
+margin_bottom = 104.0
+
+[node name="Label" type="Label" parent="hbox1/vbox1/hbox3"]
+margin_right = 96.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 96, 32 )
+text = "Explosiveness"
+valign = 1
+
+[node name="explosiveness" type="HScrollBar" parent="hbox1/vbox1/hbox3"]
+margin_left = 100.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+max_value = 1.0
+step = 0.1
+
+[node name="value" type="LineEdit" parent="hbox1/vbox1/hbox3"]
+margin_left = 232.0
+margin_right = 296.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+align = 1
+editable = false
+
+[node name="hbox4" type="HBoxContainer" parent="hbox1/vbox1"]
+margin_top = 108.0
+margin_right = 296.0
+margin_bottom = 140.0
+
+[node name="Label" type="Label" parent="hbox1/vbox1/hbox4"]
+margin_right = 96.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 96, 32 )
+text = "Spread"
+valign = 1
+
+[node name="spread" type="HScrollBar" parent="hbox1/vbox1/hbox4"]
+margin_left = 100.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+max_value = 180.0
+step = 1.0
+
+[node name="value" type="LineEdit" parent="hbox1/vbox1/hbox4"]
+margin_left = 232.0
+margin_right = 296.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+align = 1
+editable = false
+
+[node name="hbox5" type="HBoxContainer" parent="hbox1/vbox1"]
+margin_top = 144.0
+margin_right = 296.0
+margin_bottom = 176.0
+
+[node name="Label" type="Label" parent="hbox1/vbox1/hbox5"]
+margin_right = 96.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 96, 32 )
+text = "Initial Velocity"
+valign = 1
+
+[node name="initial_velocity" type="HScrollBar" parent="hbox1/vbox1/hbox5"]
+margin_left = 100.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+max_value = 20.0
+step = 1.0
+value = 10.0
+
+[node name="value" type="LineEdit" parent="hbox1/vbox1/hbox5"]
+margin_left = 232.0
+margin_right = 296.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+align = 1
+editable = false
+
+[node name="hbox6" type="HBoxContainer" parent="hbox1/vbox1"]
+margin_top = 180.0
+margin_right = 296.0
+margin_bottom = 212.0
+
+[node name="Label" type="Label" parent="hbox1/vbox1/hbox6"]
+margin_right = 96.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 96, 32 )
+text = "Velocity Range"
+valign = 1
+
+[node name="initial_velocity_random" type="HScrollBar" parent="hbox1/vbox1/hbox6"]
+margin_left = 100.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+max_value = 1.0
+step = 0.05
+
+[node name="value" type="LineEdit" parent="hbox1/vbox1/hbox6"]
+margin_left = 232.0
+margin_right = 296.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+align = 1
+editable = false
+
+[node name="hbox7" type="HBoxContainer" parent="hbox1/vbox1"]
+margin_top = 216.0
+margin_right = 296.0
+margin_bottom = 248.0
+
+[node name="Label" type="Label" parent="hbox1/vbox1/hbox7"]
+margin_right = 96.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 96, 32 )
+text = "Scale"
+valign = 1
+
+[node name="scale" type="HScrollBar" parent="hbox1/vbox1/hbox7"]
+margin_left = 100.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+min_value = 0.1
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="value" type="LineEdit" parent="hbox1/vbox1/hbox7"]
+margin_left = 232.0
+margin_right = 296.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+align = 1
+editable = false
+
+[node name="hbox8" type="HBoxContainer" parent="hbox1/vbox1"]
+margin_top = 252.0
+margin_right = 296.0
+margin_bottom = 284.0
+
+[node name="Label" type="Label" parent="hbox1/vbox1/hbox8"]
+margin_right = 96.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 96, 32 )
+text = "Scale Random"
+valign = 1
+
+[node name="scale_random" type="HScrollBar" parent="hbox1/vbox1/hbox8"]
+margin_left = 100.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 128, 32 )
+max_value = 1.0
+step = 0.1
+value = 0.5
+
+[node name="value" type="LineEdit" parent="hbox1/vbox1/hbox8"]
+margin_left = 232.0
+margin_right = 296.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 32 )
+align = 1
+editable = false
+
+[node name="grind" type="GridContainer" parent="hbox1/vbox1"]
+margin_top = 288.0
+margin_right = 296.0
+margin_bottom = 288.0
+
+[node name="recalc_gravity" type="CheckBox" parent="."]
+margin_top = 292.0
+margin_right = 472.0
+margin_bottom = 324.0
+rect_min_size = Vector2( 0, 32 )
+text = "Recalc Gravity"

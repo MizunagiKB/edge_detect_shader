@@ -43,11 +43,19 @@ func set_shader_param(param: String, value):
 
             self.mat_s_curr.set_shader_param(param, vec2);
 
+        "tex":
+            if value is Texture:
+                var tex: Texture = value
+                self.mat_s_curr.set_shader_param("enable_tex", true);
+                self.mat_s_curr.set_shader_param(param, tex);
+            else:
+                self.mat_s_curr.set_shader_param("enable_tex", false);
+
 
 func _ready():
 
     self.mat_s_curr.render_priority = 0
-    self.mat_m_curr.render_priority = 0
+    self.mat_m_curr.render_priority = 10
 
     self.connect("item_selected", self, "_on_item_selected")
 
