@@ -62,17 +62,15 @@ It's probably easier to understand if you think in 1D rather than 2D, so I'll sh
 
 ## Fonts
 
-* ロゴたいぷゴシック
-  * http://www.fontna.com/%E3%83%AD%E3%82%B4%E3%81%9F%E3%81%84%E3%81%B7%E3%82%B4%E3%82%B7%E3%83%83%E3%82%AF/
-
-* Voltaire-Regular.ttf
-  * https://fonts.google.com/specimen/Voltaire?preview.text_type=custom
-
+* Google Fonts
+  * Noto Sans Japanese
+    * https://fonts.google.com/noto/specimen/Noto+Sans+JP
 
 ## Shaders
 
-* Godot_sky_shader
-  * https://github.com/Lexpartizan/Godot_sky_shader
+* GitHub
+  * Godot_sky_shader
+    * https://github.com/Lexpartizan/Godot_sky_shader
 
 
 ## Models
