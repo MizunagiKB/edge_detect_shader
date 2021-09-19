@@ -254,6 +254,34 @@ func _on_pressed_delete():
         node.queue_free()
 
 
+func _capture_to_file(imagedata: Image) -> bool:
+
+    var base_dir = LibConfigure.capture_image_dir
+    if base_dir.length() == 0:
+        return false
+
+    var o_dir = Directory.new()
+    if o_dir.dir_exists(base_dir) == true:
+        return false
+
+    var dict_datetime = OS.get_datetime()
+    # year, month, day, weekday, dst (Daylight Savings Time), hour, minute, second.
+
+    var pathname = "%s/eds_%04d%02d%02d_%02d%02d%02d.png" % [
+        base_dir,
+        dict_datetime["year"],
+        dict_datetime["month"],
+        dict_datetime["day"],
+        dict_datetime["hour"],
+        dict_datetime["minute"],
+        dict_datetime["second"]
+    ]
+    
+    imagedata.save_png(pathname)
+
+    return true
+
+
 func _on_pressed_capture():
 
     var save_viewport_size = get_viewport().size
@@ -274,25 +302,14 @@ func _on_pressed_capture():
     imagedata.convert(Image.FORMAT_RGBA8)
     imagedata.flip_y()
 
-    var o_dir = Directory.new()
-    var base_dir = LibConfigure.capture_image_dir
-    
-    if o_dir.dir_exists(base_dir) == true:
+    if self._capture_to_file(imagedata) == false:
+        var popup_frame: EDSPopupFrame = load("res://lib/eds_popup_frame.tscn").instance()
 
-        var dict_datetime = OS.get_datetime()
-        # year, month, day, weekday, dst (Daylight Savings Time), hour, minute, second.
+        get_tree().get_root().get_node("main_frame").add_child(popup_frame)
 
-        var pathname = "%s/eds_%04d%02d%02d_%02d%02d%02d.png" % [
-            base_dir,
-            dict_datetime["year"],
-            dict_datetime["month"],
-            dict_datetime["day"],
-            dict_datetime["hour"],
-            dict_datetime["minute"],
-            dict_datetime["second"]
-        ]
-        
-        imagedata.save_png(pathname)
+        popup_frame.get_node("lbl_rich_message").text = "Save Failure"
+        popup_frame.popup_exclusive = true
+        popup_frame.popup_centered()
 
     self.visible = true
     
