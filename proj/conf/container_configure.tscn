@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://res_ui/icon/folder-solid_disabled.svg" type="Texture" id=1]
 [ext_resource path="res://res_ui/icon/folder-solid_pressed.svg" type="Texture" id=2]
@@ -8,6 +8,10 @@
 [ext_resource path="res://res_ui/font/NotoSansJP-Regular.otf" type="DynamicFontData" id=6]
 
 [sub_resource type="DynamicFont" id=1]
+size = 12
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=2]
 size = 12
 font_data = ExtResource( 6 )
 
@@ -90,6 +94,7 @@ margin_bottom = 32.0
 margin_right = 192.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 192, 32 )
+custom_fonts/font = SubResource( 2 )
 editable = false
 caret_blink = true
 caret_blink_speed = 0.5
