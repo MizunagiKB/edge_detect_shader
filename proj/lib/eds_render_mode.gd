@@ -43,6 +43,14 @@ func set_shader_param(param: String, value):
 
             self.mat_s_curr.set_shader_param(param, vec2);
 
+        "next_pass":
+            if value is Material:
+                var mat: Material = value
+                self.mat_s_curr.next_pass = value
+            else:
+                self.mat_s_curr.next_pass = null
+
+"""
         "tex":
             if value is Texture:
                 var tex: Texture = value
@@ -51,6 +59,17 @@ func set_shader_param(param: String, value):
             else:
                 self.mat_s_curr.set_shader_param("enable_tex", false);
 
+        "metaball_size":
+            var f: float = value
+
+            self.mat_s_curr.set_shader_param(param, f);
+
+        "metaball_mul":
+            var f: float = value
+
+            self.mat_s_curr.set_shader_param(param, f);
+"""
+            
 
 func _ready():
 

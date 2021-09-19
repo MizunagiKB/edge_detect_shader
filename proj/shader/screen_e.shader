@@ -11,6 +11,9 @@ uniform bool enable_tex = false;
 uniform sampler2D tex;
 
 
+uniform float metaball_size = 0.2;
+uniform float metaball_mul = 2.5;
+
 void vertex()
 {
     POSITION = vec4(VERTEX, 1.0);
@@ -36,31 +39,31 @@ void fragment()
     
         float v = abs(lin_depth * depth_pow);
         //if(v < 0.01) v = 0.0;
-    
+
         ALPHA = v;
         ALBEDO = color_line;
 
     } else {
-
-        vec3 n_out5p0;
-        float n_out5p1;
-        vec4 tex_screen = texture(tex, UV);
-    
+        if(false)
         {
-            n_out5p0 = tex_screen.rgb;
-            n_out5p1 = tex_screen.a;
-        }
-    
-        if(n_out5p0.r > 0.5)
-        {
-            float r = min((n_out5p0.r * 1.5), 1.0);
-            float v = sin(radians(r * 180.0));
-            ALBEDO.rgb = vec3(0.0);//vec3(v);
-            n_out5p1 = v;
-        } else {
-            n_out5p1 = 0.0;
-        }
+            float n_out5p1;
+            vec4 tex_screen = texture(tex, UV);
         
-        ALPHA = n_out5p1;
+            {
+                n_out5p1 = tex_screen.a;
+            }
+        
+            if(n_out5p1 > metaball_size)
+            {
+                float r = min((n_out5p1 * metaball_mul), 1.0);
+                float v = sin(radians(r * 180.0));
+                ALBEDO.rgb = vec3(0.0);
+                n_out5p1 = v;
+            } else {
+                n_out5p1 = 0.0;
+            }
+            
+            ALPHA = n_out5p1;
+        }
     }
 }

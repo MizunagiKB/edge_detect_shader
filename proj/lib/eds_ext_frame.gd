@@ -55,6 +55,7 @@ func _ready():
 
 func _on_tree_exited():
     self.ext_node.ext_term()
+    self.ext_node.queue_free()
 
 
 func _on_visibility_changed():

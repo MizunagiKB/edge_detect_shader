@@ -1,31 +1,19 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://lib/ext/meta_stream/ms_metaball.shader" type="Shader" id=1]
 [ext_resource path="res://lib/ext/meta_stream/meta_stream.gd" type="Script" id=2]
+[ext_resource path="res://lib/ext/meta_stream/cv_water.tres" type="Texture" id=3]
 
 [sub_resource type="PrismMesh" id=1]
 
-[sub_resource type="Curve" id=2]
-max_value = 2.0
-_data = [ Vector2( 0, 0.195147 ), 0.0, 1.2371, 0, 0, Vector2( 1, 2 ), 3.31957, 0.0, 0, 0 ]
+[sub_resource type="ParticlesMaterial" id=2]
+scale_curve = ExtResource( 3 )
 
-[sub_resource type="CurveTexture" id=3]
-width = 256
-curve = SubResource( 2 )
-
-[sub_resource type="ParticlesMaterial" id=4]
-lifetime_randomness = 1.0
-spread = 1.0
-initial_velocity = 10.0
-initial_velocity_random = 0.1
-scale_random = 0.5
-scale_curve = SubResource( 3 )
-
-[sub_resource type="ShaderMaterial" id=5]
+[sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 1 )
 
-[sub_resource type="QuadMesh" id=6]
-material = SubResource( 5 )
+[sub_resource type="QuadMesh" id=4]
+material = SubResource( 3 )
 
 [node name="meta_stream" type="Spatial"]
 script = ExtResource( 2 )
@@ -48,5 +36,5 @@ fov = 45.0
 [node name="particle1" type="Particles" parent="Viewport/base/node"]
 amount = 256
 lifetime = 5.0
-process_material = SubResource( 4 )
-draw_pass_1 = SubResource( 6 )
+process_material = SubResource( 2 )
+draw_pass_1 = SubResource( 4 )

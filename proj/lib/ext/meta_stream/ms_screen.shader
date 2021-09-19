@@ -1,33 +1,37 @@
-shader_type canvas_item;
+shader_type spatial;
+render_mode blend_mix, cull_disabled, unshaded, specular_disabled, shadows_disabled, ambient_light_disabled;//, depth_test_disable;
+
+
+uniform sampler2D tex;
+
+uniform float liquid_entity = 0.2;
+uniform float liquid_outline = 2.5;
 
 
 void vertex()
 {
+    POSITION = vec4(VERTEX, 1.0);
 }
 
 
-void fragment() {
-
-    vec3 n_out4p0 = vec3(UV, 0.0);
-    vec3 n_out5p0;
+void fragment()
+{
     float n_out5p1;
-    vec4 tex_screen = texture(SCREEN_TEXTURE, SCREEN_UV);
+    vec4 tex_screen = texture(tex, UV);
 
     {
-        vec4 _tex_read = texture(TEXTURE, n_out4p0.xy);
-        n_out5p0 = _tex_read.rgb;
-        n_out5p1 = _tex_read.a;
+        n_out5p1 = tex_screen.a;
     }
 
-    if(n_out5p0.r > 0.5)
+    if(n_out5p1 > liquid_entity)
     {
-        	COLOR.rgb = n_out5p0;
+        float r = min((n_out5p1 * liquid_outline), 1.0);
+        float v = sin(radians(r * 180.0));
+        ALBEDO.rgb = vec3(0.0);
+        n_out5p1 = v;
     } else {
-        	COLOR.rgb = tex_screen.rgb;
+        n_out5p1 = 0.0;
     }
+    
+    ALPHA = n_out5p1;
 }
-
-
-void light() {
-}
-

@@ -29,5 +29,5 @@ void fragment()
     float alp = len;
 
     ALPHA = alp;
-    ALBEDO = vec3(len) * COLOR.rgb;
+    ALBEDO = vec3(len);
 }
