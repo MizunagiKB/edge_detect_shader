@@ -3,6 +3,7 @@
 [ext_resource path="res://lib/eds_popup_frame.gd" type="Script" id=1]
 
 [node name="EDSPopupFrame" type="WindowDialog"]
+visible = true
 anchor_right = 0.333
 anchor_bottom = 0.229
 margin_right = 0.320007
@@ -41,9 +42,9 @@ __meta__ = {
 
 [node name="lbl_rich_message" type="RichTextLabel" parent="."]
 margin_left = 8.0
-margin_top = 8.0
+margin_top = 16.0
 margin_right = 312.0
-margin_bottom = 88.0
+margin_bottom = 80.0
 text = "Dummy"
 __meta__ = {
 "_edit_use_anchors_": false

@@ -13,6 +13,8 @@ var ENABLE_ROT_Z = 0b100
 var mouse_pos_save: Vector2
 var mouse_actve: bool = false
 
+var error_reason: String = ""
+
 
 func open_extention(ext_pathname: String):
 
@@ -30,7 +32,11 @@ func _ready():
     LibUi.main_frame = self
     LibConfigure.load()
 
-    $frmR/container/Files/files.reload(LibConfigure.mesh_dir)
+    var mesh_dir: String = LibConfigure.mesh_dir
+    if mesh_dir == "":
+        mesh_dir = "res://model"
+
+    $frmR/container/Files/files.reload(mesh_dir)
     $frmR/container/Extentions.reload("res://lib/ext")
 
     get_tree().connect("files_dropped", self, "_files_droppped")
@@ -258,10 +264,12 @@ func _capture_to_file(imagedata: Image) -> bool:
 
     var base_dir = LibConfigure.capture_image_dir
     if base_dir.length() == 0:
+        error_reason = "There are undefined configuration items."
         return false
 
     var o_dir = Directory.new()
     if o_dir.dir_exists(base_dir) == true:
+        error_reason = "The specified directory does not exist."
         return false
 
     var dict_datetime = OS.get_datetime()
@@ -307,7 +315,7 @@ func _on_pressed_capture():
 
         get_tree().get_root().get_node("main_frame").add_child(popup_frame)
 
-        popup_frame.get_node("lbl_rich_message").text = "Save Failure"
+        popup_frame.get_node("lbl_rich_message").text = error_reason
         popup_frame.popup_exclusive = true
         popup_frame.popup_centered()
 

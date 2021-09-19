@@ -1,6 +1,7 @@
 extends Node
 
 const CONF_PATHNAME =  "user://edge_ds.conf"
+# https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html#doc-data-paths
 
 const MESH_DIR_KEY = "61d06f23-0386-4516-bda4-da5334ac42cb"
 const CAPTURE_IMAGE_DIR_KEY = "a93955ce-bd07-4e27-8af5-f0c9820cc5e4"

@@ -91,7 +91,7 @@ config/description="EdgeDS - Edge Detect Shader"
 run/main_scene="res://main.tscn"
 run/low_processor_mode=true
 config/icon="res://icon.png"
-config/version="1.0.0"
+config/version="0.9.0"
 
 [autoload]
 
