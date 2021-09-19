@@ -9,17 +9,8 @@ export_presets.cfg
 data_*/
 .DS_Store
 
-proj/model/*.mesh
-proj/model/*.obj
-proj/model/*.obj.import
-
 model_src
 
 dist/*.zip
 
-dist/mac/*.dmg
-dist/win/*.exe
-dist/win/*.pck
-dist/x11/*.x86_64
-dist/x11/*.pck
 
