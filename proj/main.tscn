@@ -407,9 +407,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="render_mode" type="OptionButton" parent="frmR/panel" groups=[
-"render_mode",
-]]
+[node name="render_mode" type="OptionButton" parent="frmR/panel" groups=["render_mode"]]
 margin_right = 112.0
 margin_bottom = 32.0
 focus_mode = 0
@@ -427,9 +425,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="color_albedo" type="ColorPickerButton" parent="frmR/panel" groups=[
-"shader_param",
-]]
+[node name="color_albedo" type="ColorPickerButton" parent="frmR/panel" groups=["shader_param"]]
 margin_left = 120.0
 margin_right = 152.0
 margin_bottom = 32.0
@@ -441,9 +437,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="color_line" type="ColorPickerButton" parent="frmR/panel" groups=[
-"shader_param",
-]]
+[node name="color_line" type="ColorPickerButton" parent="frmR/panel" groups=["shader_param"]]
 margin_left = 160.0
 margin_right = 192.0
 margin_bottom = 32.0
@@ -620,16 +614,12 @@ __meta__ = {
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 38 )
 
-[node name="camera" type="Camera" parent="." groups=[
-"camera",
-]]
+[node name="camera" type="Camera" parent="." groups=["camera"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
 current = true
 fov = 45.0
 
-[node name="screen" type="CSGMesh" parent="." groups=[
-"screen",
-]]
+[node name="screen" type="CSGMesh" parent="." groups=["screen"]]
 mesh = SubResource( 6 )
 script = ExtResource( 18 )
 

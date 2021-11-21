@@ -268,7 +268,7 @@ func _capture_to_file(imagedata: Image) -> bool:
         return false
 
     var o_dir = Directory.new()
-    if o_dir.dir_exists(base_dir) == true:
+    if o_dir.dir_exists(base_dir) != true:
         error_reason = "The specified directory does not exist."
         return false
 
@@ -301,7 +301,7 @@ func _on_pressed_capture():
 
     self.visible = false
 
-    # get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
+    get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
 
     yield(VisualServer, "frame_post_draw")
 

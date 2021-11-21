@@ -32,12 +32,10 @@ func _on_gui_input(event):
     if event is InputEventMouseButton:
         if event.button_index == BUTTON_LEFT:
             if event.pressed == true:
-                Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
                 self.window_move = OS.window_position
                 self.window_size = OS.window_size
                 self.mouse_pos = event.position
             else:
-                Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
                 self.warp_mouse(self.mouse_pos)
 
             self.mouse_pressed = event.pressed
