@@ -60,6 +60,9 @@ It's probably easier to understand if you think in 1D rather than 2D, so I'll sh
 [2]:https://en.wikipedia.org/wiki/Sobel_operator
 
 
+**Cheat sheet**
+![cheetsheet](res/cheatsheet_0_9_0.jpg)
+
 ## Fonts
 
 * Google Fonts
