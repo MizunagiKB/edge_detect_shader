@@ -61,7 +61,7 @@ It's probably easier to understand if you think in 1D rather than 2D, so I'll sh
 
 
 **Cheat sheet**
-![cheetsheet](res/cheatsheet_0_9_0.jpg)
+![cheetsheet](res/cheatsheet_0_9_0.png)
 
 ## Fonts
 
